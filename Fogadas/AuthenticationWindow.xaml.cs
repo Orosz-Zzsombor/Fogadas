@@ -2,6 +2,7 @@
 using System;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Media;
 
 namespace Fogadas
 {
@@ -13,18 +14,34 @@ namespace Fogadas
         {
             InitializeComponent();
         }
-
         private void SwitchToRegister_Click(object sender, RoutedEventArgs e)
         {
             LoginPanel.Visibility = Visibility.Collapsed;
             RegisterPanel.Visibility = Visibility.Visible;
+
+   
+            LoginButton.Background = (Brush)FindResource("SidebarInactiveBrush");
+            SignupButton.Background = (Brush)FindResource("MainBackgroundBrush");
+
+
+            LoginButton.Margin = new Thickness(0, 0, -80, 20);
+            SignupButton.Margin = new Thickness(0, 0, -60, 0); 
         }
 
         private void SwitchToLogin_Click(object sender, RoutedEventArgs e)
         {
             RegisterPanel.Visibility = Visibility.Collapsed;
             LoginPanel.Visibility = Visibility.Visible;
+
+            
+            LoginButton.Background = (Brush)FindResource("MainBackgroundBrush");
+            SignupButton.Background = (Brush)FindResource("SidebarInactiveBrush");
+
+            
+            LoginButton.Margin = new Thickness(0, 0, -60, 20); 
+            SignupButton.Margin = new Thickness(0, 0, -80, 0); 
         }
+
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
