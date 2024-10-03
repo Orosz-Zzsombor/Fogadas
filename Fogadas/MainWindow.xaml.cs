@@ -188,5 +188,21 @@ namespace Fogadas
                 LoadAndDisplayEvents(); // Refresh the events
             }
         }
+
+        private void btnLogin_Click(object sender, RoutedEventArgs e)
+        {
+            AuthenticationWindow auth = new AuthenticationWindow();
+            auth.Show();
+
+          
+            this.Hide();
+
+     
+            auth.Closed += (s, args) => this.Close();
+
+
+
+        }
+
     }
 }

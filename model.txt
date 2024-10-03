@@ -13,15 +13,16 @@ CREATE TABLE Bets (
   FOREIGN KEY (EventID) REFERENCES Events(EventID)
 );
 
-CREATE TABLE Bettors (
-  BettorsID INT AUTO_INCREMENT PRIMARY KEY,  
-  Username VARCHAR(50) NOT NULL,
-  Password VARCHAR(255),              
-  Balance INT NOT NULL,                      
-  Email VARCHAR(100) NOT NULL,               
-  JoinDate DATE NOT NULL,                     
-  IsActive BOOLEAN NOT NULL DEFAULT 1        
-);
+ CREATE TABLE Bettors (
+                  BettorsID INT AUTO_INCREMENT PRIMARY KEY,  
+                  Username VARCHAR(50) NOT NULL,
+                  Password VARCHAR(255),              
+                  Balance INT NOT NULL,                      
+                  Email VARCHAR(100) NOT NULL,               
+                  JoinDate DATE NOT NULL,                    
+                  IsActive BOOLEAN NOT NULL DEFAULT 1,       
+                  Role ENUM('user', 'admin', 'organizer') NOT NULL DEFAULT 'user'
+                );
 
 CREATE TABLE Events (
   EventID INT AUTO_INCREMENT PRIMARY KEY,     
