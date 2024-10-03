@@ -7,11 +7,17 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="CreateEventWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Fogadas.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="CreateEventWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Fogadas.xaml">
       <SubType>Designer</SubType>
     </Page>

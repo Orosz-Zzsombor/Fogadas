@@ -38,6 +38,8 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,10,0,10">
                     <Button Content="Sort by Category" Width="150" Margin="0,0,10,0" Click="SortByCategory_Click"/>
                     <Button Content="Sort by Date" Width="150" Click="SortByDate_Click"/>
+                    <Button Content="Create New Event" Width="150" Margin="130,0,10,0" Click="CreateNewEventButton_Click"  />
+
                 </StackPanel>
 
                 <!-- ScrollViewer for Events -->

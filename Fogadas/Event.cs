@@ -63,5 +63,32 @@ namespace Fogadas
 
             return events;
         }
+        public bool CreateEvent(string eventName, DateTime eventDate, string category, string location)
+        {
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = "INSERT INTO Events (EventName, EventDate, Category, Location) VALUES (@EventName, @EventDate, @Category, @Location)";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@EventName", eventName);
+                        cmd.Parameters.AddWithValue("@EventDate", eventDate);
+                        cmd.Parameters.AddWithValue("@Category", category);
+                        cmd.Parameters.AddWithValue("@Location", location);
+
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        return rowsAffected > 0; // Return true if the event was created successfully
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred while creating the event: " + ex.Message);
+                return false; // Return false in case of an error
+            }
+        }
     }
 }

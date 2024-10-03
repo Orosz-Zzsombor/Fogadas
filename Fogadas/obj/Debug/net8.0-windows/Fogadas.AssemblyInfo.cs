@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Fogadas")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5681e5429fb5916495418c9ed69c3f498a3be89b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fbc63ae1d81d69a67b768f695a7f117f43b3fed9")]
 [assembly: System.Reflection.AssemblyProductAttribute("Fogadas")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Fogadas")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

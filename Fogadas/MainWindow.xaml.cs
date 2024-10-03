@@ -158,5 +158,22 @@ namespace Fogadas
             DisplayEvents(events); // Method to display events in EventsStackPanel
         }
 
+        private void CreateNewEventButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Create an instance of EventService to pass to the new window
+            EventService eventService = new EventService();
+
+            // Create a new instance of CreateEventWindow
+            CreateEventWindow createEventWindow = new CreateEventWindow(eventService);
+
+            // Show the window as a dialog
+            bool? result = createEventWindow.ShowDialog();
+
+            // Optionally refresh the event list if the dialog was successful
+            if (result == true)
+            {
+                LoadAndDisplayEvents(); // Refresh the events
+            }
+        }
     }
 }
