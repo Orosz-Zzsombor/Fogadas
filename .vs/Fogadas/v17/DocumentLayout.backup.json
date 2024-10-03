@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\orosz.zsombor.oliver\\source\\repos\\Fogadas2\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{24AA76C8-AA3C-4C38-8F1D-8F93545DAF2B}|Fogadas\\Fogadas.csproj|c:\\users\\orosz.zsombor.oliver\\source\\repos\\fogadas2\\fogadas\\createeventwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{24AA76C8-AA3C-4C38-8F1D-8F93545DAF2B}|Fogadas\\Fogadas.csproj|solutionrelative:fogadas\\createeventwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{24AA76C8-AA3C-4C38-8F1D-8F93545DAF2B}|Fogadas\\Fogadas.csproj|c:\\users\\orosz.zsombor.oliver\\source\\repos\\fogadas2\\fogadas\\updateeventwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{24AA76C8-AA3C-4C38-8F1D-8F93545DAF2B}|Fogadas\\Fogadas.csproj|solutionrelative:fogadas\\updateeventwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24AA76C8-AA3C-4C38-8F1D-8F93545DAF2B}|Fogadas\\Fogadas.csproj|c:\\users\\orosz.zsombor.oliver\\source\\repos\\fogadas2\\fogadas\\updateeventwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24AA76C8-AA3C-4C38-8F1D-8F93545DAF2B}|Fogadas\\Fogadas.csproj|solutionrelative:fogadas\\updateeventwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{24AA76C8-AA3C-4C38-8F1D-8F93545DAF2B}|Fogadas\\Fogadas.csproj|c:\\users\\orosz.zsombor.oliver\\source\\repos\\fogadas2\\fogadas\\event.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{24AA76C8-AA3C-4C38-8F1D-8F93545DAF2B}|Fogadas\\Fogadas.csproj|solutionrelative:fogadas\\event.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{24AA76C8-AA3C-4C38-8F1D-8F93545DAF2B}|Fogadas\\Fogadas.csproj|c:\\users\\orosz.zsombor.oliver\\source\\repos\\fogadas2\\fogadas\\createeventwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{24AA76C8-AA3C-4C38-8F1D-8F93545DAF2B}|Fogadas\\Fogadas.csproj|solutionrelative:fogadas\\createeventwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{24AA76C8-AA3C-4C38-8F1D-8F93545DAF2B}|Fogadas\\Fogadas.csproj|c:\\users\\orosz.zsombor.oliver\\source\\repos\\fogadas2\\fogadas\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -21,6 +21,14 @@
     {
       "AbsoluteMoniker": "D:0:0:{24AA76C8-AA3C-4C38-8F1D-8F93545DAF2B}|Fogadas\\Fogadas.csproj|c:\\users\\orosz.zsombor.oliver\\source\\repos\\fogadas2\\fogadas\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{24AA76C8-AA3C-4C38-8F1D-8F93545DAF2B}|Fogadas\\Fogadas.csproj|solutionrelative:fogadas\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24AA76C8-AA3C-4C38-8F1D-8F93545DAF2B}|Fogadas\\Fogadas.csproj|c:\\users\\orosz.zsombor.oliver\\source\\repos\\fogadas2\\fogadas\\createeventwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24AA76C8-AA3C-4C38-8F1D-8F93545DAF2B}|Fogadas\\Fogadas.csproj|solutionrelative:fogadas\\createeventwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24AA76C8-AA3C-4C38-8F1D-8F93545DAF2B}|Fogadas\\Fogadas.csproj|c:\\users\\orosz.zsombor.oliver\\source\\repos\\fogadas2\\fogadas\\createeventwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{24AA76C8-AA3C-4C38-8F1D-8F93545DAF2B}|Fogadas\\Fogadas.csproj|solutionrelative:fogadas\\createeventwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{24AA76C8-AA3C-4C38-8F1D-8F93545DAF2B}|Fogadas\\Fogadas.csproj|c:\\users\\orosz.zsombor.oliver\\source\\repos\\fogadas2\\fogadas\\fogadas.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -38,7 +46,32 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
+              "Title": "UpdateEventWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\orosz.zsombor.oliver\\source\\repos\\Fogadas2\\Fogadas\\UpdateEventWindow.xaml.cs",
+              "RelativeDocumentMoniker": "Fogadas\\UpdateEventWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\orosz.zsombor.oliver\\source\\repos\\Fogadas2\\Fogadas\\UpdateEventWindow.xaml.cs",
+              "RelativeToolTip": "Fogadas\\UpdateEventWindow.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAgwDoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-03T11:38:06.538Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "UpdateEventWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\orosz.zsombor.oliver\\source\\repos\\Fogadas2\\Fogadas\\UpdateEventWindow.xaml",
+              "RelativeDocumentMoniker": "Fogadas\\UpdateEventWindow.xaml",
+              "ToolTip": "C:\\Users\\orosz.zsombor.oliver\\source\\repos\\Fogadas2\\Fogadas\\UpdateEventWindow.xaml",
+              "RelativeToolTip": "Fogadas\\UpdateEventWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-10-03T11:37:54.404Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "CreateEventWindow.xaml.cs",
               "DocumentMoniker": "C:\\Users\\orosz.zsombor.oliver\\source\\repos\\Fogadas2\\Fogadas\\CreateEventWindow.xaml.cs",
               "RelativeDocumentMoniker": "Fogadas\\CreateEventWindow.xaml.cs",
@@ -51,7 +84,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 6,
               "Title": "CreateEventWindow.xaml",
               "DocumentMoniker": "C:\\Users\\orosz.zsombor.oliver\\source\\repos\\Fogadas2\\Fogadas\\CreateEventWindow.xaml",
               "RelativeDocumentMoniker": "Fogadas\\CreateEventWindow.xaml",
@@ -63,7 +96,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "Fogadas.xaml.cs",
               "DocumentMoniker": "C:\\Users\\orosz.zsombor.oliver\\source\\repos\\Fogadas2\\Fogadas\\Fogadas.xaml.cs",
               "RelativeDocumentMoniker": "Fogadas\\Fogadas.xaml.cs",
@@ -88,13 +121,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Event.cs",
               "DocumentMoniker": "C:\\Users\\orosz.zsombor.oliver\\source\\repos\\Fogadas2\\Fogadas\\Event.cs",
               "RelativeDocumentMoniker": "Fogadas\\Event.cs",
               "ToolTip": "C:\\Users\\orosz.zsombor.oliver\\source\\repos\\Fogadas2\\Fogadas\\Event.cs",
               "RelativeToolTip": "Fogadas\\Event.cs",
-              "ViewState": "AgIAADMAAAAAAAAAAAAuwFAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAFIAAAAAAAAAAAAgwH0AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-03T08:10:22.895Z",
               "EditorCaption": ""
@@ -107,7 +140,7 @@
               "RelativeDocumentMoniker": "Fogadas\\MainWindow.xaml.cs",
               "ToolTip": "C:\\Users\\orosz.zsombor.oliver\\source\\repos\\Fogadas2\\Fogadas\\MainWindow.xaml.cs",
               "RelativeToolTip": "Fogadas\\MainWindow.xaml.cs",
-              "ViewState": "AgIAAIkAAAAAAAAAAADgv68AAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAFcAAAAAAAAAAAAjwGoAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-03T08:02:12.428Z",
               "EditorCaption": ""

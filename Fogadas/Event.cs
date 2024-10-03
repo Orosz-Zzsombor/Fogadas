@@ -90,5 +90,39 @@ namespace Fogadas
                 return false; // Return false in case of an error
             }
         }
+        public void UpdateEvent(Event evt)
+        {
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = @"
+                UPDATE Events
+                SET EventName = @EventName,
+                    EventDate = @EventDate,
+                    Category = @Category,
+                    Location = @Location
+                WHERE EventID = @EventID";
+
+                command.Parameters.AddWithValue("@EventName", evt.EventName);
+                command.Parameters.AddWithValue("@EventDate", evt.EventDate);
+                command.Parameters.AddWithValue("@Category", evt.Category);
+                command.Parameters.AddWithValue("@Location", evt.Location);
+                command.Parameters.AddWithValue("@EventID", evt.EventID);
+
+                command.ExecuteNonQuery();
+            }
+        }
+        public void DeleteEvent(int eventID)
+        {
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = "DELETE FROM Events WHERE EventID = @EventID";
+                command.Parameters.AddWithValue("@EventID", eventID);
+                command.ExecuteNonQuery();
+            }
+        }
     }
 }

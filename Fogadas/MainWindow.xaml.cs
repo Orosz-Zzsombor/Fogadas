@@ -102,12 +102,25 @@ namespace Fogadas
                     Margin = new Thickness(-50, 0, 10, 0),
                     VerticalAlignment = VerticalAlignment.Center
                 };
-
+                Button modifyButton = new Button
+                {
+                    Content = "MÓDOSÍTÁS",
+                    Width = 100,
+                    Margin = new Thickness(-320, 0, 10, 0),
+                    VerticalAlignment = VerticalAlignment.Center
+                };
                 // Assign the Click event handler to the button
-                betButton.Click += (s, e) => OpenEventDetails(evt);
+                modifyButton.Click += (s, e) =>
+                {
+                    var updateEventWindow = new UpdateEventWindow(evt);
+                    updateEventWindow.ShowDialog();
+                    LoadAndDisplayEvents(); // Refresh the event list
+                };
 
+                betButton.Click += (s, e) => OpenEventDetails(evt);
                 eventPanel.Children.Add(eventText);
                 eventPanel.Children.Add(betButton);
+                eventPanel.Children.Add(modifyButton);
                 EventsStackPanel.Children.Add(eventPanel);
             }
         }

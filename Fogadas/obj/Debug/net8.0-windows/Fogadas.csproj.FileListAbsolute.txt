@@ -71,3 +71,5 @@ C:\Users\orosz.zsombor.oliver\Source\Repos\Fogadas2\Fogadas\obj\Debug\net8.0-win
 C:\Users\orosz.zsombor.oliver\Source\Repos\Fogadas2\Fogadas\obj\Debug\net8.0-windows\Fogadas.g.cs
 C:\Users\orosz.zsombor.oliver\Source\Repos\Fogadas2\Fogadas\obj\Debug\net8.0-windows\CreateEventWindow.baml
 C:\Users\orosz.zsombor.oliver\Source\Repos\Fogadas2\Fogadas\obj\Debug\net8.0-windows\CreateEventWindow.g.cs
+C:\Users\orosz.zsombor.oliver\Source\Repos\Fogadas2\Fogadas\obj\Debug\net8.0-windows\UpdateEventWindow.baml
+C:\Users\orosz.zsombor.oliver\Source\Repos\Fogadas2\Fogadas\obj\Debug\net8.0-windows\UpdateEventWindow.g.cs
