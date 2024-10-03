@@ -32,21 +32,21 @@
         </StackPanel>
 
         <Grid Grid.Row="1" Grid.Column="1" Margin="10,10,10,10">
+            <StackPanel VerticalAlignment="Bottom" Background="#2A3A4B" Margin="10" Height="Auto">
+                <!-- Sorting Buttons -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,10,0,10">
+                    <Button Content="Sort by Category" Width="150" Margin="0,0,10,0" Click="SortByCategory_Click"/>
+                    <Button Content="Sort by Date" Width="150" Click="SortByDate_Click"/>
+                    <Button Content="Create New Event" Width="150" Margin="130,0,10,0" Click="CreateNewEventButton_Click"  />
 
+                </StackPanel>
 
-            <StackPanel VerticalAlignment="Bottom" Background="#2A3A4B" Margin="10" Height="160">
-                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                    <TextBlock Text="2024.05.25 | Champions League Final - Football" Width="500" Foreground="White" VerticalAlignment="Center"/>
-                    <Button Content="FOGADÁS" Width="100" HorizontalAlignment="Right"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                    <TextBlock Text="2024.05.25 | Champions League Final - Football" Width="500" Foreground="White" VerticalAlignment="Center"/>
-                    <Button Content="FOGADÁS" Width="100" HorizontalAlignment="Right"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                    <TextBlock Text="2024.05.25 | Champions League Final - Football" Width="500" Foreground="White" VerticalAlignment="Center"/>
-                    <Button Content="FOGADÁS" Width="100" HorizontalAlignment="Right"/>
-                </StackPanel>
+                <!-- ScrollViewer for Events -->
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Height="160">
+                    <StackPanel Name="EventsStackPanel" VerticalAlignment="Top" Background="#2A3A4B" Margin="10">
+                        <!-- Event items will be dynamically added here -->
+                    </StackPanel>
+                </ScrollViewer>
             </StackPanel>
         </Grid>
     </Grid>
