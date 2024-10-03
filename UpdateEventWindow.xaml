@@ -1,0 +1,36 @@
+﻿<Window x:Class="Fogadas.UpdateEventWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Update Event" Height="550" Width="400">
+    <Grid Background="#1A2432" Margin="0,0,0,-130">
+        <TextBlock Text="Update Event" FontSize="24" Foreground="LightSeaGreen" HorizontalAlignment="Center" Margin="10" />
+
+        <StackPanel Margin="20">
+            <TextBlock Text="Event ID:" Foreground="White" FontSize="16" />
+            <TextBox Name="EventIDTextBox" Margin="0,5,0,10" Height="30" IsReadOnly="True"/>
+
+            <TextBlock Text="Event Name:" Foreground="White" FontSize="16" />
+            <TextBox Name="EventNameTextBox" Margin="0,5,0,10" Height="30" Padding="5"/>
+
+            <TextBlock Text="Event Date:" Foreground="White" FontSize="16" />
+            <TextBox Name="EventDateTextBox" Margin="0,5,0,10" Height="30" Padding="5"/>
+            <TextBlock Text="(YYYY-MM-DD)" Foreground="LightGray" FontSize="12" />
+
+            <TextBlock Text="Event Category:" Foreground="White" FontSize="16" />
+            <TextBox Name="EventCategoryTextBox" Margin="0,5,0,10" Height="30" Padding="5"/>
+
+            <TextBlock Text="Event Location:" Foreground="White" FontSize="16" />
+            <TextBox Name="EventLocationTextBox" Margin="0,5,0,10" Height="30" Padding="5"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center"  >
+                <Button Content="Update Event" Click="UpdateEventButton_Click" 
+                    Background="LightSeaGreen" Foreground="White" 
+                    FontSize="16" Margin="0,10,20,0" Padding="10" HorizontalAlignment="Center" Height="46"/>
+
+            <Button Content="Delete Event" Click="DeleteEventButton_Click" 
+                    Background="Red" Foreground="White" 
+                    FontSize="16" Margin="0,10,0,0" Padding="10" HorizontalAlignment="Center" Height="42"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
