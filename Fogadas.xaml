@@ -1,0 +1,22 @@
+﻿<Window x:Class="Fogadas.EventDetailsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Event Details" Height="400" Width="600">
+    <Grid Background="#1A2432">
+        <StackPanel Margin="10">
+            <TextBlock x:Name="EventNameTextBlock" FontSize="24" Foreground="LightSeaGreen"/>
+            <TextBlock x:Name="EventDateTextBlock" FontSize="18" Foreground="White"/>
+            <TextBlock x:Name="CategoryTextBlock" FontSize="18" Foreground="White"/>
+            <TextBlock x:Name="LocationTextBlock" FontSize="18" Foreground="White"/>
+            <TextBlock x:Name="DescriptionTextBlock" FontSize="16" Foreground="White" Margin="0,10,0,0"/>
+
+            <!-- Bet Amount Input -->
+            <TextBlock Text="Enter Bet Amount:" FontSize="16" Foreground="White" Margin="0,10,0,0"/>
+            <TextBox x:Name="BetAmountTextBox" Width="200" Margin="0,-18,0,10" 
+                     VerticalAlignment="Center" />
+
+            <Button Content="Place Bet" Width="100" Height="30" HorizontalAlignment="Center" 
+                    Margin="0,10,0,0" Click="PlaceBet_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
