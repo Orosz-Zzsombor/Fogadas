@@ -20,5 +20,15 @@ namespace Fogadas
         {
             InitializeComponent();
         }
+
+        private void btnLogin_Click(object sender, RoutedEventArgs e)
+        {
+           
+            AuthenticationWindow auth = new AuthenticationWindow();
+        
+            auth.ShowDialog();
+            this.Close();
+
+        }
     }
 }
