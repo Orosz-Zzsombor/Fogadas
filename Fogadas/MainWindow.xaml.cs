@@ -23,12 +23,18 @@ namespace Fogadas
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-           
             AuthenticationWindow auth = new AuthenticationWindow();
-        
-            auth.ShowDialog();
-            this.Close();
+            auth.Show();
+
+          
+            this.Hide();
+
+     
+            auth.Closed += (s, args) => this.Close();
+
+
 
         }
+
     }
 }
