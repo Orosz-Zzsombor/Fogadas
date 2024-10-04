@@ -27,7 +27,8 @@ namespace Fogadas
             LoadAndDisplayEvents();
 
             
-            currentBettor = SessionData.CurrentBettor; 
+            currentBettor = SessionData.CurrentBettor;
+            UpdateBalanceDisplay();
             SetButtonVisibility();
         }
 
@@ -69,6 +70,13 @@ namespace Fogadas
                   Location VARCHAR(100) NOT NULL             
                 );";
                 command.ExecuteNonQuery();
+            }
+        }
+        public void UpdateBalanceDisplay()
+        {
+            if (currentBettor != null)
+            {
+                BalanceTextBlock.Text = $"{currentBettor.Balance:C}"; // Format the balance as currency
             }
         }
 
@@ -151,7 +159,7 @@ namespace Fogadas
 
         private void OpenEventDetails(Event evt)
         {
-            var eventDetailsWindow = new EventDetailsWindow(evt, currentBettor); 
+            var eventDetailsWindow = new EventDetailsWindow(evt, currentBettor, this); // Pass current bettor and main window reference
             eventDetailsWindow.ShowDialog();
         }
 
@@ -193,16 +201,7 @@ namespace Fogadas
             DisplayEvents(events);
         }
 
-        private void CreateNewEventButton_Click(object sender, RoutedEventArgs e)
-        {
-            CreateEventWindow createEventWindow = new CreateEventWindow(eventService);
-            bool? result = createEventWindow.ShowDialog();
 
-            if (result == true)
-            {
-                LoadAndDisplayEvents();
-            }
-        }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
@@ -224,14 +223,27 @@ namespace Fogadas
             }
         }
 
-        private void btnLogout_Click(object sender, RoutedEventArgs e)
+       
+
+        private void CreateEventButton_Click(object sender, RoutedEventArgs e)
+        {
+            CreateEventWindow createEventWindow = new CreateEventWindow(eventService);
+            bool? result = createEventWindow.ShowDialog();
+
+            if (result == true)
+            {
+                LoadAndDisplayEvents();
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult result = MessageBox.Show(
-                "Are you sure you want to log out?",
-                "Logout Confirmation",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question
-            );
+       "Are you sure you want to log out?",
+       "Logout Confirmation",
+       MessageBoxButton.YesNo,
+       MessageBoxImage.Question
+   );
 
             if (result == MessageBoxResult.Yes)
             {
@@ -240,6 +252,18 @@ namespace Fogadas
                 loginWindow.Show();
                 this.Close();
             }
+
+        }
+
+        private void btnMyBets_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentBettor == null)
+            {
+                MessageBox.Show("You must be logged in to view your bets.", "Access Denied", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            MyBetsWindow myBetsWindow = new MyBetsWindow(currentBettor); 
+            myBetsWindow.ShowDialog();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
-using FogadasMokuskodas;
-using MySql.Data.MySqlClient; // Ensure this is included to access the Bettor class
+using FogadasMokuskodas; // Ensure this namespace contains your Event and Bettor classes
+using MySql.Data.MySqlClient; // Ensure this is included to access MySQL database
 
 namespace Fogadas
 {
@@ -10,13 +10,15 @@ namespace Fogadas
         private string connectionString = "Server=localhost;Database=FogadasDB;Uid=root;Pwd=;";
         private readonly Event selectedEvent; // Store the event details
         private readonly Bettor currentBettor; // Store the current bettor
+        private readonly MainWindow mainWindow; // Reference to the main window
 
-        // Constructor that accepts both the event and the current bettor
-        public EventDetailsWindow(Event evt, Bettor bettor)
+        // Constructor that accepts the event, current bettor, and main window reference
+        public EventDetailsWindow(Event evt, Bettor bettor, MainWindow mainWindow)
         {
             InitializeComponent();
             selectedEvent = evt;
             currentBettor = bettor; // Assign the current bettor
+            this.mainWindow = mainWindow; // Assign the main window reference
             DisplayEventDetails(evt);
         }
 
@@ -53,6 +55,7 @@ namespace Fogadas
                         conn.Open();
                         using (var transaction = conn.BeginTransaction())
                         {
+                            // Command to insert the bet
                             var command = new MySqlCommand("INSERT INTO Bets (BetDate, Odds, Amount, BettorsID, EventID, Status) VALUES (NOW(), @odds, @amount, @bettorsId, @eventId, @status)", conn);
                             command.Parameters.AddWithValue("@odds", odds); // Capture the odds here
                             command.Parameters.AddWithValue("@amount", betAmount);
@@ -74,6 +77,12 @@ namespace Fogadas
                             transaction.Commit(); // Commit the transaction
                         }
 
+                        // Update the bettor's balance in memory
+                        currentBettor.Balance -= betAmount; // Deduct the bet amount from the current bettor's balance
+
+                        // Update the balance display in the main window
+                        mainWindow.UpdateBalanceDisplay(); // Call a method to update the TextBlock in the main window
+
                         MessageBox.Show("Bet placed successfully!");
                     }
                     catch (Exception ex)
@@ -87,7 +96,5 @@ namespace Fogadas
                 MessageBox.Show("Please enter a valid bet amount greater than zero.", "Invalid Input", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
-
-
     }
 }

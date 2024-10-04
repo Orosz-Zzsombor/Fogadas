@@ -12,7 +12,26 @@
         <SolidColorBrush x:Key="AccentBrush" Color="LightSeaGreen"/>
         <SolidColorBrush x:Key="TextForeground" Color="Black"/>
 
-        
+        <Style x:Key="CustomTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Background" Value="{StaticResource MainBackgroundBrush}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Padding" Value="10, 0, 0, 0"/>
+        </Style>
+
+        <Style x:Key="CustomPasswordBoxStyle" TargetType="PasswordBox">
+            <Setter Property="Background" Value="{StaticResource MainBackgroundBrush}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Padding" Value="10, 0, 0, 0"/>
+        </Style>
+
         <Style x:Key="CustomButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="{StaticResource MainBackgroundBrush}"/>
             <Setter Property="Foreground" Value="White"/>
@@ -34,7 +53,6 @@
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Foreground" Value="LightGray"/>
-              
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -46,10 +64,13 @@
             <Grid Width="300" Background="{StaticResource SidebarInactiveBrush}" HorizontalAlignment="Left">
 
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,30,0">
-                    <Button x:Name="LoginButton" Content="LOGIN" Width="120" Height="100" Style="{StaticResource CustomButtonStyle}"
-                        Click="SwitchToLogin_Click" Margin="0 0 -60 20" HorizontalAlignment="Right"/>
-                    <Button x:Name="SignupButton" Content="SIGN UP" Width="120" Height="100" Style="{StaticResource CustomButtonStyle}"
-                        Click="SwitchToRegister_Click" HorizontalAlignment="Right" Margin="0 0 -60 0"/>
+                    <Button x:Name="LoginButton" Content="LOGIN" Width="120" Height="100" Style="{StaticResource CustomButtonStyle}" 
+                            Background="{StaticResource SidebarInactiveBrush}" 
+                            Click="SwitchToLogin_Click" Margin="0 0 -60 20" HorizontalAlignment="Right"/>
+
+                    <Button x:Name="SignupButton" Content="SIGN UP" Width="120" Height="100" Style="{StaticResource CustomButtonStyle}" 
+                            Background="{StaticResource MainBackgroundBrush}" 
+                            Click="SwitchToRegister_Click" HorizontalAlignment="Right" Margin="0 0 -60 0"/>
                 </StackPanel>
             </Grid>
 
@@ -57,33 +78,33 @@
                 <StackPanel x:Name="LoginPanel" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Visible" Height="456">
                     <Border BorderBrush="#1a1d23" BorderThickness="0 0 0 2" Width="415">
                         <TextBlock Text="MaxStake" FontSize="40" Foreground="LightSeaGreen" FontWeight="ExtraBlack" FontStyle="Italic" FontFamily="arial"
-                               VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,0,10"/>
+                                   VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,0,10"/>
                     </Border>
                     <TextBlock Text="LOGIN" FontSize="32" FontWeight="Bold" Foreground="{StaticResource AccentBrush}" HorizontalAlignment="Center" Margin="0,0,0,50"/>
 
                     <TextBlock Text="Username" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="0,0,0,5"/>
-                    <TextBox x:Name="LoginUsername" Width="350" Height="40" FontSize="16" Margin="0,0,0,20"/>
+                    <TextBox x:Name="LoginUsername" Width="350" Style="{StaticResource CustomTextBoxStyle}" Margin="0,0,0,20"/>
 
                     <TextBlock Text="Password" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="0,0,0,5"/>
-                    <PasswordBox x:Name="LoginPassword" Width="350" Height="40" FontSize="16" Margin="0,0,0,20"/>
+                    <PasswordBox x:Name="LoginPassword" Width="350" Style="{StaticResource CustomPasswordBoxStyle}" Margin="0,0,0,20"/>
 
                     <TextBlock Text="Forgot Password?" FontSize="14" Foreground="{StaticResource AccentBrush}" HorizontalAlignment="Right" Margin="0,0,10,10"/>
-                    <Button Content="LOGIN" Width="350" Height="45" FontSize="16" Background="{StaticResource AccentBrush}" Foreground="White" Click="LoginButton_Click"/>
+                    <Button Content="LOGIN" Width="350" Height="45" Style="{StaticResource CustomButtonStyle}" Background="{StaticResource AccentBrush}" Click="LoginButton_Click"/>
                 </StackPanel>
 
                 <StackPanel x:Name="RegisterPanel" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed">
                     <TextBlock Text="SIGN UP" FontSize="32" FontWeight="Bold" Foreground="{StaticResource AccentBrush}" HorizontalAlignment="Center" Margin="0,0,0,50"/>
 
                     <TextBlock Text="Username" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="0,0,0,5"/>
-                    <TextBox x:Name="RegisterUsername" Width="350" Height="40" FontSize="16" Margin="0,0,0,20"/>
+                    <TextBox x:Name="RegisterUsername" Width="350" Style="{StaticResource CustomTextBoxStyle}" Margin="0,0,0,20"/>
 
                     <TextBlock Text="Email" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="0,0,0,5"/>
-                    <TextBox x:Name="RegisterEmail" Width="350" Height="40" FontSize="16" Margin="0,0,0,20"/>
+                    <TextBox x:Name="RegisterEmail" Width="350" Style="{StaticResource CustomTextBoxStyle}" Margin="0,0,0,20"/>
 
                     <TextBlock Text="Password" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="0,0,0,5"/>
-                    <PasswordBox x:Name="RegisterPassword" Width="350" Height="40" FontSize="16" Margin="0,0,0,20"/>
+                    <PasswordBox x:Name="RegisterPassword" Width="350" Style="{StaticResource CustomPasswordBoxStyle}" Margin="0,0,0,20"/>
 
-                    <Button Content="SIGN UP" Width="350" Height="45" FontSize="16" Background="{StaticResource SidebarInactiveBrush}" Foreground="White" Click="RegisterButton_Click"/>
+                    <Button Content="SIGN UP" Width="350" Height="45" Style="{StaticResource CustomButtonStyle}" Background="{StaticResource AccentBrush}" Click="RegisterButton_Click"/>
                 </StackPanel>
             </Grid>
 
