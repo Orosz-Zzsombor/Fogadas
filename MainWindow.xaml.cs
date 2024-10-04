@@ -1,7 +1,7 @@
 ﻿using FogadasMokuskodas;
 using MySql.Data.MySqlClient;
-using System.Collections.Generic; // Ensure to include this namespace
-using System.Linq; // Ensure to include this namespace for LINQ methods
+using System.Collections.Generic; 
+using System.Linq; 
 using System.Windows;
 using System.Windows.Controls;
 using static FogadasMokuskodas.Bettor;
@@ -15,7 +15,7 @@ namespace Fogadas
         private EventService eventService;
         private List<Event> events;
 
-        // Class-level variables
+      
         private Event selectedEvent; 
         private Bettor currentBettor;
 
@@ -28,6 +28,7 @@ namespace Fogadas
 
             currentBettor = SessionData.CurrentBettor;
             UpdateUserInterface();
+            SetButtonVisibility();
         }
         private void UpdateUserInterface()
         {
