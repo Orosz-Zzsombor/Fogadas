@@ -1,33 +1,36 @@
-﻿using MySql.Data.MySqlClient;
-using System.Text;
+﻿using FogadasMokuskodas;
+using MySql.Data.MySqlClient;
+using System.Collections.Generic; // Ensure to include this namespace
+using System.Linq; // Ensure to include this namespace for LINQ methods
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
+using static FogadasMokuskodas.Bettor;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Fogadas
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-
         private string connectionString = "Server=localhost;Database=FogadasDB;Uid=root;Pwd=;";
-        private EventService eventService; // Declare the EventService
+        private EventService eventService;
         private List<Event> events;
+
+        // Class-level variables
+        private Event selectedEvent; 
+        private Bettor currentBettor; 
+
         public MainWindow()
         {
             InitializeComponent();
-            eventService = new EventService(); // Initialize the EventService
+            eventService = new EventService();
             CreateDatabase();
             LoadAndDisplayEvents();
+
+            
+            currentBettor = SessionData.CurrentBettor; 
+            SetButtonVisibility();
         }
+
         private void CreateDatabase()
         {
             using (var connection = new MySqlConnection(connectionString))
@@ -52,7 +55,7 @@ namespace Fogadas
                   Username VARCHAR(50) NOT NULL,
                   Password VARCHAR(255),              
                   Balance INT NOT NULL,                      
-                  Email VARCHAR(100) NOT NULL,               
+                  Email VARCHAR(100) NOT NULL,                
                   JoinDate DATE NOT NULL,                    
                   IsActive BOOLEAN NOT NULL DEFAULT 1,       
                   Role ENUM('user', 'admin', 'organizer') NOT NULL DEFAULT 'user'
@@ -68,15 +71,19 @@ namespace Fogadas
                 command.ExecuteNonQuery();
             }
         }
+
         private void LoadAndDisplayEvents()
         {
-            List<Event> events = eventService.GetCurrentEvents();
+            events = eventService.GetCurrentEvents(); 
             DisplayEvents(events);
         }
 
         private void DisplayEvents(List<Event> events)
         {
-            EventsStackPanel.Children.Clear(); // Clear previous entries
+            EventsStackPanel.Children.Clear();
+            currentBettor = SessionData.CurrentBettor; 
+
+            string currentUserRole = currentBettor?.Role ?? "guest"; 
 
             foreach (var evt in events)
             {
@@ -94,48 +101,63 @@ namespace Fogadas
                     VerticalAlignment = VerticalAlignment.Center
                 };
 
-                Button betButton = new Button
-                {
-                    Content = "FOGADÁS",
-                    Width = 100,
-                    HorizontalAlignment = HorizontalAlignment.Right,
-                    Margin = new Thickness(-50, 0, 10, 0),
-                    VerticalAlignment = VerticalAlignment.Center
-                };
-                Button modifyButton = new Button
-                {
-                    Content = "MÓDOSÍTÁS",
-                    Width = 100,
-                    Margin = new Thickness(-320, 0, 10, 0),
-                    VerticalAlignment = VerticalAlignment.Center
-                };
-                // Assign the Click event handler to the button
-                modifyButton.Click += (s, e) =>
-                {
-                    var updateEventWindow = new UpdateEventWindow(evt);
-                    updateEventWindow.ShowDialog();
-                    LoadAndDisplayEvents(); // Refresh the event list
-                };
+                eventPanel.Children.Add(eventText); 
 
-                betButton.Click += (s, e) => OpenEventDetails(evt);
-                eventPanel.Children.Add(eventText);
-                eventPanel.Children.Add(betButton);
-                eventPanel.Children.Add(modifyButton);
-                EventsStackPanel.Children.Add(eventPanel);
+                // Show the bet button only for users
+                if (currentUserRole == "user")
+                {
+                    Button betButton = new Button
+                    {
+                        Content = "FOGADÁS",
+                        Width = 100,
+                        HorizontalAlignment = HorizontalAlignment.Right,
+                        Margin = new Thickness(-50, 0, 10, 0),
+                        VerticalAlignment = VerticalAlignment.Center
+                    };
+
+                    betButton.Click += (s, e) =>
+                    {
+                        selectedEvent = evt; 
+                        OpenEventDetails(evt); 
+                    };
+
+                    eventPanel.Children.Add(betButton); 
+                }
+
+                if (currentUserRole == "organizer")
+                {
+                    Button modifyButton = new Button
+                    {
+                        Content = "MÓDOSÍTÁS",
+                        Width = 100,
+                        Margin = new Thickness(-50, 0, 10, 0),
+                        VerticalAlignment = VerticalAlignment.Center
+                    };
+
+                    modifyButton.Click += (s, e) =>
+                    {
+                        var updateEventWindow = new UpdateEventWindow(evt);
+                        updateEventWindow.ShowDialog();
+                        LoadAndDisplayEvents();
+                    };
+
+                    eventPanel.Children.Add(modifyButton);
+                }
+
+                EventsStackPanel.Children.Add(eventPanel); 
             }
         }
 
+
         private void OpenEventDetails(Event evt)
         {
-            // Create and show the EventDetailsWindow
-            EventDetailsWindow eventDetailsWindow = new EventDetailsWindow(evt);
-            eventDetailsWindow.ShowDialog(); // Show as a dialog to keep focus on it
+            var eventDetailsWindow = new EventDetailsWindow(evt, currentBettor); 
+            eventDetailsWindow.ShowDialog();
         }
 
-
         // Sort events by Category and update the UI
-        private bool isSortedByCategoryAsc = true; // Default to ascending order
-        private bool isSortedByDateAsc = true; // Default to ascending order
+        private bool isSortedByCategoryAsc = true;
+        private bool isSortedByDateAsc = true;
 
         private void SortByCategory_Click(object sender, RoutedEventArgs e)
         {
@@ -143,15 +165,15 @@ namespace Fogadas
 
             if (isSortedByCategoryAsc)
             {
-                events = events.OrderBy(evt => evt.Category).ToList(); // Sort ascending
+                events = events.OrderBy(evt => evt.Category).ToList();
             }
             else
             {
-                events = events.OrderByDescending(evt => evt.Category).ToList(); // Sort descending
+                events = events.OrderByDescending(evt => evt.Category).ToList();
             }
 
-            isSortedByCategoryAsc = !isSortedByCategoryAsc; // Toggle sorting order
-            DisplayEvents(events); // Method to display events in EventsStackPanel
+            isSortedByCategoryAsc = !isSortedByCategoryAsc;
+            DisplayEvents(events);
         }
 
         private void SortByDate_Click(object sender, RoutedEventArgs e)
@@ -160,49 +182,69 @@ namespace Fogadas
 
             if (isSortedByDateAsc)
             {
-                events = events.OrderBy(evt => evt.EventDate).ToList(); // Sort ascending
+                events = events.OrderBy(evt => evt.EventDate).ToList();
             }
             else
             {
-                events = events.OrderByDescending(evt => evt.EventDate).ToList(); // Sort descending
+                events = events.OrderByDescending(evt => evt.EventDate).ToList();
             }
 
-            isSortedByDateAsc = !isSortedByDateAsc; // Toggle sorting order
-            DisplayEvents(events); // Method to display events in EventsStackPanel
+            isSortedByDateAsc = !isSortedByDateAsc;
+            DisplayEvents(events);
         }
 
-        private void CreateNewEventButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Create an instance of EventService to pass to the new window
-            EventService eventService = new EventService();
 
-            // Create a new instance of CreateEventWindow
-            CreateEventWindow createEventWindow = new CreateEventWindow(eventService);
-
-            // Show the window as a dialog
-            bool? result = createEventWindow.ShowDialog();
-
-            // Optionally refresh the event list if the dialog was successful
-            if (result == true)
-            {
-                LoadAndDisplayEvents(); // Refresh the events
-            }
-        }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
             AuthenticationWindow auth = new AuthenticationWindow();
             auth.Show();
-
-          
             this.Hide();
 
-     
             auth.Closed += (s, args) => this.Close();
-
-
-
+        }
+        private void SetButtonVisibility()
+        {
+            if (currentBettor?.Role == "organizer")
+            {
+                CreateEventButton.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                CreateEventButton.Visibility = Visibility.Collapsed; 
+            }
         }
 
+       
+
+        private void CreateEventButton_Click(object sender, RoutedEventArgs e)
+        {
+            CreateEventWindow createEventWindow = new CreateEventWindow(eventService);
+            bool? result = createEventWindow.ShowDialog();
+
+            if (result == true)
+            {
+                LoadAndDisplayEvents();
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show(
+       "Are you sure you want to log out?",
+       "Logout Confirmation",
+       MessageBoxButton.YesNo,
+       MessageBoxImage.Question
+   );
+
+            if (result == MessageBoxResult.Yes)
+            {
+                SessionData.CurrentBettor = null;
+                AuthenticationWindow loginWindow = new AuthenticationWindow();
+                loginWindow.Show();
+                this.Close();
+            }
+
+        }
     }
 }
