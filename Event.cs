@@ -17,10 +17,10 @@ namespace Fogadas
     }
     public class EventService
     {
-     
+
         private string connectionString = "Server=localhost;Database=FogadasDB;Uid=root;Pwd=;";
 
-       
+
         public List<Event> GetCurrentEvents()
         {
             List<Event> events = new List<Event>();
@@ -31,7 +31,7 @@ namespace Fogadas
                 {
                     conn.Open();
 
-               
+
                     string query = "SELECT * FROM Events WHERE EventDate >= CURDATE()";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
@@ -80,14 +80,18 @@ namespace Fogadas
                         cmd.Parameters.AddWithValue("@Location", location);
 
                         int rowsAffected = cmd.ExecuteNonQuery();
+
                         return rowsAffected > 0; 
+
                     }
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine("An error occurred while creating the event: " + ex.Message);
+
                 return false; 
+
             }
         }
         public void UpdateEvent(Event evt)
