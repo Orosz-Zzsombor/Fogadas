@@ -15,7 +15,7 @@ namespace Fogadas
             this.eventToUpdate = eventToUpdate;
 
             // Load existing event data into the fields
-            
+            EventIDTextBox.Text = eventToUpdate.EventID.ToString();
             EventNameTextBox.Text = eventToUpdate.EventName;
             EventDateTextBox.Text = eventToUpdate.EventDate.ToString("yyyy-MM-dd");
             EventCategoryTextBox.Text = eventToUpdate.Category;
@@ -27,7 +27,7 @@ namespace Fogadas
             // Create a new Event object with the updated values
             var updatedEvent = new Event
             {
-               
+                EventID = eventToUpdate.EventID,
                 EventName = EventNameTextBox.Text,
                 EventDate = DateTime.Parse(EventDateTextBox.Text),
                 Category = EventCategoryTextBox.Text,

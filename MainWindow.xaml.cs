@@ -189,17 +189,20 @@ namespace Fogadas
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
             AuthenticationWindow auth = new AuthenticationWindow();
             auth.Show();
 
-
+          
             this.Hide();
 
-
+     
             auth.Closed += (s, args) => this.Close();
 
+
+
         }
+
     }
 }
