@@ -8,9 +8,7 @@ namespace Fogadas
 {
     public partial class AuthenticationWindow : Window
     {
-
-        private string connectionString = "server=localhost;port=3306;database=fogadasdb;user=root;password=;";
-
+        private string connectionString = "server=localhost;port=3306;database=Fogadas;user=root;password=;";
 
         public AuthenticationWindow()
         {
@@ -22,10 +20,8 @@ namespace Fogadas
             RegisterPanel.Visibility = Visibility.Visible;
 
    
-
-            LoginButton.Background = (Brush)FindResource("MainBackgroundBrush");
-            SignupButton.Background = (Brush)FindResource("SidebarInactiveBrush");
-
+            LoginButton.Background = (Brush)FindResource("SidebarInactiveBrush");
+            SignupButton.Background = (Brush)FindResource("MainBackgroundBrush");
 
 
             LoginButton.Margin = new Thickness(0, 0, -80, 20);
@@ -38,10 +34,8 @@ namespace Fogadas
             LoginPanel.Visibility = Visibility.Visible;
 
             
-
-            LoginButton.Background = (Brush)FindResource("SidebarInactiveBrush");
-            SignupButton.Background = (Brush)FindResource("MainBackgroundBrush");
-
+            LoginButton.Background = (Brush)FindResource("MainBackgroundBrush");
+            SignupButton.Background = (Brush)FindResource("SidebarInactiveBrush");
 
             
             LoginButton.Margin = new Thickness(0, 0, -60, 20); 
