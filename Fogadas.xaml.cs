@@ -17,17 +17,20 @@ namespace Fogadas
             EventDateTextBlock.Text = $"Date: {evt.EventDate.ToShortDateString()}";
             CategoryTextBlock.Text = $"Category: {evt.Category}";
             LocationTextBlock.Text = $"Location: {evt.Location}";
-            // You can add more details if needed, e.g., Description, Odds, etc.
+          
         }
-
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
         private void PlaceBet_Click(object sender, RoutedEventArgs e)
         {
-            // Validate and process the bet amount
+          
             if (decimal.TryParse(BetAmountTextBox.Text, out decimal betAmount) && betAmount > 0)
             {
-                // Logic to handle the bet placement
-                MessageBox.Show($"Bet of {betAmount:C} placed successfully!"); // Placeholder for actual logic
-                Close(); // Close the window after placing the bet
+        
+                MessageBox.Show($"Bet of {betAmount:C} placed successfully!"); 
+                Close(); 
             }
             else
             {
