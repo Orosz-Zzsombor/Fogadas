@@ -19,12 +19,12 @@ namespace Fogadas
     {
 
         private string connectionString = "Server=localhost;Database=FogadasDB;Uid=root;Pwd=;";
-        private EventService eventService; // Declare the EventService
+        private EventService eventService; 
         private List<Event> events;
         public MainWindow()
         {
             InitializeComponent();
-            eventService = new EventService(); // Initialize the EventService
+            eventService = new EventService(); 
             CreateDatabase();
             LoadAndDisplayEvents();
         }
@@ -76,66 +76,110 @@ namespace Fogadas
 
         private void DisplayEvents(List<Event> events)
         {
-            EventsStackPanel.Children.Clear(); // Clear previous entries
-
+            EventsStackPanel.Children.Clear();
             foreach (var evt in events)
             {
-                StackPanel eventPanel = new StackPanel
+                Border eventBorder = new Border
                 {
-                    Orientation = Orientation.Horizontal,
-                    Margin = new Thickness(0, 10, 0, 0)
+                    Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2D3748")),
+                    CornerRadius = new CornerRadius(8),
+                    Padding = new Thickness(10),
+                    Margin = new Thickness(0, 5, 0, 5)
                 };
 
-                TextBlock eventText = new TextBlock
+                Grid eventGrid = new Grid();
+                eventGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+                eventGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+                eventGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+                eventGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+
+            
+                TextBlock dateText = new TextBlock
                 {
-                    Text = $"{evt.EventDate.ToShortDateString()} | {evt.EventName} - {evt.Category}",
-                    Width = 500,
+                    Text = evt.EventDate.ToShortDateString(),
                     Foreground = Brushes.White,
-                    VerticalAlignment = VerticalAlignment.Center
+                    FontSize = 14,
+                    FontWeight = FontWeights.SemiBold,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Margin = new Thickness(15, 0, 15, 0)
+                };
+                Grid.SetColumn(dateText, 0);
+
+
+                StackPanel eventInfo = new StackPanel
+                {
+                    Orientation = Orientation.Vertical,
+                    Margin = new Thickness(15, 0, 15, 0)
                 };
 
-                Button betButton = new Button
+                TextBlock nameText = new TextBlock
                 {
-                    Content = "FOGADÁS",
-                    Width = 100,
-                    HorizontalAlignment = HorizontalAlignment.Right,
-                    Margin = new Thickness(-50, 0, 10, 0),
-                    VerticalAlignment = VerticalAlignment.Center
+                    Text = evt.EventName,
+                    Foreground = Brushes.White,
+                    FontSize = 14,
+                    FontWeight = FontWeights.SemiBold
                 };
+
+                TextBlock categoryText = new TextBlock
+                {
+                    Text = evt.Category,
+                    Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#9CA3AF")),
+                    FontSize = 12,
+                    Margin = new Thickness(0, 3, 0, 0)
+                };
+
+                eventInfo.Children.Add(nameText);
+                eventInfo.Children.Add(categoryText);
+                Grid.SetColumn(eventInfo, 1);
+
+           
                 Button modifyButton = new Button
                 {
                     Content = "MÓDOSÍTÁS",
-                    Width = 100,
-                    Margin = new Thickness(-320, 0, 10, 0),
-                    VerticalAlignment = VerticalAlignment.Center
+                    Style = (Style)FindResource("EventButtonStyle"),
+                    Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4A5568"))
                 };
-                // Assign the Click event handler to the button
+                Grid.SetColumn(modifyButton, 2);
+
+               
+                Button betButton = new Button
+                {
+                    Content = "FOGADÁS",
+                    Style = (Style)FindResource("EventButtonStyle")
+                };
+                Grid.SetColumn(betButton, 3);
+
+                
                 modifyButton.Click += (s, e) =>
                 {
                     var updateEventWindow = new UpdateEventWindow(evt);
                     updateEventWindow.ShowDialog();
-                    LoadAndDisplayEvents(); // Refresh the event list
+                    LoadAndDisplayEvents();
                 };
-
                 betButton.Click += (s, e) => OpenEventDetails(evt);
-                eventPanel.Children.Add(eventText);
-                eventPanel.Children.Add(betButton);
-                eventPanel.Children.Add(modifyButton);
-                EventsStackPanel.Children.Add(eventPanel);
+
+            
+                eventGrid.Children.Add(dateText);
+                eventGrid.Children.Add(eventInfo);
+                eventGrid.Children.Add(modifyButton);
+                eventGrid.Children.Add(betButton);
+
+                eventBorder.Child = eventGrid;
+                EventsStackPanel.Children.Add(eventBorder);
             }
         }
 
         private void OpenEventDetails(Event evt)
         {
-            // Create and show the EventDetailsWindow
+            
             EventDetailsWindow eventDetailsWindow = new EventDetailsWindow(evt);
-            eventDetailsWindow.ShowDialog(); // Show as a dialog to keep focus on it
+            eventDetailsWindow.ShowDialog();
         }
 
 
-        // Sort events by Category and update the UI
-        private bool isSortedByCategoryAsc = true; // Default to ascending order
-        private bool isSortedByDateAsc = true; // Default to ascending order
+ 
+        private bool isSortedByCategoryAsc = true; 
+        private bool isSortedByDateAsc = true; 
 
         private void SortByCategory_Click(object sender, RoutedEventArgs e)
         {
@@ -143,15 +187,15 @@ namespace Fogadas
 
             if (isSortedByCategoryAsc)
             {
-                events = events.OrderBy(evt => evt.Category).ToList(); // Sort ascending
+                events = events.OrderBy(evt => evt.Category).ToList(); 
             }
             else
             {
-                events = events.OrderByDescending(evt => evt.Category).ToList(); // Sort descending
+                events = events.OrderByDescending(evt => evt.Category).ToList(); 
             }
 
-            isSortedByCategoryAsc = !isSortedByCategoryAsc; // Toggle sorting order
-            DisplayEvents(events); // Method to display events in EventsStackPanel
+            isSortedByCategoryAsc = !isSortedByCategoryAsc; 
+            DisplayEvents(events); 
         }
 
         private void SortByDate_Click(object sender, RoutedEventArgs e)
@@ -160,35 +204,35 @@ namespace Fogadas
 
             if (isSortedByDateAsc)
             {
-                events = events.OrderBy(evt => evt.EventDate).ToList(); // Sort ascending
+                events = events.OrderBy(evt => evt.EventDate).ToList();
             }
             else
             {
-                events = events.OrderByDescending(evt => evt.EventDate).ToList(); // Sort descending
+                events = events.OrderByDescending(evt => evt.EventDate).ToList(); 
             }
 
-            isSortedByDateAsc = !isSortedByDateAsc; // Toggle sorting order
-            DisplayEvents(events); // Method to display events in EventsStackPanel
+            isSortedByDateAsc = !isSortedByDateAsc;
+            DisplayEvents(events); 
         }
 
         private void CreateNewEventButton_Click(object sender, RoutedEventArgs e)
         {
-            // Create an instance of EventService to pass to the new window
+           
             EventService eventService = new EventService();
 
-            // Create a new instance of CreateEventWindow
+
             CreateEventWindow createEventWindow = new CreateEventWindow(eventService);
 
-            // Show the window as a dialog
+      
             bool? result = createEventWindow.ShowDialog();
 
-            // Optionally refresh the event list if the dialog was successful
+
             if (result == true)
             {
-                LoadAndDisplayEvents(); // Refresh the events
+                LoadAndDisplayEvents();
             }
         }
-
+     
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
             AuthenticationWindow auth = new AuthenticationWindow();
@@ -204,5 +248,10 @@ namespace Fogadas
 
         }
 
+     
+        private void btnClose_Click_1(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }
