@@ -14,44 +14,48 @@ namespace Fogadas
             this.eventService = new EventService();
             this.eventToUpdate = eventToUpdate;
 
-          
+            
             EventIDTextBox.Text = eventToUpdate.EventID.ToString();
             EventNameTextBox.Text = eventToUpdate.EventName;
             EventDateTextBox.Text = eventToUpdate.EventDate.ToString("yyyy-MM-dd");
             EventCategoryTextBox.Text = eventToUpdate.Category;
             EventLocationTextBox.Text = eventToUpdate.Location;
+
+           
+            EventOddsTextBox.Text = eventToUpdate.Odds.ToString();
         }
 
         private void UpdateEventButton_Click(object sender, RoutedEventArgs e)
         {
-
+       
             var updatedEvent = new Event
             {
                 EventID = eventToUpdate.EventID,
                 EventName = EventNameTextBox.Text,
                 EventDate = DateTime.Parse(EventDateTextBox.Text),
                 Category = EventCategoryTextBox.Text,
-                Location = EventLocationTextBox.Text
+                Location = EventLocationTextBox.Text,
+                Odds = Decimal.Parse(EventOddsTextBox.Text) 
             };
 
-      
+           
             eventService.UpdateEvent(updatedEvent);
 
-        
+            
             MessageBox.Show("Event updated successfully!");
             this.Close();
         }
 
         private void DeleteEventButton_Click(object sender, RoutedEventArgs e)
         {
-
+          
             MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this event?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (result == MessageBoxResult.Yes)
             {
-            
+               
                 eventService.DeleteEvent(eventToUpdate.EventID);
                 MessageBox.Show("Event deleted successfully!");
-                this.Close();
+                this.Close(); 
             }
         }
     }

@@ -111,31 +111,38 @@
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="20,0">
                         <Button Style="{StaticResource ModernButtonStyle}" 
-                                Background="Transparent" 
-                                Padding="8">
+            Background="Transparent" 
+            Padding="8">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="🔔" FontSize="16"/>
                                 <Border Background="#EF4444" 
-                                        CornerRadius="10" 
-                                        Margin="5,0,0,0" 
-                                        Padding="6,1">
+                    CornerRadius="10" 
+                    Margin="5,0,0,0" 
+                    Padding="6,1">
                                     <TextBlock Text="2" 
-                                             Foreground="White" 
-                                             FontSize="12"/>
+                         Foreground="White" 
+                         FontSize="12"/>
                                 </Border>
                             </StackPanel>
                         </Button>
 
                         <Button Content="LOGIN" x:Name="btnLogin" Click="btnLogin_Click"
-                                Style="{StaticResource ModernButtonStyle}" 
-                                Background="#38B2AC" Width="100"/>
+            Style="{StaticResource ModernButtonStyle}" 
+            Background="#38B2AC" Width="100"/>
                         <Button Content="REGISTER" x:Name="btnRegister"
-                                Style="{StaticResource ModernButtonStyle}" 
-                                Background="#2D3748" Width="100"/>
+            Style="{StaticResource ModernButtonStyle}" 
+            Background="#2D3748" Width="100"/>
+                        <TextBlock x:Name="txtUsername" 
+               Foreground="White" 
+               FontSize="16" 
+               FontWeight="Bold" 
+               VerticalAlignment="Center" 
+               Margin="10,0" 
+               Visibility="Collapsed"/>
                         <Button Content="✖" x:Name="btnClose"
-                                Style="{StaticResource ModernButtonStyle}"
-                                Background="Transparent"
-                                FontSize="18" Click="btnClose_Click_1"/>
+            Style="{StaticResource ModernButtonStyle}"
+            Background="Transparent"
+            FontSize="18" Click="btnClose_Click"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -157,9 +164,9 @@
                         <Button Content="🎯 Sports" Style="{StaticResource MenuButtonStyle}"/>
                         <Separator Margin="10,20" Background="#2D3748"/>
                         <Button Content="⚙️ Settings" Style="{StaticResource MenuButtonStyle}"/>
-                        <Button Content="❌ Log Out" 
+                        <Button x:Name="btnLogout" Content="❌ Log Out" 
                                 Style="{StaticResource MenuButtonStyle}" 
-                                Foreground="#EF4444"/>
+                                Foreground="#EF4444" Click="Button_Click"/>
                     </StackPanel>
                 </Border>
 
@@ -209,8 +216,8 @@
                                             Style="{StaticResource ModernButtonStyle}"/>
                                     <Button Content="Sort by Date" Width="150" Margin="0,0,10,0" Click="SortByDate_Click" 
                                             Style="{StaticResource ModernButtonStyle}"/>
-                                    <Button Content="Create New Event" Width="150" Margin="0,0,0,0" Click="CreateNewEventButton_Click"  
-                                            Style="{StaticResource ModernButtonStyle}"/>
+                                    <Button x:Name="CreateEventButton" Content="Create New Event" Width="150" Margin="0,0,0,0"  
+                                            Style="{StaticResource ModernButtonStyle}" Click="CreateEventButton_Click"/>
                                 </StackPanel>
                             </StackPanel>
                         </Border>
