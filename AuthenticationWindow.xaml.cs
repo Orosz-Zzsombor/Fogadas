@@ -1,14 +1,18 @@
-﻿using MySql.Data.MySqlClient;
+﻿using FogadasMokuskodas;
+using MySql.Data.MySqlClient;
 using System;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Media;
+using static FogadasMokuskodas.Bettor;
 
 namespace Fogadas
 {
     public partial class AuthenticationWindow : Window
     {
-        private string connectionString = "server=localhost;port=3306;database=Fogadas;user=root;password=;";
+        private string connectionString = "server=localhost;port=3306;database=FogadasDB;user=root;password=;";
 
         public AuthenticationWindow()
         {
@@ -48,6 +52,9 @@ namespace Fogadas
             string username = LoginUsername.Text;
             string password = LoginPassword.Password;
 
+           
+            string hashedPassword = ComputeSha256Hash(password);
+
             using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
                 try
@@ -56,16 +63,30 @@ namespace Fogadas
                     string query = "SELECT * FROM Bettors WHERE Username = @username AND Password = @password";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@username", username);
-                    cmd.Parameters.AddWithValue("@password", password);
+                    cmd.Parameters.AddWithValue("@password", hashedPassword);  
 
                     MySqlDataReader reader = cmd.ExecuteReader();
                     if (reader.Read())
                     {
-                        MessageBox.Show("Login successful!");
-                    
+                        
+                        Bettor bettor = new Bettor
+                        {
+                            BettorsID = reader.GetInt32("BettorsID"),
+                            Username = reader.GetString("Username"),
+                            Email = reader.GetString("Email"),
+                            Balance = reader.GetInt32("Balance"),
+                            Role = reader.GetString("Role"),
+                            IsActive = reader.GetBoolean("IsActive")
+                        };
+
+                     
+                        SessionData.CurrentBettor = bettor;
+
+                       
+                        MessageBox.Show($"Login successful! Welcome {bettor.Username}");
                         MainWindow mainWindow = new MainWindow();
                         mainWindow.Show();
-                        this.Close(); 
+                        this.Close();
                     }
                     else
                     {
@@ -79,33 +100,43 @@ namespace Fogadas
             }
         }
 
+
+       
+        private string ComputeSha256Hash(string rawData)
+        {
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(rawData));
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    builder.Append(bytes[i].ToString("x2"));
+                }
+                return builder.ToString();
+            }
+        }
+
+
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
             string username = RegisterUsername.Text;
-            string email = RegisterEmail.Text;
             string password = RegisterPassword.Password;
 
-            if (!IsValidUsername(username) || !IsValidPassword(password) || !IsValidEmail(email))
-            {
-                MessageBox.Show("Please check your input. Username must be at least 5 characters, password must be at least 5 characters, and email must be valid.");
-                return;
-            }
+            string hashedPassword = ComputeSha256Hash(password);
 
             using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
                 try
                 {
                     conn.Open();
-                    string query = "INSERT INTO Bettors (Username, Password, Balance, Email, JoinDate, IsActive, Role) " +
-                                   "VALUES (@username, @password, 1000, @Email, CURDATE(), 1, 'user')";
+                    string query = "INSERT INTO Bettors (Username, Password, Balance, Email, JoinDate, IsActive, Role) VALUES (@username, @password, 0, @Email, CURDATE(), 1, 'user')";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@username", username);
-                    cmd.Parameters.AddWithValue("@password", password);
-                    cmd.Parameters.AddWithValue("@Email", email);
+                    cmd.Parameters.AddWithValue("@password", hashedPassword);  
+                    cmd.Parameters.AddWithValue("@Email", RegisterEmail.Text);
 
                     cmd.ExecuteNonQuery();
                     MessageBox.Show("Registration successful!");
-                    SwitchToLogin_Click(sender, e); 
                 }
                 catch (Exception ex)
                 {
@@ -113,6 +144,7 @@ namespace Fogadas
                 }
             }
         }
+
 
         private bool IsValidEmail(string email)
         {

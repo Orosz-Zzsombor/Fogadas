@@ -29,7 +29,7 @@ namespace Fogadas
             string category = EventCategoryTextBox.Text;
             string location = EventLocationTextBox.Text;
 
-            // Call the method to create the event
+            // Call the method to create the event without odds
             bool isCreated = eventService.CreateEvent(eventName, eventDate, category, location);
 
             if (isCreated)

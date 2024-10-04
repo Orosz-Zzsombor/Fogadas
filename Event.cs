@@ -4,16 +4,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Fogadas
 {
     public class Event
     {
-        public int EventID { get; set; }
-        public string EventName { get; set; }
-        public DateTime EventDate { get; set; }
-        public string Category { get; set; }
-        public string Location { get; set; }
+      
+            public int EventID { get; set; }
+            public string EventName { get; set; }
+            public DateTime EventDate { get; set; }
+            public string Category { get; set; }
+            public string Location { get; set; }
+            public decimal Odds { get; set; } // Ensure Odds is a decimal
+        
+
     }
     public class EventService
     {
@@ -65,29 +70,24 @@ namespace Fogadas
         }
         public bool CreateEvent(string eventName, DateTime eventDate, string category, string location)
         {
-            try
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
-                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                try
                 {
                     conn.Open();
-                    string query = "INSERT INTO Events (EventName, EventDate, Category, Location) VALUES (@EventName, @EventDate, @Category, @Location)";
-
-                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@EventName", eventName);
-                        cmd.Parameters.AddWithValue("@EventDate", eventDate);
-                        cmd.Parameters.AddWithValue("@Category", category);
-                        cmd.Parameters.AddWithValue("@Location", location);
-
-                        int rowsAffected = cmd.ExecuteNonQuery();
-                        return rowsAffected > 0; // Return true if the event was created successfully
-                    }
+                    var command = new MySqlCommand("INSERT INTO Events (EventName, EventDate, Category, Location) VALUES (@name, @date, @category, @location)", conn);
+                    command.Parameters.AddWithValue("@name", eventName);
+                    command.Parameters.AddWithValue("@date", eventDate);
+                    command.Parameters.AddWithValue("@category", category);
+                    command.Parameters.AddWithValue("@location", location);
+                    command.ExecuteNonQuery();
+                    return true;
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("An error occurred while creating the event: " + ex.Message);
-                return false; // Return false in case of an error
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error creating event: " + ex.Message);
+                    return false;
+                }
             }
         }
         public void UpdateEvent(Event evt)

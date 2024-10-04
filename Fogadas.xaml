@@ -15,7 +15,7 @@
             <TextBox x:Name="BetAmountTextBox" Width="200" Margin="0,-18,0,10" 
                      VerticalAlignment="Center" />
 
-            <Button Content="Place Bet" Width="100" Height="30" HorizontalAlignment="Center" 
+            <Button x:Name="btnPlaceBet" Content="Place Bet" Width="100" Height="30" HorizontalAlignment="Center" 
                     Margin="0,10,0,0" Click="PlaceBet_Click"/>
         </StackPanel>
     </Grid>
