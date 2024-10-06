@@ -1,12 +1,11 @@
 ﻿<Window x:Class="Fogadas.EventDetailsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Event Details" Height="600" Width="1000"
-        WindowStartupLocation="Manual"
-        Left="400" Top="130"
-        WindowStyle="None"
-        Background="Transparent"
-        AllowsTransparency="True">
+       Title="Event Details" Height="600" Width="1200" 
+       WindowStartupLocation="CenterScreen" 
+       WindowStyle="None" 
+       Background="Transparent" 
+       AllowsTransparency="True">
 
 
 

@@ -200,25 +200,46 @@
                         </Border>
 
                         <Border Grid.Column="1" 
-                                Background="#1E293B" 
-                                CornerRadius="8" 
-                                Margin="5,0,0,0" 
-                                Padding="5">
+        Background="#1E293B" 
+        CornerRadius="8" 
+        Margin="5,0,0,0" 
+        Padding="15">
                             <StackPanel>
                                 <TextBlock Text="Controls" 
-                                         Foreground="White" 
-                                         FontSize="20" 
-                                         FontWeight="Bold" 
-                                         Margin="0,0,0,15"/>
+                   Foreground="White" 
+                   FontSize="22" 
+                   FontWeight="Bold" 
+                   Margin="0,0,0,15"/>
 
-                                <StackPanel Orientation="Horizontal">
-                                    <Button Content="Sort by Category" Width="150" Margin="0,0,10,0" Click="SortByCategory_Click" 
-                                            Style="{StaticResource ModernButtonStyle}"/>
-                                    <Button Content="Sort by Date" Width="150" Margin="0,0,10,0" Click="SortByDate_Click" 
-                                            Style="{StaticResource ModernButtonStyle}"/>
-                                    <Button x:Name="CreateEventButton" Content="Create New Event" Width="150" Margin="0,0,0,0"  
-                                            Style="{StaticResource ModernButtonStyle}" Click="CreateEventButton_Click"/>
-                                </StackPanel>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Button Grid.Column="0" 
+                    Content="Sort by Category" 
+                    Style="{StaticResource EventButtonStyle}"
+                    Width="Auto" Height="40" 
+                    Margin="0,0,5,0" 
+                    Click="SortByCategory_Click"/>
+
+                                    <Button Grid.Column="1" 
+                    Content="Sort by Date" 
+                    Style="{StaticResource EventButtonStyle}"
+                    Width="Auto" Height="40" 
+                    Margin="5,0" 
+                    Click="SortByDate_Click"/>
+
+                                    <Button Grid.Column="2" 
+                    x:Name="CreateEventButton" 
+                    Content="Create New Event" 
+                    Style="{StaticResource EventButtonStyle}"
+                    Width="Auto" Height="40" 
+                    Margin="5,0,0,0"  
+                    Click="CreateEventButton_Click"/>
+                                </Grid>
                             </StackPanel>
                         </Border>
                     </Grid>
