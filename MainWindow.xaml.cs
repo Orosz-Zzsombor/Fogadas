@@ -1,7 +1,7 @@
 ﻿using FogadasMokuskodas;
 using MySql.Data.MySqlClient;
-using System.Collections.Generic; // Ensure to include this namespace
-using System.Linq; // Ensure to include this namespace for LINQ methods
+using System.Collections.Generic; 
+using System.Linq; 
 using System.Windows;
 using System.Windows.Controls;
 using static FogadasMokuskodas.Bettor;
@@ -15,9 +15,9 @@ namespace Fogadas
         private EventService eventService;
         private List<Event> events;
 
-        // Class-level variables
+      
         private Event selectedEvent; 
-        private Bettor currentBettor; 
+        private Bettor currentBettor;
 
         public MainWindow()
         {
@@ -25,12 +25,31 @@ namespace Fogadas
             eventService = new EventService();
             CreateDatabase();
             LoadAndDisplayEvents();
-
-            
-            currentBettor = SessionData.CurrentBettor; 
+            UpdateBalanceDisplay();
+            currentBettor = SessionData.CurrentBettor;
+            UpdateUserInterface();
             SetButtonVisibility();
         }
+        private void UpdateUserInterface()
+        {
+            if (currentBettor != null)
+            {
+  
+                btnLogin.Visibility = Visibility.Collapsed;
+                btnRegister.Visibility = Visibility.Collapsed;
 
+                
+                txtUsername.Text = currentBettor.Username;
+                txtUsername.Visibility = Visibility.Visible;
+            }
+            else
+            {
+      
+                btnLogin.Visibility = Visibility.Visible;
+                btnRegister.Visibility = Visibility.Visible;
+                txtUsername.Visibility = Visibility.Collapsed;
+            }
+        }
         private void CreateDatabase()
         {
             using (var connection = new MySqlConnection(connectionString))
@@ -71,7 +90,13 @@ namespace Fogadas
                 command.ExecuteNonQuery();
             }
         }
-
+        public void UpdateBalanceDisplay()
+        {
+            if (currentBettor != null)
+            {
+                BalanceTextBlock.Text = $"{currentBettor.Balance:C}"; // Format the balance as currency
+            }
+        }
         private void LoadAndDisplayEvents()
         {
             events = eventService.GetCurrentEvents(); 
@@ -81,58 +106,74 @@ namespace Fogadas
         private void DisplayEvents(List<Event> events)
         {
             EventsStackPanel.Children.Clear();
-            currentBettor = SessionData.CurrentBettor; 
-
-            string currentUserRole = currentBettor?.Role ?? "guest"; 
+            currentBettor = SessionData.CurrentBettor;
+            string currentUserRole = currentBettor?.Role ?? "guest";
 
             foreach (var evt in events)
             {
-                StackPanel eventPanel = new StackPanel
+                Border eventBorder = new Border
                 {
-                    Orientation = Orientation.Horizontal,
-                    Margin = new Thickness(0, 10, 0, 0)
+                    Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2D3748")),
+                    CornerRadius = new CornerRadius(8),
+                    Padding = new Thickness(10),
+                    Margin = new Thickness(0, 5, 0, 5)
                 };
 
-                TextBlock eventText = new TextBlock
+                Grid eventGrid = new Grid();
+                eventGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+                eventGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+                eventGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+                eventGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+
+                TextBlock dateText = new TextBlock
                 {
-                    Text = $"{evt.EventDate.ToShortDateString()} | {evt.EventName} - {evt.Category}",
-                    Width = 500,
+                    Text = evt.EventDate.ToShortDateString(),
                     Foreground = Brushes.White,
-                    VerticalAlignment = VerticalAlignment.Center
+                    FontSize = 14,
+                    FontWeight = FontWeights.SemiBold,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Margin = new Thickness(15, 0, 15, 0)
+                };
+                Grid.SetColumn(dateText, 0);
+
+                StackPanel eventInfo = new StackPanel
+                {
+                    Orientation = Orientation.Vertical,
+                    Margin = new Thickness(15, 0, 15, 0)
                 };
 
-                eventPanel.Children.Add(eventText); 
-
-                // Show the bet button only for users
-                if (currentUserRole == "user")
+                TextBlock nameText = new TextBlock
                 {
-                    Button betButton = new Button
-                    {
-                        Content = "FOGADÁS",
-                        Width = 100,
-                        HorizontalAlignment = HorizontalAlignment.Right,
-                        Margin = new Thickness(-50, 0, 10, 0),
-                        VerticalAlignment = VerticalAlignment.Center
-                    };
+                    Text = evt.EventName,
+                    Foreground = Brushes.White,
+                    FontSize = 14,
+                    FontWeight = FontWeights.SemiBold
+                };
 
-                    betButton.Click += (s, e) =>
-                    {
-                        selectedEvent = evt; 
-                        OpenEventDetails(evt); 
-                    };
+                TextBlock categoryText = new TextBlock
+                {
+                    Text = evt.Category,
+                    Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#9CA3AF")),
+                    FontSize = 12,
+                    Margin = new Thickness(0, 3, 0, 0)
+                };
 
-                    eventPanel.Children.Add(betButton); 
-                }
+                eventInfo.Children.Add(nameText);
+                eventInfo.Children.Add(categoryText);
+                Grid.SetColumn(eventInfo, 1);
+
+                eventGrid.Children.Add(dateText);
+                eventGrid.Children.Add(eventInfo);
 
                 if (currentUserRole == "organizer")
                 {
                     Button modifyButton = new Button
                     {
                         Content = "MÓDOSÍTÁS",
-                        Width = 100,
-                        Margin = new Thickness(-50, 0, 10, 0),
-                        VerticalAlignment = VerticalAlignment.Center
+                        Style = (Style)FindResource("EventButtonStyle"),
+                        Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4A5568"))
                     };
+                    Grid.SetColumn(modifyButton, 2);
 
                     modifyButton.Click += (s, e) =>
                     {
@@ -141,13 +182,27 @@ namespace Fogadas
                         LoadAndDisplayEvents();
                     };
 
-                    eventPanel.Children.Add(modifyButton);
+                    eventGrid.Children.Add(modifyButton);
                 }
 
-                EventsStackPanel.Children.Add(eventPanel); 
+                if (currentUserRole == "user")
+                {
+                    Button betButton = new Button
+                    {
+                        Content = "FOGADÁS",
+                        Style = (Style)FindResource("EventButtonStyle")
+                    };
+                    Grid.SetColumn(betButton, 3);
+
+                    betButton.Click += (s, e) => OpenEventDetails(evt);
+
+                    eventGrid.Children.Add(betButton);
+                }
+
+                eventBorder.Child = eventGrid;
+                EventsStackPanel.Children.Add(eventBorder);
             }
         }
-
 
         private void OpenEventDetails(Event evt)
         {
@@ -155,7 +210,7 @@ namespace Fogadas
             eventDetailsWindow.ShowDialog();
         }
 
-        // Sort events by Category and update the UI
+       
         private bool isSortedByCategoryAsc = true;
         private bool isSortedByDateAsc = true;
 
@@ -244,6 +299,26 @@ namespace Fogadas
                 loginWindow.Show();
                 this.Close();
             }
+
+        }
+        private void btnMyBets_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentBettor == null)
+            {
+                MessageBox.Show("You must be logged in to view your bets.", "Access Denied", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            MyBetsWindow myBetsWindow = new MyBetsWindow(currentBettor);
+            myBetsWindow.ShowDialog();
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnRegister_Click(object sender, RoutedEventArgs e)
+        {
 
         }
     }

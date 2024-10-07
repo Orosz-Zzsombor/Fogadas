@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Windows;
 
 namespace Fogadas
@@ -57,6 +58,11 @@ namespace Fogadas
                 MessageBox.Show("Event deleted successfully!");
                 this.Close(); 
             }
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

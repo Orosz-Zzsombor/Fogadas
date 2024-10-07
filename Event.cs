@@ -16,16 +16,16 @@ namespace Fogadas
             public DateTime EventDate { get; set; }
             public string Category { get; set; }
             public string Location { get; set; }
-            public decimal Odds { get; set; } // Ensure Odds is a decimal
+            public decimal Odds { get; set; } 
         
 
     }
     public class EventService
     {
-        // Replace these values with your MySQL database details
+        
         private string connectionString = "Server=localhost;Database=FogadasDB;Uid=root;Pwd=;";
 
-        // Method to fetch all current events (events happening today or in the future)
+        
         public List<Event> GetCurrentEvents()
         {
             List<Event> events = new List<Event>();
@@ -36,7 +36,7 @@ namespace Fogadas
                 {
                     conn.Open();
 
-                    // SQL query to get all current events where the EventDate is today or in the future
+               
                     string query = "SELECT * FROM Events WHERE EventDate >= CURDATE()";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
@@ -62,7 +62,7 @@ namespace Fogadas
             }
             catch (Exception ex)
             {
-                // Handle or log the exception
+              
                 Console.WriteLine("An error occurred: " + ex.Message);
             }
 
