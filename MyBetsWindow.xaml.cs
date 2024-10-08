@@ -49,5 +49,10 @@ namespace Fogadas
 
             BetsListView.ItemsSource = bets;
         }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

@@ -253,7 +253,7 @@
                         <ScrollViewer VerticalScrollBarVisibility="Auto" 
                                     Margin="10">
                             <StackPanel Name="EventsStackPanel" 
-                                      VerticalAlignment="Bottom" 
+                                      VerticalAlignment="Top" 
                                       Margin="10">
                             </StackPanel>
                         </ScrollViewer>

@@ -7,6 +7,7 @@
         AllowsTransparency="True"
         WindowStyle="None">
 
+
     <Window.Resources>
         <Style x:Key="ModernTextBoxStyle" TargetType="TextBox">
             <Setter Property="Background" Value="#2D3748"/>
@@ -50,10 +51,12 @@
         <Grid Margin="60">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
+     
             <Grid Grid.Row="0">
                 <TextBlock Text="Create New Event" 
                            FontSize="36" 
@@ -73,49 +76,56 @@
                         Click="CloseButton_Click"/>
             </Grid>
 
+         
             <Grid Grid.Row="1" Margin="0,40,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
+             
                 <StackPanel Grid.Column="0" Margin="0,0,20,0">
                     <TextBlock Text="Event Name" Foreground="#94A3B8" FontSize="18" Margin="0,0,0,10"/>
                     <Grid>
                         <TextBox Name="EventNameTextBox" Style="{StaticResource ModernTextBoxStyle}"/>
-                        <TextBlock Text="🏆" FontSize="24" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                        <TextBlock Text="🏆" FontSize="24" VerticalAlignment="Center" Margin="10,0,0,0" IsHitTestVisible="False"/>
                     </Grid>
 
                     <TextBlock Text="Event Date" Foreground="#94A3B8" FontSize="18" Margin="0,30,0,10"/>
                     <Grid>
                         <TextBox Name="EventDateTextBox" Style="{StaticResource ModernTextBoxStyle}"/>
-                        <TextBlock Text="📅" FontSize="24" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                        <TextBlock Text="📅" FontSize="24" VerticalAlignment="Center" Margin="10,0,0,0" IsHitTestVisible="False"/>
                     </Grid>
                     <TextBlock Text="(YYYY-MM-DD)" Foreground="#64748B" FontSize="14" Margin="0,5,0,0"/>
-
-                    <TextBlock Text="Event Category" Foreground="#94A3B8" FontSize="18" Margin="0,30,0,10"/>
-                    <Grid>
-                        <TextBox Name="EventCategoryTextBox" Style="{StaticResource ModernTextBoxStyle}"/>
-                        <TextBlock Text="🏅" FontSize="24" VerticalAlignment="Center" Margin="10,0,0,0"/>
-                    </Grid>
                 </StackPanel>
 
+       
                 <StackPanel Grid.Column="1" Margin="20,0,0,0">
                     <TextBlock Text="Event Location" Foreground="#94A3B8" FontSize="18" Margin="0,0,0,10"/>
                     <Grid>
                         <TextBox Name="EventLocationTextBox" Style="{StaticResource ModernTextBoxStyle}"/>
-                        <TextBlock Text="📍" FontSize="24" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                        <TextBlock Text="📍" FontSize="24" VerticalAlignment="Center" Margin="10,0,0,0" IsHitTestVisible="False"/>
                     </Grid>
 
                     <TextBlock Text="Odds" Foreground="#94A3B8" FontSize="18" Margin="0,30,0,10"/>
                     <Grid>
                         <TextBox Name="EventOddsTextBox" Style="{StaticResource ModernTextBoxStyle}"/>
-                        <TextBlock Text="🎲" FontSize="24" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                        <TextBlock Text="🎲" FontSize="24" VerticalAlignment="Center" Margin="10,0,0,0" IsHitTestVisible="False"/>
                     </Grid>
                 </StackPanel>
             </Grid>
 
-            <Button Grid.Row="2" 
+          
+            <StackPanel Grid.Row="2" Margin="0,30,0,0" HorizontalAlignment="Center" Width="600">
+                <TextBlock Text="Event Category" Foreground="#94A3B8" FontSize="18" Margin="0,0,0,10" HorizontalAlignment="Left"/>
+                <Grid>
+                    <TextBox Name="EventCategoryTextBox" Style="{StaticResource ModernTextBoxStyle}"/>
+                    <TextBlock Text="🏅" FontSize="24" VerticalAlignment="Center" Margin="10,0,0,0" IsHitTestVisible="False"/>
+                </Grid>
+            </StackPanel>
+
+          
+            <Button Grid.Row="3" 
                     Content="Create Event" 
                     Click="CreateEventButton_Click"
                     Style="{StaticResource ModernButtonStyle}"
