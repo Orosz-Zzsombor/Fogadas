@@ -23,7 +23,7 @@ namespace Fogadas
             EventLocationTextBox.Text = eventToUpdate.Location;
 
            
-            EventOddsTextBox.Text = eventToUpdate.Odds.ToString();
+  
         }
 
         private void UpdateEventButton_Click(object sender, RoutedEventArgs e)
@@ -36,7 +36,7 @@ namespace Fogadas
                 EventDate = DateTime.Parse(EventDateTextBox.Text),
                 Category = EventCategoryTextBox.Text,
                 Location = EventLocationTextBox.Text,
-                Odds = Decimal.Parse(EventOddsTextBox.Text) 
+              
             };
 
            

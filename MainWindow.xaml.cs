@@ -219,7 +219,7 @@ namespace Fogadas
                         {
                             Content = "Lezárás",
                             Style = (Style)FindResource("EventButtonStyle"),
-                            Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E53E3E")) // Red for closure
+                            Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E53E3E"))
                         };
                         Grid.SetColumn(closeButton, 3);
 
@@ -258,7 +258,7 @@ namespace Fogadas
 
                     if (currentUserRole == "user")
                     {
-                        // Bet Button
+                 
                         Button betButton = new Button
                         {
                             Content = "FOGADÁS",
@@ -272,9 +272,8 @@ namespace Fogadas
                     }
                 }
 
-                // Add the event grid to the border
                 eventBorder.Child = eventGrid;
-                // Finally add the event border to the stack panel
+            
                 EventsStackPanel.Children.Add(eventBorder);
             }
         }
@@ -283,11 +282,12 @@ namespace Fogadas
 
         private void OpenEventDetails(Event evt)
         {
-            var eventDetailsWindow = new EventDetailsWindow(evt, currentBettor); 
+            var eventDetailsWindow = new EventDetailsWindow(evt, currentBettor, this); 
             eventDetailsWindow.ShowDialog();
         }
 
-       
+
+
         private bool isSortedByCategoryAsc = true;
         private bool isSortedByDateAsc = true;
 
@@ -397,6 +397,22 @@ namespace Fogadas
         private void btnRegister_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+        private void OnUsernameUpdated(string newUsername)
+        {
+          
+            txtUsername.Text = newUsername; 
+        }
+        private void btnProfile_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentBettor == null)
+            {
+                MessageBox.Show("You must be logged in to view your bets.", "Access Denied", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            var profileWindow = new ProfileWindow(currentBettor);
+            profileWindow.UsernameUpdated += OnUsernameUpdated; 
+            profileWindow.Show();
         }
     }
 }

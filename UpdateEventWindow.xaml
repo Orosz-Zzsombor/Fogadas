@@ -143,13 +143,7 @@
                                 </StackPanel>
                             </StackPanel>
 
-                            <StackPanel Orientation="Horizontal" Margin="0,10,0,10">
-                                <TextBlock Text="&#xE9D2;" Style="{StaticResource IconTextBlockStyle}"/>
-                                <StackPanel Width="400">
-                                    <TextBlock Text="Odds" Foreground="White" FontSize="16" />
-                                    <TextBox Name="EventOddsTextBox" Style="{StaticResource ModernTextBoxStyle}" />
-                                </StackPanel>
-                            </StackPanel>
+                         
 
                             <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
                                 <Button Content="Update Event" Click="UpdateEventButton_Click"
