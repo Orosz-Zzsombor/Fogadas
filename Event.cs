@@ -78,7 +78,7 @@ namespace Fogadas
                 try
                 {
                     conn.Open();
-                    var command = new MySqlCommand("INSERT INTO Events (EventName, EventDate, Category, Location) VALUES (@name, @date, @category, @location)", conn);
+                    var command = new MySqlCommand("INSERT INTO Events (EventName, EventDate, Category, Location, IsClosed) VALUES (@name, @date, @category, @location,1)", conn);
                     command.Parameters.AddWithValue("@name", eventName);
                     command.Parameters.AddWithValue("@date", eventDate);
                     command.Parameters.AddWithValue("@category", category);
