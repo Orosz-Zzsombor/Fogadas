@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Fogadas.UpdateEventWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Update Event" Height="600" Width="1200" 
+        Title="Update Event" Height="670" Width="1200" 
         WindowStartupLocation="CenterScreen" 
         WindowStyle="None" 
         Background="Transparent" 
@@ -143,13 +143,7 @@
                                 </StackPanel>
                             </StackPanel>
 
-                            <StackPanel Orientation="Horizontal" Margin="0,10,0,10">
-                                <TextBlock Text="&#xE9D2;" Style="{StaticResource IconTextBlockStyle}"/>
-                                <StackPanel Width="400">
-                                    <TextBlock Text="Odds" Foreground="White" FontSize="16" />
-                                    <TextBox Name="EventOddsTextBox" Style="{StaticResource ModernTextBoxStyle}" />
-                                </StackPanel>
-                            </StackPanel>
+                          
 
                             <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
                                 <Button Content="Update Event" Click="UpdateEventButton_Click"

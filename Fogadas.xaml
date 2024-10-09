@@ -1,13 +1,11 @@
 ﻿<Window x:Class="Fogadas.EventDetailsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-       Title="Event Details" Height="600" Width="1200" 
-       WindowStartupLocation="CenterScreen" 
-       WindowStyle="None" 
-       Background="Transparent" 
-       AllowsTransparency="True">
-
-
+        Title="Event Details" Height="670" Width="1200" 
+        WindowStartupLocation="CenterScreen" 
+        WindowStyle="None" 
+        Background="Transparent" 
+        AllowsTransparency="True">
 
     <Window.Resources>
         <Style x:Key="ModernButtonStyle" TargetType="Button">
@@ -47,7 +45,6 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-
             <Border Grid.Row="0" Background="#1E293B" CornerRadius="12,12,0,0">
                 <Grid>
                     <TextBlock Text="Event Details"
@@ -61,80 +58,98 @@
                             Background="Transparent"
                             FontSize="18"
                             HorizontalAlignment="Right"
-                            Margin="0,0,10,0" Click="btnClose_Click"
-                            />
+                            Margin="0,0,10,0" Click="btnClose_Click"/>
                 </Grid>
             </Border>
 
-      
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                <StackPanel Margin="20">
-                    <TextBlock x:Name="EventNameTextBlock" 
-                               FontSize="28" 
-                               Foreground="#38B2AC" 
-                               FontWeight="Bold" 
-                               Margin="0,0,0,10"/>
+                <Grid Margin="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                    <Grid Margin="0,0,0,20">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
+                    <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                        <TextBlock x:Name="EventNameTextBlock" 
+                                   FontSize="28" 
+                                   Foreground="#38B2AC" 
+                                   FontWeight="Bold" 
+                                   Margin="0,0,0,10"/>
 
-                        <TextBlock Text="Date:" 
-                                   Grid.Row="0" Grid.Column="0" 
-                                   FontSize="16" 
-                                   Foreground="#94A3B8" 
-                                   Margin="0,0,10,5"/>
-                        <TextBlock x:Name="EventDateTextBlock" 
-                                   Grid.Row="0" Grid.Column="1" 
-                                   FontSize="16" 
-                                   Foreground="White" 
-                                   Margin="0,0,0,5"/>
+                        <Grid Margin="0,0,0,20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-                        <TextBlock Text="Category:" 
-                                   Grid.Row="1" Grid.Column="0" 
-                                   FontSize="16" 
-                                   Foreground="#94A3B8" 
-                                   Margin="0,0,10,5"/>
-                        <TextBlock x:Name="CategoryTextBlock" 
-                                   Grid.Row="1" Grid.Column="1" 
-                                   FontSize="16" 
-                                   Foreground="White" 
-                                   Margin="0,0,0,5"/>
+                            <TextBlock Text="Date:" 
+                                       Grid.Row="0" Grid.Column="0" 
+                                       FontSize="16" 
+                                       Foreground="#94A3B8" 
+                                       Margin="0,0,10,5"/>
+                            <TextBlock x:Name="EventDateTextBlock" 
+                                       Grid.Row="0" Grid.Column="1" 
+                                       FontSize="16" 
+                                       Foreground="White" 
+                                       Margin="0,0,0,5"/>
 
-                        <TextBlock Text="Location:" 
-                                   Grid.Row="2" Grid.Column="0" 
-                                   FontSize="16" 
-                                   Foreground="#94A3B8" 
-                                   Margin="0,0,10,5"/>
-                        <TextBlock x:Name="LocationTextBlock" 
-                                   Grid.Row="2" Grid.Column="1" 
-                                   FontSize="16" 
-                                   Foreground="White" 
-                                   Margin="0,0,0,5"/>
-                    </Grid>
+                            <TextBlock Text="Category:" 
+                                       Grid.Row="1" Grid.Column="0" 
+                                       FontSize="16" 
+                                       Foreground="#94A3B8" 
+                                       Margin="0,0,10,5"/>
+                            <TextBlock x:Name="CategoryTextBlock" 
+                                       Grid.Row="1" Grid.Column="1" 
+                                       FontSize="16" 
+                                       Foreground="White" 
+                                       Margin="0,0,0,5"/>
 
-                    <TextBlock Text="Description" 
-                               FontSize="20" 
-                               Foreground="#38B2AC" 
-                               FontWeight="SemiBold" 
-                               Margin="0,0,0,10"/>
-                    <TextBlock x:Name="DescriptionTextBlock" 
+                            <TextBlock Text="Location:" 
+                                       Grid.Row="2" Grid.Column="0" 
+                                       FontSize="16" 
+                                       Foreground="#94A3B8" 
+                                       Margin="0,0,10,5"/>
+                            <TextBlock x:Name="LocationTextBlock" 
+                                       Grid.Row="2" Grid.Column="1" 
+                                       FontSize="16" 
+                                       Foreground="White" 
+                                       Margin="0,0,0,5"/>
+
+                            <TextBlock Text="Odds:" 
+                               Grid.Row="3" Grid.Column="0" 
+                               FontSize="16" 
+                               Foreground="#94A3B8" 
+                               Margin="0,0,10,5"/>
+                                            <TextBlock x:Name="OddsTextBlock" 
+                               Grid.Row="3" Grid.Column="1" 
                                FontSize="16" 
                                Foreground="White" 
-                               TextWrapping="Wrap" 
-                               Margin="0,0,0,20"/>
+               Margin="0,0,0,5"/>       
+                        </Grid>
 
-                    <Border Background="#1E293B" 
+                        <TextBlock Text="Description" 
+                                   FontSize="20" 
+                                   Foreground="#38B2AC" 
+                                   FontWeight="SemiBold" 
+                                   Margin="0,0,0,10"/>
+                        <TextBlock x:Name="DescriptionTextBlock" 
+                                   FontSize="16" 
+                                   Foreground="White" 
+                                   TextWrapping="Wrap" 
+                                   Margin="0,0,0,20"/>
+                    </StackPanel>
+
+                    <Border Grid.Column="1" 
+                            Background="#1E293B" 
                             CornerRadius="8" 
                             Padding="20" 
-                            Margin="0,0,0,20">
+                            Margin="10,0,0,0">
                         <StackPanel>
                             <TextBlock Text="Place Your Bet" 
                                        FontSize="20" 
@@ -160,7 +175,7 @@
                                     Click="PlaceBet_Click"/>
                         </StackPanel>
                     </Border>
-                </StackPanel>
+                </Grid>
             </ScrollViewer>
         </Grid>
     </Border>

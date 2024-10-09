@@ -26,6 +26,7 @@ namespace Fogadas
             EventDateTextBlock.Text = $"Date: {evt.EventDate.ToShortDateString()}";
             CategoryTextBlock.Text = $"Category: {evt.Category}";
             LocationTextBlock.Text = $"Location: {evt.Location}";
+            OddsTextBlock.Text = $"Odds: {evt.Odds}";
        
         }
 

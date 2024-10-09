@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 using static FogadasMokuskodas.Bettor;
 
@@ -17,8 +18,47 @@ namespace Fogadas
         public AuthenticationWindow()
         {
             InitializeComponent();
+            LoginUsername.KeyDown += LoginInput_KeyDown;
+            LoginPassword.KeyDown += LoginInput_KeyDown;
+
+          
+            RegisterUsername.KeyDown += RegisterInput_KeyDown;
+            RegisterEmail.KeyDown += RegisterInput_KeyDown;
+            RegisterPassword.KeyDown += RegisterInput_KeyDown;
+        }
+        private void LoginInput_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (sender == LoginUsername)
+                {
+                    LoginPassword.Focus();
+                }
+                else if (sender == LoginPassword)
+                {
+                    LoginButton_Click(sender, e);
+                }
+            }
         }
 
+        private void RegisterInput_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (sender == RegisterUsername)
+                {
+                    RegisterEmail.Focus();
+                }
+                else if (sender == RegisterEmail)
+                {
+                    RegisterPassword.Focus();
+                }
+                else if (sender == RegisterPassword)
+                {
+                    RegisterButton_Click(sender, e);
+                }
+            }
+        }
         private void SwitchToRegister_Click(object sender, RoutedEventArgs e)
         {
             LoginPanel.Visibility = Visibility.Collapsed;

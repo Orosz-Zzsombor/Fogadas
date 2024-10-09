@@ -1,0 +1,170 @@
+﻿<Window x:Class="Fogadas.WalletWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        Title="Wallet" Height="670" Width="1200"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        Background="Transparent"
+        AllowsTransparency="True">
+
+    <Window.Resources>
+        <Style x:Key="ModernButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#2D3748"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="6"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#4A5568"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Border Background="#0F172A" BorderBrush="#1E293B" BorderThickness="1" CornerRadius="12">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+          
+            <Border Grid.Row="0" Background="#1E293B" CornerRadius="12,12,0,0">
+                <Grid>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="20,0">
+                        <TextBlock Text="Wallet"
+                                 FontSize="28"
+                                 Foreground="#38B2AC"
+                                 FontWeight="Bold"
+                                 FontFamily="Segoe UI"/>
+                    </StackPanel>
+
+                    <Button Content="✖" x:Name="btnClose"
+                            Style="{StaticResource ModernButtonStyle}"
+                            Background="Transparent"
+                            FontSize="18"
+                            HorizontalAlignment="Right"
+                            Click="btnClose_Click"/>
+                </Grid>
+            </Border>
+
+         
+            <Grid Grid.Row="1" Margin="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" Background="#1E293B" Margin="5" CornerRadius="8" Padding="20">
+                        <StackPanel>
+                            <TextBlock Text="Current Balance"
+                                     Foreground="#94A3B8"
+                                     FontSize="16"/>
+                            <TextBlock x:Name="txtCurrentBalance"
+                                     Text="$0.00"
+                                     Foreground="#38B2AC"
+                                     FontSize="24"
+                                     FontWeight="Bold"
+                                     Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Column="1" Background="#1E293B" Margin="5" CornerRadius="8" Padding="20">
+                        <StackPanel>
+                            <TextBlock Text="Total Profit/Loss"
+                                     Foreground="#94A3B8"
+                                     FontSize="16"/>
+                            <TextBlock x:Name="txtProfitLoss"
+                                     Text="$0.00"
+                                     Foreground="#38B2AC"
+                                     FontSize="24"
+                                     FontWeight="Bold"
+                                     Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Column="2" Background="#1E293B" Margin="5" CornerRadius="8" Padding="20">
+                        <StackPanel>
+                            <TextBlock Text="Total Bets"
+                                     Foreground="#94A3B8"
+                                     FontSize="16"/>
+                            <TextBlock x:Name="txtTotalBets"
+                                     Text="0"
+                                     Foreground="#38B2AC"
+                                     FontSize="24"
+                                     FontWeight="Bold"
+                                     Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+              
+                <Border Grid.Row="1" Background="#1E293B" Margin="5,20" CornerRadius="8" Padding="20">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Balance History"
+                                 Foreground="White"
+                                 FontSize="20"
+                                 FontWeight="Bold"
+                                 Margin="0,0,0,20"/>
+
+                        <lvc:CartesianChart Grid.Row="1" x:Name="balanceChart">
+                            <lvc:CartesianChart.Series>
+                                <lvc:LineSeries Title="Balance"
+                                               Values="{Binding BalanceValues}"
+                                               PointGeometry="{x:Null}"
+                                               LineSmoothness="0.5"
+                                               StrokeThickness="2"
+                                               Stroke="#38B2AC"
+                                               Fill="#38B2AC20"/>
+                            </lvc:CartesianChart.Series>
+                            <lvc:CartesianChart.AxisX>
+                                <lvc:Axis Title="Date" 
+                                         Foreground="White"
+                                         FontSize="12"/>
+                            </lvc:CartesianChart.AxisX>
+                            <lvc:CartesianChart.AxisY>
+                                <lvc:Axis Title="Balance ($)" 
+                                         Foreground="White"
+                                         FontSize="12"/>
+                            </lvc:CartesianChart.AxisY>
+                        </lvc:CartesianChart>
+                    </Grid>
+                </Border>
+
+        
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

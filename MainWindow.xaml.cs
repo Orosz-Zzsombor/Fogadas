@@ -25,7 +25,7 @@ namespace Fogadas
             eventService = new EventService();
             CreateDatabase();
             LoadAndDisplayEvents();
-
+            UpdateBalanceDisplay();
             currentBettor = SessionData.CurrentBettor;
             UpdateUserInterface();
             SetButtonVisibility();
@@ -34,22 +34,31 @@ namespace Fogadas
         {
             if (currentBettor != null)
             {
-  
                 btnLogin.Visibility = Visibility.Collapsed;
                 btnRegister.Visibility = Visibility.Collapsed;
-
-                
                 txtUsername.Text = currentBettor.Username;
                 txtUsername.Visibility = Visibility.Visible;
+
+             
+                bool isOrganizer = currentBettor.Role == "organizer";
+
+                foreach (var child in SidebarPanel.Children)
+                {
+                    if (child is Button button && button != btnLogout)
+                    {
+                        button.IsEnabled = !isOrganizer; 
+                        button.Foreground = isOrganizer ? Brushes.Gray : Brushes.White; 
+                    }
+                }
             }
             else
             {
-      
                 btnLogin.Visibility = Visibility.Visible;
                 btnRegister.Visibility = Visibility.Visible;
                 txtUsername.Visibility = Visibility.Collapsed;
             }
         }
+
         private void CreateDatabase()
         {
             using (var connection = new MySqlConnection(connectionString))
@@ -90,7 +99,13 @@ namespace Fogadas
                 command.ExecuteNonQuery();
             }
         }
-
+        public void UpdateBalanceDisplay()
+        {
+            if (currentBettor != null)
+            {
+                BalanceTextBlock.Text = $"{currentBettor.Balance:C}"; 
+            }
+        }
         private void LoadAndDisplayEvents()
         {
             events = eventService.GetCurrentEvents(); 
@@ -295,10 +310,36 @@ namespace Fogadas
             }
 
         }
+        private void btnMyBets_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateBalanceDisplay();
+
+            if (currentBettor == null)
+            {
+                MessageBox.Show("You must be logged in to view your bets.", "Access Denied", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            MyBetsWindow myBetsWindow = new MyBetsWindow(currentBettor);
+            myBetsWindow.ShowDialog();
+        }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
+        private void btnWallet_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateBalanceDisplay();
+            if (currentBettor == null)
+            {
+                MessageBox.Show("You must be logged in to view your bets.", "Access Denied", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            WalletWindow wallet = new WalletWindow(currentBettor);   
+            wallet.ShowDialog();
+          
+        }
+
+      
     }
 }
