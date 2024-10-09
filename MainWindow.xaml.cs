@@ -34,17 +34,25 @@ namespace Fogadas
         {
             if (currentBettor != null)
             {
-
                 btnLogin.Visibility = Visibility.Collapsed;
                 btnRegister.Visibility = Visibility.Collapsed;
-
-
                 txtUsername.Text = currentBettor.Username;
                 txtUsername.Visibility = Visibility.Visible;
+
+
+                bool isOrganizer = currentBettor.Role == "organizer";
+
+                foreach (var child in SidebarPanel.Children)
+                {
+                    if (child is Button button && button != btnLogout)
+                    {
+                        button.IsEnabled = !isOrganizer;
+                        button.Foreground = isOrganizer ? Brushes.Gray : Brushes.White;
+                    }
+                }
             }
             else
             {
-
                 btnLogin.Visibility = Visibility.Visible;
                 btnRegister.Visibility = Visibility.Visible;
                 txtUsername.Visibility = Visibility.Collapsed;
