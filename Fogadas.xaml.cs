@@ -74,6 +74,9 @@ namespace Fogadas
                         }
 
                         MessageBox.Show("Bet placed successfully!");
+
+                        
+
                     }
                     catch (Exception ex)
                     {

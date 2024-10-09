@@ -15,8 +15,8 @@ namespace Fogadas
         private EventService eventService;
         private List<Event> events;
 
-      
-        private Event selectedEvent; 
+
+        private Event selectedEvent;
         private Bettor currentBettor;
 
         public MainWindow()
@@ -34,17 +34,17 @@ namespace Fogadas
         {
             if (currentBettor != null)
             {
-  
+
                 btnLogin.Visibility = Visibility.Collapsed;
                 btnRegister.Visibility = Visibility.Collapsed;
 
-                
+
                 txtUsername.Text = currentBettor.Username;
                 txtUsername.Visibility = Visibility.Visible;
             }
             else
             {
-      
+
                 btnLogin.Visibility = Visibility.Visible;
                 btnRegister.Visibility = Visibility.Visible;
                 txtUsername.Visibility = Visibility.Collapsed;
@@ -57,44 +57,47 @@ namespace Fogadas
                 connection.Open();
                 var command = connection.CreateCommand();
                 command.CommandText = @"
-                CREATE TABLE IF NOT EXISTS Bets (
-                  BetsID INT AUTO_INCREMENT PRIMARY KEY,   
-                  BetDate DATE NOT NULL,                   
-                  Odds FLOAT NOT NULL,                     
-                  Amount INT NOT NULL,                     
-                  BettorsID INT NOT NULL,                  
-                  EventID INT NOT NULL,                    
-                  Status BOOLEAN NOT NULL,             
-                  FOREIGN KEY (BettorsID) REFERENCES Bettors(BettorsID),
-                  FOREIGN KEY (EventID) REFERENCES Events(EventID)
-                );
+        CREATE TABLE IF NOT EXISTS Bettors (
+          BettorsID INT AUTO_INCREMENT PRIMARY KEY,  
+          Username VARCHAR(50) NOT NULL,
+          Password VARCHAR(255),              
+          Balance INT NOT NULL,                      
+          Email VARCHAR(100) NOT NULL,                
+          JoinDate DATE NOT NULL,                    
+          IsActive BOOLEAN NOT NULL DEFAULT 1,       
+          Role ENUM('user', 'admin', 'organizer') NOT NULL DEFAULT 'user'
+        );
 
-                CREATE TABLE  IF NOT EXISTS Bettors (
-                  BettorsID INT AUTO_INCREMENT PRIMARY KEY,  
-                  Username VARCHAR(50) NOT NULL,
-                  Password VARCHAR(255),              
-                  Balance INT NOT NULL,                      
-                  Email VARCHAR(100) NOT NULL,                
-                  JoinDate DATE NOT NULL,                    
-                  IsActive BOOLEAN NOT NULL DEFAULT 1,       
-                  Role ENUM('user', 'admin', 'organizer') NOT NULL DEFAULT 'user'
-                );
+        CREATE TABLE IF NOT EXISTS Events (
+          EventID INT AUTO_INCREMENT PRIMARY KEY,     
+          EventName VARCHAR(100) NOT NULL,            
+          EventDate DATE NOT NULL,                    
+          Category VARCHAR(50) NOT NULL,             
+          Location VARCHAR(100) NOT NULL,
+          IsClosed BOOLEAN NOT NULL DEFAULT 1
+        );
 
-                CREATE TABLE  IF NOT EXISTS Events (
-                  EventID INT AUTO_INCREMENT PRIMARY KEY,     
-                  EventName VARCHAR(100) NOT NULL,            
-                  EventDate DATE NOT NULL,                    
-                  Category VARCHAR(50) NOT NULL,             
-                  Location VARCHAR(100) NOT NULL             
-                );";
+        CREATE TABLE IF NOT EXISTS Bets (
+          BetsID INT AUTO_INCREMENT PRIMARY KEY,   
+          BetDate DATE NOT NULL,                   
+          Odds FLOAT NOT NULL,                     
+          Amount INT NOT NULL,                     
+          BettorsID INT NOT NULL,                  
+          EventID INT NOT NULL,                    
+          Status BOOLEAN NOT NULL,             
+          FOREIGN KEY (BettorsID) REFERENCES Bettors(BettorsID),
+          FOREIGN KEY (EventID) REFERENCES Events(EventID)
+        );";
                 command.ExecuteNonQuery();
             }
         }
+    
+    
         public void UpdateBalanceDisplay()
         {
             if (currentBettor != null)
             {
-                BalanceTextBlock.Text = $"{currentBettor.Balance:C}"; // Format the balance as currency
+                BalanceTextBlock.Text = $"{currentBettor.Balance:C}"; 
             }
         }
         private void LoadAndDisplayEvents()
@@ -111,19 +114,22 @@ namespace Fogadas
 
             foreach (var evt in events)
             {
+
                 Border eventBorder = new Border
                 {
-                    Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2D3748")),
+                    Background = new SolidColorBrush(evt.IsClosed == 0 ? Colors.Gray : (Color)ColorConverter.ConvertFromString("#2D3748")),
                     CornerRadius = new CornerRadius(8),
                     Padding = new Thickness(10),
                     Margin = new Thickness(0, 5, 0, 5)
                 };
+
 
                 Grid eventGrid = new Grid();
                 eventGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
                 eventGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
                 eventGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
                 eventGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+
 
                 TextBlock dateText = new TextBlock
                 {
@@ -135,13 +141,13 @@ namespace Fogadas
                     Margin = new Thickness(15, 0, 15, 0)
                 };
                 Grid.SetColumn(dateText, 0);
-
                 StackPanel eventInfo = new StackPanel
                 {
                     Orientation = Orientation.Vertical,
                     Margin = new Thickness(15, 0, 15, 0)
                 };
 
+        
                 TextBlock nameText = new TextBlock
                 {
                     Text = evt.EventName,
@@ -150,6 +156,7 @@ namespace Fogadas
                     FontWeight = FontWeights.SemiBold
                 };
 
+         
                 TextBlock categoryText = new TextBlock
                 {
                     Text = evt.Category,
@@ -165,44 +172,106 @@ namespace Fogadas
                 eventGrid.Children.Add(dateText);
                 eventGrid.Children.Add(eventInfo);
 
-                if (currentUserRole == "organizer")
+
+                if (evt.IsClosed == 0) 
                 {
-                    Button modifyButton = new Button
-                    {
-                        Content = "MÓDOSÍTÁS",
-                        Style = (Style)FindResource("EventButtonStyle"),
-                        Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4A5568"))
-                    };
-                    Grid.SetColumn(modifyButton, 2);
 
-                    modifyButton.Click += (s, e) =>
+                    foreach (UIElement element in eventGrid.Children)
                     {
-                        var updateEventWindow = new UpdateEventWindow(evt);
-                        updateEventWindow.ShowDialog();
-                        LoadAndDisplayEvents();
-                    };
+                        if (element is Button button)
+                        {
+                            button.IsEnabled = false; 
+                        }
+                    }
+                }
+                else 
+                {
+                    if (currentUserRole == "organizer")
+                    {
+                    
+                        Button modifyButton = new Button
+                        {
+                            Content = "MÓDOSÍTÁS",
+                            Style = (Style)FindResource("EventButtonStyle"),
+                            Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4A5568"))
+                        };
+                        Grid.SetColumn(modifyButton, 2);
 
-                    eventGrid.Children.Add(modifyButton);
+                        modifyButton.Click += (s, e) =>
+                        {
+                            var updateEventWindow = new UpdateEventWindow(evt);
+                            updateEventWindow.ShowDialog();
+                            LoadAndDisplayEvents();
+                        };
+
+                        eventGrid.Children.Add(modifyButton);
+
+                   
+                        Button closeButton = new Button
+                        {
+                            Content = "Lezárás",
+                            Style = (Style)FindResource("EventButtonStyle"),
+                            Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E53E3E")) // Red for closure
+                        };
+                        Grid.SetColumn(closeButton, 3);
+
+                        closeButton.Click += (s, e) =>
+                        {
+                            
+                            var result = MessageBox.Show("Was the event successful?", "Event Closure",
+                                MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+
+                            if (result != MessageBoxResult.Cancel)
+                            {
+                               
+                                eventService.CloseEvent(evt.EventID); 
+
+                            
+                                LoadAndDisplayEvents();
+
+                               
+                                if (result == MessageBoxResult.Yes)
+                                {
+                                    MessageBox.Show("Event marked as successful.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                                }
+                                else if (result == MessageBoxResult.No)
+                                {
+                                    MessageBox.Show("Event marked as unsuccessful.", "Failure", MessageBoxButton.OK, MessageBoxImage.Warning);
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("Event closure cancelled.", "Cancelled", MessageBoxButton.OK, MessageBoxImage.Information);
+                            }
+                        };
+
+                        eventGrid.Children.Add(closeButton);
+                    }
+
+                    if (currentUserRole == "user")
+                    {
+                        // Bet Button
+                        Button betButton = new Button
+                        {
+                            Content = "FOGADÁS",
+                            Style = (Style)FindResource("EventButtonStyle")
+                        };
+                        Grid.SetColumn(betButton, 3);
+
+                        betButton.Click += (s, e) => OpenEventDetails(evt);
+
+                        eventGrid.Children.Add(betButton);
+                    }
                 }
 
-                if (currentUserRole == "user")
-                {
-                    Button betButton = new Button
-                    {
-                        Content = "FOGADÁS",
-                        Style = (Style)FindResource("EventButtonStyle")
-                    };
-                    Grid.SetColumn(betButton, 3);
-
-                    betButton.Click += (s, e) => OpenEventDetails(evt);
-
-                    eventGrid.Children.Add(betButton);
-                }
-
+                // Add the event grid to the border
                 eventBorder.Child = eventGrid;
+                // Finally add the event border to the stack panel
                 EventsStackPanel.Children.Add(eventBorder);
             }
         }
+
+
 
         private void OpenEventDetails(Event evt)
         {

@@ -16,8 +16,10 @@ namespace Fogadas
             public DateTime EventDate { get; set; }
             public string Category { get; set; }
             public string Location { get; set; }
-            public decimal Odds { get; set; } 
-        
+            public decimal Odds { get; set; }
+            public int IsClosed { get; set; }
+
+
 
     }
     public class EventService
@@ -25,7 +27,7 @@ namespace Fogadas
         
         private string connectionString = "Server=localhost;Database=FogadasDB;Uid=root;Pwd=;";
 
-        
+
         public List<Event> GetCurrentEvents()
         {
             List<Event> events = new List<Event>();
@@ -36,8 +38,8 @@ namespace Fogadas
                 {
                     conn.Open();
 
-               
-                    string query = "SELECT * FROM Events WHERE EventDate >= CURDATE()";
+                    // Include IsClosed in the SELECT statement
+                    string query = "SELECT EventID, EventName, EventDate, Category, Location, IsClosed FROM Events WHERE EventDate >= CURDATE()";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
@@ -51,7 +53,8 @@ namespace Fogadas
                                     EventName = reader.GetString("EventName"),
                                     EventDate = reader.GetDateTime("EventDate"),
                                     Category = reader.GetString("Category"),
-                                    Location = reader.GetString("Location")
+                                    Location = reader.GetString("Location"),
+                                    IsClosed = reader.GetInt32("IsClosed") // Add this line
                                 };
 
                                 events.Add(evt);
@@ -62,12 +65,12 @@ namespace Fogadas
             }
             catch (Exception ex)
             {
-              
                 Console.WriteLine("An error occurred: " + ex.Message);
             }
 
             return events;
         }
+
         public bool CreateEvent(string eventName, DateTime eventDate, string category, string location)
         {
             using (MySqlConnection conn = new MySqlConnection(connectionString))
@@ -90,6 +93,7 @@ namespace Fogadas
                 }
             }
         }
+ 
         public void UpdateEvent(Event evt)
         {
             using (var connection = new MySqlConnection(connectionString))
@@ -124,5 +128,28 @@ namespace Fogadas
                 command.ExecuteNonQuery();
             }
         }
+        public void CloseEvent(int eventId)
+        {
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+
+                // Set IsClosed to 0 (closed) when the event is closed
+                command.CommandText = @"
+            UPDATE Events
+            SET IsClosed = 0
+            WHERE EventID = @EventID";
+
+                command.Parameters.AddWithValue("@EventID", eventId);
+                int rowsAffected = command.ExecuteNonQuery(); // Execute the command
+
+                // Debug log
+                Console.WriteLine($"CloseEvent executed: EventID = {eventId}, Rows affected: {rowsAffected}");
+            }
+        }
+
+
+
     }
 }
