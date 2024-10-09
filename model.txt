@@ -31,11 +31,11 @@
         );
 
 -- Insert into Events table
-INSERT INTO Events (EventName, EventDate, Category, Location) VALUES
-('Champions League Final', '2024-05-25', 'Football', 'Wembley Stadium, London'),
-('NBA Finals Game 7', '2024-06-15', 'Basketball', 'Staples Center, Los Angeles'),
-('Wimbledon Finals', '2024-07-14', 'Tennis', 'All England Club, London'),
-('Formula 1 Grand Prix', '2024-10-07', 'Motorsport', 'Monza Circuit, Italy');
+INSERT INTO Events (EventName, EventDate, Category, Location,IsClosed) VALUES
+('Champions League Final', '2024-05-25', 'Football', 'Wembley Stadium, London',1),
+('NBA Finals Game 7', '2024-06-15', 'Basketball', 'Staples Center, Los Angeles',1),
+('Wimbledon Finals', '2024-07-14', 'Tennis', 'All England Club, London',1),
+('Formula 1 Grand Prix', '2024-10-07', 'Motorsport', 'Monza Circuit, Italy',1);
 
 -- Insert into Bettors table (plaintext passwords)
 INSERT INTO Bettors (Username, Password, Balance, Email, JoinDate, IsActive) VALUES
