@@ -39,10 +39,10 @@ INSERT INTO Events (EventName, EventDate, Category, Location,IsClosed) VALUES
 
 -- Insert into Bettors table (plaintext passwords)
 INSERT INTO Bettors (Username, Password, Balance, Email, JoinDate, IsActive) VALUES
-('john_doe', 'password123', 1000, 'john@example.com', '2023-01-15', 1),
-('jane_smith', 'qwerty456', 1500, 'jane@example.com', '2023-02-20', 1),
-('mike_jones', 'letmein789', 800, 'mike@example.com', '2023-03-05', 1),
-('alice_wonder', 'supersecret', 1200, 'alice@example.com', '2023-04-22', 1);
+('john_doe', 'password123', 1000, 'john@example.com', '2025-01-15', 1),
+('jane_smith', 'qwerty456', 1500, 'jane@example.com', '2025-02-20', 1),
+('mike_jones', 'letmein789', 800, 'mike@example.com', '2025-03-05', 1),
+('alice_wonder', 'supersecret', 1200, 'alice@example.com', '2025-04-22', 1);
 
 -- Insert into Bets table
 INSERT INTO Bets (BetDate, Odds, Amount, BettorsID, EventID, Status) VALUES
