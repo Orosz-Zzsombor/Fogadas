@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Windows;
-using FogadasMokuskodas; // Ensure this namespace contains your Event and Bettor classes
-using MySql.Data.MySqlClient; // Ensure this is included to access MySQL database
+using FogadasMokuskodas; 
+using MySql.Data.MySqlClient; 
 
 namespace Fogadas
 {
     public partial class EventDetailsWindow : Window
     {
         private string connectionString = "Server=localhost;Database=FogadasDB;Uid=root;Pwd=;";
-        private readonly Event selectedEvent; // Store the event details
-        private readonly Bettor currentBettor; // Store the current bettor
-        private readonly MainWindow mainWindow; // Reference to the main window
+        private readonly Event selectedEvent;
+        private readonly Bettor currentBettor; 
+        private readonly MainWindow mainWindow; 
 
-        // Constructor that accepts the event, current bettor, and main window reference
+       
         public EventDetailsWindow(Event evt, Bettor bettor, MainWindow mainWindow)
         {
             InitializeComponent();
             selectedEvent = evt;
-            currentBettor = bettor; // Assign the current bettor
-            this.mainWindow = mainWindow; // Assign the main window reference
+            currentBettor = bettor;
+            this.mainWindow = mainWindow;
             DisplayEventDetails(evt);
         }
 
@@ -28,26 +28,25 @@ namespace Fogadas
             EventDateTextBlock.Text = $"Date: {evt.EventDate.ToShortDateString()}";
             CategoryTextBlock.Text = $"Category: {evt.Category}";
             LocationTextBlock.Text = $"Location: {evt.Location}";
-            // You can add more details if needed, e.g., Description, Odds, etc.
+           
         }
 
         private void PlaceBet_Click(object sender, RoutedEventArgs e)
         {
-            // Validate and process the bet amount
+      
             if (decimal.TryParse(BetAmountTextBox.Text, out decimal betAmount) && betAmount > 0)
             {
-                // Check if the bettor has enough balance
+       
                 if (currentBettor.Balance < betAmount)
                 {
                     MessageBox.Show("You do not have enough balance to place this bet.", "Insufficient Balance", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return; // Exit if balance is insufficient
+                    return; 
                 }
 
-                // Logic to handle the bet placement
-                // Here you can define your odds based on the event details
-                decimal odds = 2.0m; // Example odds, you could fetch or calculate this based on your business logic.
+       
+                decimal odds = 2.0m; 
 
-                // Insert the bet into the database
+               
                 using (MySqlConnection conn = new MySqlConnection(connectionString))
                 {
                     try
@@ -55,18 +54,18 @@ namespace Fogadas
                         conn.Open();
                         using (var transaction = conn.BeginTransaction())
                         {
-                            // Command to insert the bet
+                         
                             var command = new MySqlCommand("INSERT INTO Bets (BetDate, Odds, Amount, BettorsID, EventID, Status) VALUES (NOW(), @odds, @amount, @bettorsId, @eventId, @status)", conn);
-                            command.Parameters.AddWithValue("@odds", odds); // Capture the odds here
+                            command.Parameters.AddWithValue("@odds", selectedEvent.Odds); 
                             command.Parameters.AddWithValue("@amount", betAmount);
                             command.Parameters.AddWithValue("@bettorsId", currentBettor.BettorsID);
                             command.Parameters.AddWithValue("@eventId", selectedEvent.EventID);
-                            command.Parameters.AddWithValue("@status", true); // Assuming true means active or successful bet
+                            command.Parameters.AddWithValue("@status", true);
                             command.Transaction = transaction;
 
                             command.ExecuteNonQuery();
 
-                            // Deduct the bet amount from the bettor's balance
+                        
                             var updateBalanceCommand = new MySqlCommand("UPDATE Bettors SET Balance = Balance - @amount WHERE BettorsID = @bettorsId", conn);
                             updateBalanceCommand.Parameters.AddWithValue("@amount", betAmount);
                             updateBalanceCommand.Parameters.AddWithValue("@bettorsId", currentBettor.BettorsID);
@@ -74,14 +73,14 @@ namespace Fogadas
 
                             updateBalanceCommand.ExecuteNonQuery();
 
-                            transaction.Commit(); // Commit the transaction
+                            transaction.Commit();
                         }
 
-                        // Update the bettor's balance in memory
-                        currentBettor.Balance -= betAmount; // Deduct the bet amount from the current bettor's balance
+                      
+                        currentBettor.Balance -= betAmount; 
 
-                        // Update the balance display in the main window
-                        mainWindow.UpdateBalanceDisplay(); // Call a method to update the TextBlock in the main window
+                      
+                        mainWindow.UpdateBalanceDisplay();
 
                         MessageBox.Show("Bet placed successfully!");
                     }
@@ -95,6 +94,11 @@ namespace Fogadas
             {
                 MessageBox.Show("Please enter a valid bet amount greater than zero.", "Invalid Input", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

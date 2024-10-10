@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Windows;
 
 namespace Fogadas
@@ -22,7 +23,7 @@ namespace Fogadas
             EventLocationTextBox.Text = eventToUpdate.Location;
 
            
-            EventOddsTextBox.Text = eventToUpdate.Odds.ToString();
+  
         }
 
         private void UpdateEventButton_Click(object sender, RoutedEventArgs e)
@@ -35,7 +36,7 @@ namespace Fogadas
                 EventDate = DateTime.Parse(EventDateTextBox.Text),
                 Category = EventCategoryTextBox.Text,
                 Location = EventLocationTextBox.Text,
-                Odds = Decimal.Parse(EventOddsTextBox.Text) 
+              
             };
 
            
@@ -57,6 +58,11 @@ namespace Fogadas
                 MessageBox.Show("Event deleted successfully!");
                 this.Close(); 
             }
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

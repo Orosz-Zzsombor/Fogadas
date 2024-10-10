@@ -1,8 +1,8 @@
-﻿using System;
+﻿using FogadasMokuskodas;
+using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Windows;
-using FogadasMokuskodas;
-using MySql.Data.MySqlClient;
 
 namespace Fogadas
 {
@@ -27,7 +27,12 @@ namespace Fogadas
                 try
                 {
                     conn.Open();
-                    var command = new MySqlCommand("SELECT BetDate, Amount, Odds, Status FROM Bets WHERE BettorsID = @bettorsId", conn);
+                    var command = new MySqlCommand(
+                        @"SELECT b.BetsID, b.BetDate, b.Amount, b.Odds, b.Status, e.EventID, e.EventName
+                  FROM Bets b
+                  JOIN Events e ON b.EventID = e.EventID
+                  WHERE b.BettorsID = @bettorsId", conn);
+
                     command.Parameters.AddWithValue("@bettorsId", currentBettor.BettorsID);
                     using (var reader = command.ExecuteReader())
                     {
@@ -35,13 +40,20 @@ namespace Fogadas
                         {
                             bets.Add(new Bet
                             {
-                                BetDate = reader.GetDateTime(0),
-                                Amount = reader.GetDecimal(1),
-                                Odds = reader.GetDecimal(2),
-                                Status = reader.GetBoolean(3) ? "Active" : "Inactive"
+                                BetsID = reader.GetInt32(0),
+                                BetDate = reader.GetDateTime(1),
+                                Amount = reader.GetDecimal(2),
+                                Odds = reader.GetDecimal(3),
+                                Status = reader.GetInt32(4), // Read the integer status
+                                EventID = reader.GetInt32(5), // Read the EventID
+                                EventName = reader.GetString(6) // Get the EventName from the database
                             });
                         }
                     }
+                }
+                catch (MySqlException ex)
+                {
+                    MessageBox.Show("Database error loading bets: " + ex.Message);
                 }
                 catch (Exception ex)
                 {
@@ -50,6 +62,11 @@ namespace Fogadas
             }
 
             BetsListView.ItemsSource = bets;
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

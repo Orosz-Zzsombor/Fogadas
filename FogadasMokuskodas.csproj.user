@@ -7,15 +7,21 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="MyBetsWindow.xaml.cs">
+    <Compile Update="CloseEventWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ProfileWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="CloseEventWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="MyBetsWindow.xaml">
+    <Page Update="ProfileWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
