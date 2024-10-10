@@ -15,6 +15,7 @@ namespace Fogadas
     {
         private string connectionString = "server=localhost;port=3306;database=FogadasDB;user=root;password=;";
 
+
         public AuthenticationWindow()
         {
             InitializeComponent();
