@@ -115,6 +115,17 @@ namespace Fogadas
             DisplayEvents(events);
         }
 
+        private Dictionary<string, string> categoryIcons = new Dictionary<string, string>
+            {
+                { "Football", "⚽️" },  
+                { "Tennis", "🎾" },    
+                { "Basketball", "🏀" },  
+                { "Volleyball", "🏐" }  
+            };
+        private string GetCategoryIcon(string category)
+        {
+            return categoryIcons.TryGetValue(category, out var icon) ? icon : "ℹ️"; 
+        }
         private void DisplayEvents(List<Event> events)
         {
             EventsStackPanel.Children.Clear();
@@ -187,7 +198,7 @@ namespace Fogadas
 
                 TextBlock categoryText = new TextBlock
                 {
-                    Text = evt.Category,
+                    Text = $"{GetCategoryIcon(evt.Category)} {evt.Category}",
                     Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#8B949E")),
                     FontSize = 13,
                     Margin = new Thickness(0, 4, 0, 0)
