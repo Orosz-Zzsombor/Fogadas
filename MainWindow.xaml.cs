@@ -25,7 +25,7 @@ namespace Fogadas
             eventService = new EventService();
             CreateDatabase();
             LoadAndDisplayEvents();
-            UpdateBalanceDisplay();
+            UpdateBalanceDisplay(); 
             currentBettor = SessionData.CurrentBettor;
             UpdateUserInterface();
             SetButtonVisibility();
@@ -172,6 +172,13 @@ namespace Fogadas
                     FontSize = 12,
                     Margin = new Thickness(0, 3, 0, 0)
                 };
+                TextBlock oddsText = new TextBlock
+                {
+                    Text = Convert.ToString(evt.Odds),
+                    Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#9CA3AF")),
+                    FontSize = 12,
+                    Margin = new Thickness(0, 3, 0, 0)
+                };
 
                 eventInfo.Children.Add(nameText);
                 eventInfo.Children.Add(categoryText);
@@ -179,6 +186,7 @@ namespace Fogadas
 
                 eventGrid.Children.Add(dateText);
                 eventGrid.Children.Add(eventInfo);
+                eventGrid.Children.Add(oddsText);
 
 
                 if (evt.IsClosed == 0) 
@@ -363,10 +371,10 @@ namespace Fogadas
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult result = MessageBox.Show(
-       "Are you sure you want to log out?",
-       "Logout Confirmation",
-       MessageBoxButton.YesNo,
-       MessageBoxImage.Question
+            "Are you sure you want to log out?",
+            "Logout Confirmation",
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Question
    );
 
             if (result == MessageBoxResult.Yes)

@@ -16,22 +16,31 @@ namespace Fogadas
             public DateTime EventDate { get; set; }
             public string Category { get; set; }
             public string Location { get; set; }
-            public decimal Odds { get; set; }
+            public float Odds { get; set; }
             public int IsClosed { get; set; }
 
 
 
     }
+
     public class EventService
     {
-        
         private string connectionString = "Server=localhost;Database=FogadasDB;Uid=root;Pwd=;";
+        private static Dictionary<int, float> odds = new Dictionary<int, float>();
+        private float GenerateRandomOdds()
+        {
+            Random rand = new Random();
+            return (float)Math.Round(1.0 + rand.NextDouble() * 2.0, 2);  // Odds between 1.00 and 3.00
+        }
+
+
 
 
         public List<Event> GetCurrentEvents()
         {
+           
             List<Event> events = new List<Event>();
-
+            
             try
             {
                 using (MySqlConnection conn = new MySqlConnection(connectionString))
@@ -47,6 +56,15 @@ namespace Fogadas
                         {
                             while (reader.Read())
                             {
+                                int eventId = reader.GetInt32("EventID");
+
+
+                                if (!odds.ContainsKey(eventId))
+                                {
+                                    float odd = GenerateRandomOdds();
+                                    odds[eventId] = odd;
+                                }
+
                                 Event evt = new Event
                                 {
                                     EventID = reader.GetInt32("EventID"),
@@ -54,7 +72,8 @@ namespace Fogadas
                                     EventDate = reader.GetDateTime("EventDate"),
                                     Category = reader.GetString("Category"),
                                     Location = reader.GetString("Location"),
-                                    IsClosed = reader.GetInt32("IsClosed") // Add this line
+                                    Odds = odds[eventId],                     
+                                    IsClosed = reader.GetInt32("IsClosed") 
                                 };
 
                                 events.Add(evt);
