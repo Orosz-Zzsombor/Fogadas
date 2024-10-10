@@ -23,7 +23,7 @@ namespace Fogadas
             EventLocationTextBox.Text = eventToUpdate.Location;
 
            
-           
+  
         }
 
         private void UpdateEventButton_Click(object sender, RoutedEventArgs e)
@@ -36,7 +36,7 @@ namespace Fogadas
                 EventDate = DateTime.Parse(EventDateTextBox.Text),
                 Category = EventCategoryTextBox.Text,
                 Location = EventLocationTextBox.Text,
-               
+              
             };
 
            
@@ -56,7 +56,7 @@ namespace Fogadas
                
                 eventService.DeleteEvent(eventToUpdate.EventID);
                 MessageBox.Show("Event deleted successfully!");
-               
+                this.Close(); 
             }
         }
 

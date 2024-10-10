@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Fogadas.MyBetsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="My Bets" Height="670" Width="1200"
+        Title="My Bets" Height="700" Width="1200"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         Background="Transparent"
@@ -105,13 +105,22 @@
             <Border Grid.Row="0" Background="#1E293B" CornerRadius="12,12,0,0">
                 <Grid>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="20,0">
-                        <TextBlock Text="My Bets"
-                                 FontSize="35"
-                                 Foreground="#38B2AC"
-                                 FontWeight="ExtraBold"
-                                 FontFamily="Segoe UI"
-                                 VerticalAlignment="Center"
-                                 FontStyle="Italic"/>
+                        <TextBlock FontSize="35" FontWeight="ExtraBold" FontFamily="Segoe UI" VerticalAlignment="Center" FontStyle="Italic">
+                            <TextBlock.Foreground>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Color="#38B2AC" Offset="0"/>
+                                    <GradientStop Color="#157E79" Offset="1"/>
+                                </LinearGradientBrush>
+                            </TextBlock.Foreground>
+                       MaxStake
+                        </TextBlock>
+
+                        <TextBlock Text=" | " Foreground="#4A5568" FontSize="28" Margin="10,0"/>
+                        <TextBlock Text="My Bets" 
+             Foreground="White" 
+             FontSize="24" 
+             FontWeight="SemiBold"
+             VerticalAlignment="Center"/>
                     </StackPanel>
 
                     <Button Content="✖" x:Name="btnClose"
