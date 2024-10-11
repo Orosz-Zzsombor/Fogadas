@@ -6,7 +6,9 @@ using System.Windows;
 using System.Windows.Controls;
 using static FogadasMokuskodas.Bettor;
 using System.Windows.Media;
+using System.Windows.Input;
 using System.Windows.Media.Effects;
+
 
 namespace Fogadas
 {
@@ -134,6 +136,7 @@ namespace Fogadas
 
             foreach (var evt in events)
             {
+
                 Border eventBorder = new Border
                 {
                     Background = new SolidColorBrush(evt.IsClosed == 0
@@ -236,10 +239,12 @@ namespace Fogadas
                 if (evt.IsClosed == 0)
                 {
                     eventBorder.Opacity = 0.6;
+
                     foreach (UIElement element in eventGrid.Children)
                     {
                         if (element is Button button)
                         {
+
                             button.IsEnabled = false;
                         }
                     }
@@ -253,6 +258,7 @@ namespace Fogadas
                             Orientation = Orientation.Horizontal,
                             Margin = new Thickness(0, 0, 0, 0)
                         };
+
 
                         Button modifyButton = new Button
                         {
@@ -275,12 +281,14 @@ namespace Fogadas
                             FontWeight = FontWeights.SemiBold
                         };
 
+
                         modifyButton.Click += (s, e) =>
                         {
                             var updateEventWindow = new UpdateEventWindow(evt);
                             updateEventWindow.ShowDialog();
                             LoadAndDisplayEvents();
                         };
+
 
                         closeButton.Click += (s, e) =>
                         {
@@ -307,6 +315,7 @@ namespace Fogadas
                             }
                         };
 
+
                         buttonStack.Children.Add(modifyButton);
                         buttonStack.Children.Add(closeButton);
                         Grid.SetColumn(buttonStack, 3);
@@ -315,6 +324,7 @@ namespace Fogadas
 
                     if (currentUserRole == "user")
                     {
+
                         Button betButton = new Button
                         {
                             Content = "FOGADÁS",
@@ -327,14 +337,17 @@ namespace Fogadas
 
                         betButton.Click += (s, e) => OpenEventDetails(evt);
                         Grid.SetColumn(betButton, 3);
+
                         eventGrid.Children.Add(betButton);
                     }
                 }
 
                 eventBorder.Child = eventGrid;
+
                 EventsStackPanel.Children.Add(eventBorder);
             }
         }
+
         private void OpenEventDetails(Event evt)
         {
             var eventDetailsWindow = new EventDetailsWindow(evt, currentBettor, this); 
@@ -402,8 +415,8 @@ namespace Fogadas
             }
         }
 
-       
 
+      
         private void CreateEventButton_Click(object sender, RoutedEventArgs e)
         {
             CreateEventWindow createEventWindow = new CreateEventWindow(eventService);
@@ -462,7 +475,9 @@ namespace Fogadas
         {
             if (currentBettor == null)
             {
+
                 MessageBox.Show("You must be logged in to view your profile.", "Access Denied", MessageBoxButton.OK, MessageBoxImage.Warning);
+
                 return;
             }
             var profileWindow = new ProfileWindow(currentBettor);
@@ -486,5 +501,6 @@ namespace Fogadas
         {
             MessageBox.Show("Hamarosan");
         }
+
     }
 }

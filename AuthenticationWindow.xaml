@@ -8,6 +8,7 @@
     <Window.Resources>
         <SolidColorBrush x:Key="SidebarInactiveBrush" Color="#151921"/>
         <SolidColorBrush x:Key="SidebarActiveBrush" Color="#FFFFFF"/>
+
         <SolidColorBrush x:Key="MainBackgroundBrush" Color="#1E293B"/>
         <SolidColorBrush x:Key="AccentBrush" Color="#00B4A2"/>
         <SolidColorBrush x:Key="TextForeground" Color="#E2E8F0"/>
@@ -20,11 +21,13 @@
             <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Padding" Value="15,5"/>
+
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TextBox">
                         <Border Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
+
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="8">
                             <ScrollViewer x:Name="PART_ContentHost" Margin="2"/>
@@ -35,6 +38,7 @@
         </Style>
 
         <Style x:Key="CustomPasswordBoxStyle" TargetType="PasswordBox">
+
             <Setter Property="Background" Value="#2A3B50"/>
             <Setter Property="Foreground" Value="{StaticResource TextForeground}"/>
             <Setter Property="Height" Value="45"/>
@@ -92,12 +96,15 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+
     </Window.Resources>
 
     <Border CornerRadius="20" Background="{StaticResource MainBackgroundBrush}">
         <Grid>
-    
 
+    <Border CornerRadius="10" Background="{StaticResource MainBackgroundBrush}">
+        <Grid>
             <Grid Width="300" Background="{StaticResource SidebarInactiveBrush}" HorizontalAlignment="Left">
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,30,0">
                     <Button x:Name="LoginButton" Content="LOGIN" Width="120" Height="100" Style="{StaticResource CustomButtonStyle}" 
@@ -164,12 +171,14 @@
                              FontWeight="Medium" HorizontalAlignment="Left" Margin="0,0,0,8"/>
                     <PasswordBox x:Name="RegisterPassword" Width="350" Style="{StaticResource CustomPasswordBoxStyle}" Margin="0,0,0,25"/>
 
+
                     <Button Content="SIGN UP" Width="350" Style="{StaticResource SubmitButtonStyle}" Click="RegisterButton_Click"/>
                 </StackPanel>
             </Grid>
 
             <Button Content="✖" Width="35" Height="35" HorizontalAlignment="Right" VerticalAlignment="Top" 
                     Margin="15" Background="Transparent" Foreground="White" FontSize="18" Click="CloseButton_Click"
+
                     Style="{StaticResource CustomButtonStyle}"/>
         </Grid>
     </Border>

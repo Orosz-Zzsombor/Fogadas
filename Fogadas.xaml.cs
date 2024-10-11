@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using FogadasMokuskodas;
 using MySql.Data.MySqlClient;
+
 
 namespace Fogadas
 {
@@ -34,7 +35,6 @@ namespace Fogadas
 
 
             UpdateOddsDisplay();
-
             UpdateEventStatistics();
         }
 
@@ -107,6 +107,7 @@ namespace Fogadas
 
         private void PlaceBet_Click(object sender, RoutedEventArgs e)
         {
+
             if (decimal.TryParse(BetAmountTextBox.Text, out decimal betAmount) && betAmount > 0)
             {
                 if (currentBettor.Balance < betAmount)
@@ -122,8 +123,11 @@ namespace Fogadas
                         conn.Open();
                         using (var transaction = conn.BeginTransaction())
                         {
+
+                         
                             var command = new MySqlCommand("INSERT INTO Bets (BetDate, Odds, Amount, BettorsID, EventID, Status) VALUES (NOW(), @odds, @amount, @bettorsId, @eventId, @status)", conn);
-                            command.Parameters.AddWithValue("@odds", currentOdds);
+                            command.Parameters.AddWithValue("@odds", selectedEvent.Odds); 
+
                             command.Parameters.AddWithValue("@amount", betAmount);
                             command.Parameters.AddWithValue("@bettorsId", currentBettor.BettorsID);
                             command.Parameters.AddWithValue("@eventId", selectedEvent.EventID);
@@ -131,7 +135,6 @@ namespace Fogadas
                             command.Transaction = transaction;
 
                             command.ExecuteNonQuery();
-
                             var updateBalanceCommand = new MySqlCommand("UPDATE Bettors SET Balance = Balance - @amount WHERE BettorsID = @bettorsId", conn);
                             updateBalanceCommand.Parameters.AddWithValue("@amount", betAmount);
                             updateBalanceCommand.Parameters.AddWithValue("@bettorsId", currentBettor.BettorsID);
@@ -141,6 +144,7 @@ namespace Fogadas
 
                             transaction.Commit();
                         }
+
 
                         currentBettor.Balance -= betAmount;
                         mainWindow.UpdateBalanceDisplay();
