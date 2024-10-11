@@ -100,9 +100,6 @@
 
     </Window.Resources>
 
-    <Border CornerRadius="20" Background="{StaticResource MainBackgroundBrush}">
-        <Grid>
-
     <Border CornerRadius="10" Background="{StaticResource MainBackgroundBrush}">
         <Grid>
             <Grid Width="300" Background="{StaticResource SidebarInactiveBrush}" HorizontalAlignment="Left">

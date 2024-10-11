@@ -12,6 +12,7 @@ namespace FogadasMokuskodas
         public string Username { get; set; }
         public string Email { get; set; }
         public decimal Balance { get; set; }
+        public DateTime JoinDate { get; set; }
         public string Role { get; set; }  
         public bool IsActive { get; set; }
         public static class SessionData

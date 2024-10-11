@@ -120,8 +120,17 @@ namespace Fogadas
                         SessionData.CurrentBettor = bettor;
 
                         MessageBox.Show($"Login successful! Welcome {bettor.Username}");
-                        MainWindow mainWindow = new MainWindow();
-                        mainWindow.Show();
+
+                        if (bettor.Role.Equals("admin", StringComparison.OrdinalIgnoreCase))
+                        {
+                            AdminPanel adminPanel = new AdminPanel(bettor);
+                            adminPanel.Show();
+                        }
+                        else
+                        {
+                            MainWindow mainWindow = new MainWindow();
+                            mainWindow.Show();
+                        }
                         this.Close();
                     }
                     else
@@ -135,6 +144,7 @@ namespace Fogadas
                 }
             }
         }
+
 
         private string ComputeSha256Hash(string rawData)
         {

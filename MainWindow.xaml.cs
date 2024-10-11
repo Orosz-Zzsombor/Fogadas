@@ -289,25 +289,14 @@ namespace Fogadas
                             LoadAndDisplayEvents();
                         };
 
-
                         closeButton.Click += (s, e) =>
                         {
-                            var result = MessageBox.Show("Was the event successful?", "Event Closure",
-                                MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                            var closeEventWindow = new CloseEventWindow(evt, eventService);
+                            bool? result = closeEventWindow.ShowDialog();
 
-                            if (result != MessageBoxResult.Cancel)
+                            if (result == true)
                             {
-                                eventService.CloseEvent(evt.EventID);
                                 LoadAndDisplayEvents();
-
-                                if (result == MessageBoxResult.Yes)
-                                {
-                                    MessageBox.Show("Event marked as successful.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                                }
-                                else if (result == MessageBoxResult.No)
-                                {
-                                    MessageBox.Show("Event marked as unsuccessful.", "Failure", MessageBoxButton.OK, MessageBoxImage.Warning);
-                                }
                             }
                             else
                             {
@@ -502,5 +491,6 @@ namespace Fogadas
             MessageBox.Show("Hamarosan");
         }
 
+ 
     }
 }
