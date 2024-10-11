@@ -36,7 +36,7 @@ INSERT INTO Events (EventName, EventDate, Category, Location,IsClosed) VALUES
 ('Champions League Final', '2025-05-25', 'Football', 'Wembley Stadium, London',1),
 ('NBA Finals Game 7', '2025-06-15', 'Basketball', 'Staples Center, Los Angeles',1),
 ('Wimbledon Finals', '2025-07-14', 'Tennis', 'All England Club, London',1),
-('Formula 1 Grand Prix', '2025-10-07', 'Motorsport', 'Monza Circuit, Italy',1);
+('Formula 1 Grand Prix', '2025-10-07', 'Motorsport', 'Monza Circuit, Italy',0);
 
 
 Szerepkörök és jogosultságok tervezete:
