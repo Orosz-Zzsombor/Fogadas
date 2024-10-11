@@ -1,7 +1,8 @@
-﻿<Window x:Class="Fogadas.ProfileWindow"
+<Window x:Class="Fogadas.ProfileWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Profile Settings" Height="600" Width="1200"
+
+        Title="Profile Settings" Height="700" Width="1200"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         Background="Transparent"
@@ -9,41 +10,8 @@
 
     <Window.Resources>
      
-        <Style x:Key="ScrollBarThumb" TargetType="{x:Type Thumb}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Thumb}">
-                        <Grid>
-                            <Border Background="#187873" CornerRadius="4"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
 
-        <Style TargetType="{x:Type ScrollBar}">
-            <Setter Property="Width" Value="8"/>
-            <Setter Property="Background" Value="#1E293B"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ScrollBar}">
-                        <Grid>
-                            <Track x:Name="PART_Track" IsDirectionReversed="True">
-                                <Track.DecreaseRepeatButton>
-                                    <RepeatButton Command="ScrollBar.PageUpCommand" Opacity="0"/>
-                                </Track.DecreaseRepeatButton>
-                                <Track.Thumb>
-                                    <Thumb Style="{StaticResource ScrollBarThumb}"/>
-                                </Track.Thumb>
-                                <Track.IncreaseRepeatButton>
-                                    <RepeatButton Command="ScrollBar.PageDownCommand" Opacity="0"/>
-                                </Track.IncreaseRepeatButton>
-                            </Track>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+      
 
         <Style x:Key="ModernTextBoxStyle" TargetType="TextBox">
             <Setter Property="Background" Value="#1E293B"/>
@@ -51,17 +19,18 @@
             <Setter Property="BorderBrush" Value="#38B2AC"/>
             <Setter Property="BorderThickness" Value="2"/>
             <Setter Property="Padding" Value="10,5"/>
-            <!-- Csökkentett Padding -->
+       
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="Height" Value="45"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <!-- Szöveg középre igazítás -->
+
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
-            <!-- Balra igazítás -->
+
             <Setter Property="VerticalScrollBarVisibility" Value="Hidden"/>
-            <!-- Görgetés kikapcsolása -->
+
             <Setter Property="HorizontalScrollBarVisibility" Value="Hidden"/>
-            <!-- Görgetés kikapcsolása -->
+
+
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TextBox">
@@ -177,19 +146,23 @@
                     <StackPanel Orientation="Horizontal" 
                               VerticalAlignment="Center" 
                               Margin="30,0">
-                        <TextBlock Text="Profile Settings"
-                                 FontSize="28"
-                                 Foreground="White"
-                                 FontWeight="Bold"/>
-                        <Border Background="#38B2AC" 
-                                CornerRadius="4" 
-                                Padding="8,4" 
-                                Margin="15,0,0,0">
-                            <TextBlock Text="BETA" 
-                                     Foreground="White"
-                                     FontSize="12" 
-                                     FontWeight="Bold"/>
-                        </Border>
+                        <TextBlock FontSize="35" FontWeight="ExtraBold" FontFamily="Segoe UI" VerticalAlignment="Center" FontStyle="Italic">
+                            <TextBlock.Foreground>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Color="#38B2AC" Offset="0"/>
+                                    <GradientStop Color="#157E79" Offset="1"/>
+                                </LinearGradientBrush>
+                            </TextBlock.Foreground>
+                       MaxStake
+                        </TextBlock>
+
+                        <TextBlock Text=" | " Foreground="#4A5568" FontSize="28" Margin="10,0"/>
+                        <TextBlock Text="Profile Settings" 
+             Foreground="White" 
+             FontSize="24" 
+             FontWeight="SemiBold"
+             VerticalAlignment="Center"/>
+
                     </StackPanel>
 
                     <Button Content="✖"
@@ -205,10 +178,8 @@
                 </Grid>
             </Border>
 
-            <ScrollViewer Grid.Row="1" 
-                         VerticalScrollBarVisibility="Auto"
-                         HorizontalScrollBarVisibility="Disabled">
-                <Border Background="#161B22" Margin="20" CornerRadius="12">
+         
+                <Border Background="#161B22" Margin="20" CornerRadius="12" Grid.Row="1">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="320"/>
@@ -224,7 +195,9 @@
                                         Background="#38B2AC" 
                                         CornerRadius="80"
                                         Margin="0,20,0,20">
-                                    <TextBlock Text="👤"
+
+                                <TextBlock Text="👤"
+
                                              FontSize="80"
                                              HorizontalAlignment="Center"
                                              VerticalAlignment="Center"/>
@@ -255,7 +228,9 @@
                             </StackPanel>
                         </Border>
 
-                        <StackPanel Grid.Column="1" Margin="0,20,20,20">
+
+                        <StackPanel Grid.Column="1" Margin="0,20,20,-1">
+
                             <TextBlock Text="Account Information"
                                      Style="{StaticResource SectionHeaderStyle}"/>
 
@@ -301,7 +276,8 @@
                         </StackPanel>
                     </Grid>
                 </Border>
-            </ScrollViewer>
+
+   
         </Grid>
     </Border>
 </Window>

@@ -147,13 +147,16 @@ namespace Fogadas
                 command.ExecuteNonQuery();
             }
         }
+
         public void CloseEvent(int eventId, bool wasSuccessful)
+
         {
             using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
 
-                // Step 1: Mark all bets for the event as inactive (Status = 0)
+
+             
                 using (var betCommand = connection.CreateCommand())
                 {
                     betCommand.CommandText = @"
@@ -252,6 +255,22 @@ namespace Fogadas
                     updateCommand.Parameters.AddWithValue("@BettorsID", bettorId);
                     updateCommand.ExecuteNonQuery();
                 }
+            }
+        }
+
+                var command = connection.CreateCommand();
+
+              
+                command.CommandText = @"
+            UPDATE Events
+            SET IsClosed = 0
+            WHERE EventID = @EventID";
+
+                command.Parameters.AddWithValue("@EventID", eventId);
+                int rowsAffected = command.ExecuteNonQuery(); // Execute the command
+
+               
+                Console.WriteLine($"CloseEvent executed: EventID = {eventId}, Rows affected: {rowsAffected}");
             }
         }
 

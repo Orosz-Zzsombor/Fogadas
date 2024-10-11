@@ -1,4 +1,4 @@
-﻿using FogadasMokuskodas;
+using FogadasMokuskodas;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -27,11 +27,13 @@ namespace Fogadas
                 try
                 {
                     conn.Open();
+
                     var command = new MySqlCommand(
                         @"SELECT b.BetsID, b.BetDate, b.Amount, b.Odds, b.Status, e.EventID, e.EventName
                   FROM Bets b
                   JOIN Events e ON b.EventID = e.EventID
                   WHERE b.BettorsID = @bettorsId", conn);
+
 
                     command.Parameters.AddWithValue("@bettorsId", currentBettor.BettorsID);
                     using (var reader = command.ExecuteReader())
@@ -40,6 +42,7 @@ namespace Fogadas
                         {
                             bets.Add(new Bet
                             {
+
                                 BetsID = reader.GetInt32(0),
                                 BetDate = reader.GetDateTime(1),
                                 Amount = reader.GetDecimal(2),
@@ -55,6 +58,7 @@ namespace Fogadas
                 {
                     MessageBox.Show("Database error loading bets: " + ex.Message);
                 }
+
                 catch (Exception ex)
                 {
                     MessageBox.Show("Error loading bets: " + ex.Message);
@@ -69,4 +73,6 @@ namespace Fogadas
             this.Close();
         }
     }
+
 }
+

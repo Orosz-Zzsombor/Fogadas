@@ -1,4 +1,5 @@
-﻿public class Bet
+
+public class Bet
 {
     public int BetsID { get; set; }
     public DateTime BetDate { get; set; }
@@ -17,3 +18,5 @@
     }
     public int BettorsID { get; set; }
 }
+
+

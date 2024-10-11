@@ -1,7 +1,9 @@
-﻿<Window x:Class="Fogadas.UpdateEventWindow"
+<Window x:Class="Fogadas.UpdateEventWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Update Event" Height="600" Width="1200" 
+
+        Title="Update Event" Height="700" Width="1200" 
+
         WindowStartupLocation="CenterScreen" 
         WindowStyle="None" 
         Background="Transparent" 
@@ -151,14 +153,18 @@
                                         Background="#38B2AC"
                                         FontSize="16"
                                         Padding="15,10"
-                                        Width="150"/>
+                                        Width="150"
+                                        Margin="20,0,0,0"
+                                        Height="40"/>
                                 <Button Content="Delete Event" Click="DeleteEventButton_Click"
                                         Style="{StaticResource ModernButtonStyle}"
                                         Background="#EF4444"
                                         FontSize="16"
                                         Padding="15,10"
                                         Width="150"
-                                        Margin="20,0,0,0"/>
+
+                                        Margin="20,0,0,0"
+                                        Height="40"/>
                             </StackPanel>
                         </StackPanel>
                     </ScrollViewer>
@@ -184,11 +190,8 @@
                             </StackPanel>
                         </Border>
 
-                        <TextBlock Text="Note: This preview updates in real-time as you modify the form." 
-                                   Foreground="#94A3B8" 
-                                   FontSize="12" 
-                                   TextWrapping="Wrap"
-                                   Margin="0,15,0,0"/>
+                      
+
                     </StackPanel>
                 </Border>
             </Grid>
