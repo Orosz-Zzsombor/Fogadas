@@ -15,6 +15,7 @@ namespace Fogadas
     {
         private string connectionString = "server=localhost;port=3306;database=FogadasDB;user=root;password=;";
 
+
         public AuthenticationWindow()
         {
             InitializeComponent();
@@ -64,10 +65,11 @@ namespace Fogadas
             LoginPanel.Visibility = Visibility.Collapsed;
             RegisterPanel.Visibility = Visibility.Visible;
 
-            LoginButton.Background = (Brush)FindResource("MainBackgroundBrush");
-            SignupButton.Background = (Brush)FindResource("SidebarInactiveBrush");
 
-            LoginButton.Margin = new Thickness(0, 0, -80, 20);
+            LoginButton.Background = (Brush)FindResource("SidebarInactiveBrush");
+            SignupButton.Background = (Brush)FindResource("MainBackgroundBrush");
+
+            LoginButton.Margin = new Thickness(0, 0, -60, 20);
             SignupButton.Margin = new Thickness(0, 0, -60, 0);
         }
 
@@ -76,11 +78,13 @@ namespace Fogadas
             RegisterPanel.Visibility = Visibility.Collapsed;
             LoginPanel.Visibility = Visibility.Visible;
 
-            LoginButton.Background = (Brush)FindResource("SidebarInactiveBrush");
-            SignupButton.Background = (Brush)FindResource("MainBackgroundBrush");
+
+            LoginButton.Background = (Brush)FindResource("MainBackgroundBrush");
+            SignupButton.Background = (Brush)FindResource("SidebarInactiveBrush");
 
             LoginButton.Margin = new Thickness(0, 0, -60, 20);
-            SignupButton.Margin = new Thickness(0, 0, -80, 0);
+            SignupButton.Margin = new Thickness(0, 0, -60, 0);
+
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
@@ -157,6 +161,7 @@ namespace Fogadas
                 MessageBox.Show("Username must be at least 5 characters long.");
                 return;
             }
+
 
             if (!IsValidPassword(password))
             {

@@ -6,6 +6,9 @@ using System.Windows;
 using System.Windows.Controls;
 using static FogadasMokuskodas.Bettor;
 using System.Windows.Media;
+using System.Windows.Input;
+using System.Windows.Media.Effects;
+
 
 namespace Fogadas
 {
@@ -114,6 +117,17 @@ namespace Fogadas
             DisplayEvents(events);
         }
 
+        private Dictionary<string, string> categoryIcons = new Dictionary<string, string>
+            {
+                { "Football", "⚽️" },  
+                { "Tennis", "🎾" },    
+                { "Basketball", "🏀" },  
+                { "Volleyball", "🏐" }  
+            };
+        private string GetCategoryIcon(string category)
+        {
+            return categoryIcons.TryGetValue(category, out var icon) ? icon : "ℹ️"; 
+        }
         private void DisplayEvents(List<Event> events)
         {
             EventsStackPanel.Children.Clear();
@@ -125,93 +139,148 @@ namespace Fogadas
 
                 Border eventBorder = new Border
                 {
-                    Background = new SolidColorBrush(evt.IsClosed == 0 ? Colors.Gray : (Color)ColorConverter.ConvertFromString("#2D3748")),
-                    CornerRadius = new CornerRadius(8),
-                    Padding = new Thickness(10),
-                    Margin = new Thickness(0, 5, 0, 5)
+                    Background = new SolidColorBrush(evt.IsClosed == 0
+                        ? (Color)ColorConverter.ConvertFromString("#1E1E1E")
+                        : (Color)ColorConverter.ConvertFromString("#161B22")),
+                    BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#30363D")),
+                    BorderThickness = new Thickness(1),
+                    CornerRadius = new CornerRadius(12),
+                    Padding = new Thickness(16),
+                    Margin = new Thickness(0, 6, 0, 6),
+                    Effect = new DropShadowEffect
+                    {
+                        ShadowDepth = 1,
+                        Opacity = 0.2,
+                        BlurRadius = 4,
+                        Color = Colors.Black
+                    }
                 };
 
-
                 Grid eventGrid = new Grid();
-                eventGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-                eventGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-                eventGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-                eventGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+                eventGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto }); 
+                eventGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }); 
+                eventGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto }); 
+                eventGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto }); 
 
+       
+                Border dateBorder = new Border
+                {
+                    Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#21262D")),
+                    CornerRadius = new CornerRadius(8),
+                    Padding = new Thickness(12, 8, 12, 8),
+                    Margin = new Thickness(0, 0, 16, 0)
+                };
 
                 TextBlock dateText = new TextBlock
                 {
                     Text = evt.EventDate.ToShortDateString(),
                     Foreground = Brushes.White,
                     FontSize = 14,
-                    FontWeight = FontWeights.SemiBold,
-                    VerticalAlignment = VerticalAlignment.Center,
-                    Margin = new Thickness(15, 0, 15, 0)
+                    FontWeight = FontWeights.Bold,
+                    VerticalAlignment = VerticalAlignment.Center
                 };
-                Grid.SetColumn(dateText, 0);
+
+                dateBorder.Child = dateText;
+                Grid.SetColumn(dateBorder, 0);
+
+              
                 StackPanel eventInfo = new StackPanel
                 {
                     Orientation = Orientation.Vertical,
-                    Margin = new Thickness(15, 0, 15, 0)
+                    Margin = new Thickness(0, 0, 16, 0)
                 };
 
-        
                 TextBlock nameText = new TextBlock
                 {
                     Text = evt.EventName,
                     Foreground = Brushes.White,
-                    FontSize = 14,
-                    FontWeight = FontWeights.SemiBold
+                    FontSize = 16,
+                    FontWeight = FontWeights.Bold,
+                    TextTrimming = TextTrimming.CharacterEllipsis
                 };
 
-         
                 TextBlock categoryText = new TextBlock
                 {
-                    Text = evt.Category,
-                    Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#9CA3AF")),
-                    FontSize = 12,
-                    Margin = new Thickness(0, 3, 0, 0)
-                };
-                TextBlock oddsText = new TextBlock
-                {
-                    Text = Convert.ToString(evt.Odds),
-                    Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#9CA3AF")),
-                    FontSize = 12,
-                    Margin = new Thickness(0, 3, 0, 0)
+                    Text = $"{GetCategoryIcon(evt.Category)} {evt.Category}",
+                    Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#8B949E")),
+                    FontSize = 13,
+                    Margin = new Thickness(0, 4, 0, 0)
                 };
 
                 eventInfo.Children.Add(nameText);
                 eventInfo.Children.Add(categoryText);
                 Grid.SetColumn(eventInfo, 1);
 
-                eventGrid.Children.Add(dateText);
-                eventGrid.Children.Add(eventInfo);
-                eventGrid.Children.Add(oddsText);
-
-
-                if (evt.IsClosed == 0) 
+              
+                Border oddsBorder = new Border
                 {
+                    Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2D333B")),
+                    CornerRadius = new CornerRadius(8),
+                    Padding = new Thickness(12, 8, 12, 8),
+                    Margin = new Thickness(0, 0, 16, 0),
+                    VerticalAlignment = VerticalAlignment.Center
+                };
+
+                TextBlock oddsText = new TextBlock
+                {
+                    Text = $"{evt.Odds:N2}x",
+                    Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#58A6FF")),
+                    FontSize = 14,
+                    FontWeight = FontWeights.Bold
+                };
+
+                oddsBorder.Child = oddsText;
+                Grid.SetColumn(oddsBorder, 2);
+
+                eventGrid.Children.Add(dateBorder);
+                eventGrid.Children.Add(eventInfo);
+                eventGrid.Children.Add(oddsBorder);
+
+                if (evt.IsClosed == 0)
+                {
+                    eventBorder.Opacity = 0.6;
 
                     foreach (UIElement element in eventGrid.Children)
                     {
                         if (element is Button button)
                         {
-                            button.IsEnabled = false; 
+
+                            button.IsEnabled = false;
                         }
                     }
                 }
-                else 
+                else
                 {
                     if (currentUserRole == "organizer")
                     {
-                    
+                        var buttonStack = new StackPanel
+                        {
+                            Orientation = Orientation.Horizontal,
+                            Margin = new Thickness(0, 0, 0, 0)
+                        };
+
+
                         Button modifyButton = new Button
                         {
                             Content = "MÓDOSÍTÁS",
                             Style = (Style)FindResource("EventButtonStyle"),
-                            Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4A5568"))
+                            Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2D333B")),
+                            Margin = new Thickness(0, 0, 8, 0),
+                            Padding = new Thickness(16, 8, 16, 8),
+                            FontSize = 13,
+                            FontWeight = FontWeights.SemiBold
                         };
-                        Grid.SetColumn(modifyButton, 2);
+
+                        Button closeButton = new Button
+                        {
+                            Content = "LEZÁRÁS",
+                            Style = (Style)FindResource("EventButtonStyle"),
+                            Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#21262D")),
+                            Padding = new Thickness(16, 8, 16, 8),
+                            FontSize = 13,
+                            FontWeight = FontWeights.SemiBold
+                        };
+
 
                         modifyButton.Click += (s, e) =>
                         {
@@ -220,40 +289,14 @@ namespace Fogadas
                             LoadAndDisplayEvents();
                         };
 
-                        eventGrid.Children.Add(modifyButton);
-
-                   
-                        Button closeButton = new Button
-                        {
-                            Content = "Lezárás",
-                            Style = (Style)FindResource("EventButtonStyle"),
-                            Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E53E3E"))
-                        };
-                        Grid.SetColumn(closeButton, 3);
-
                         closeButton.Click += (s, e) =>
                         {
-                            
-                            var result = MessageBox.Show("Was the event successful?", "Event Closure",
-                                MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                            var closeEventWindow = new CloseEventWindow(evt, eventService);
+                            bool? result = closeEventWindow.ShowDialog();
 
-                            if (result != MessageBoxResult.Cancel)
+                            if (result == true)
                             {
-                               
-                                eventService.CloseEvent(evt.EventID); 
-
-                            
                                 LoadAndDisplayEvents();
-
-                               
-                                if (result == MessageBoxResult.Yes)
-                                {
-                                    MessageBox.Show("Event marked as successful.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                                }
-                                else if (result == MessageBoxResult.No)
-                                {
-                                    MessageBox.Show("Event marked as unsuccessful.", "Failure", MessageBoxButton.OK, MessageBoxImage.Warning);
-                                }
                             }
                             else
                             {
@@ -261,32 +304,38 @@ namespace Fogadas
                             }
                         };
 
-                        eventGrid.Children.Add(closeButton);
+
+                        buttonStack.Children.Add(modifyButton);
+                        buttonStack.Children.Add(closeButton);
+                        Grid.SetColumn(buttonStack, 3);
+                        eventGrid.Children.Add(buttonStack);
                     }
 
                     if (currentUserRole == "user")
                     {
-                 
+
                         Button betButton = new Button
                         {
                             Content = "FOGADÁS",
-                            Style = (Style)FindResource("EventButtonStyle")
+                            Style = (Style)FindResource("EventButtonStyle"),
+                            Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#38B2AC")),
+                            Padding = new Thickness(20, 8, 20, 8),
+                            FontSize = 13,
+                            FontWeight = FontWeights.Bold
                         };
-                        Grid.SetColumn(betButton, 3);
 
                         betButton.Click += (s, e) => OpenEventDetails(evt);
+                        Grid.SetColumn(betButton, 3);
 
                         eventGrid.Children.Add(betButton);
                     }
                 }
 
                 eventBorder.Child = eventGrid;
-            
+
                 EventsStackPanel.Children.Add(eventBorder);
             }
         }
-
-
 
         private void OpenEventDetails(Event evt)
         {
@@ -355,8 +404,8 @@ namespace Fogadas
             }
         }
 
-       
 
+      
         private void CreateEventButton_Click(object sender, RoutedEventArgs e)
         {
             CreateEventWindow createEventWindow = new CreateEventWindow(eventService);
@@ -415,12 +464,32 @@ namespace Fogadas
         {
             if (currentBettor == null)
             {
-                MessageBox.Show("You must be logged in to view your bets.", "Access Denied", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+                MessageBox.Show("You must be logged in to view your profile.", "Access Denied", MessageBoxButton.OK, MessageBoxImage.Warning);
+
                 return;
             }
             var profileWindow = new ProfileWindow(currentBettor);
             profileWindow.UsernameUpdated += OnUsernameUpdated; 
             profileWindow.Show();
         }
+
+        private void btnWallet_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentBettor == null)
+            {
+                MessageBox.Show("You must be logged in to view your wallet.", "Access Denied", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            var wallet = new WalletWindow(currentBettor,this);
+
+            wallet.Show();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Hamarosan");
+        }
+
     }
 }
