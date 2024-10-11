@@ -13,7 +13,7 @@ namespace Fogadas
         private readonly Event selectedEvent;
         private readonly Bettor currentBettor;
         private readonly MainWindow mainWindow;
-        private decimal currentOdds = 2.5m; 
+        private decimal currentOdds ; 
 
         public EventDetailsWindow(Event evt, Bettor bettor, MainWindow mainWindow)
         {
@@ -31,10 +31,9 @@ namespace Fogadas
             EventDateTextBlock.Text = evt.EventDate.ToShortDateString();
             CategoryTextBlock.Text = evt.Category;
             LocationTextBlock.Text = evt.Location;
-            
+            OddsTextBlock.Text = $"Current Odds: {evt.Odds:F2}";
+            currentOdds = Convert.ToDecimal( evt.Odds);
 
-
-            UpdateOddsDisplay();
             UpdateEventStatistics();
         }
 
@@ -43,18 +42,14 @@ namespace Fogadas
             BetAmountTextBox.TextChanged += BetAmountTextBox_TextChanged;
         }
 
-        private void UpdateOddsDisplay()
-        {
- 
-            OddsTextBlock.Text = $"Current Odds: {currentOdds:F2}";
-        }
+
 
         private void UpdateEventStatistics()
         {
      
             TotalBetsTextBlock.Text = $"Total Bets: {GetTotalBetsCount()}";
-            AverageBetTextBlock.Text = $"Average Bet: ${GetAverageBetAmount():F2}";
-            HighestBetTextBlock.Text = $"Highest Bet: ${GetHighestBetAmount():F2}";
+            AverageBetTextBlock.Text = $"Average Bet: {GetAverageBetAmount():F2} Ft";
+            HighestBetTextBlock.Text = $"Highest Bet: {GetHighestBetAmount():F2} Ft";
         }
 
         private int GetTotalBetsCount()
@@ -97,11 +92,11 @@ namespace Fogadas
             if (decimal.TryParse(BetAmountTextBox.Text, out decimal betAmount))
             {
                 decimal potentialWinnings = betAmount * currentOdds;
-                PotentialWinningsTextBlock.Text = $"${potentialWinnings:F2}";
+                PotentialWinningsTextBlock.Text = $"{potentialWinnings:F2} Ft";
             }
             else
             {
-                PotentialWinningsTextBlock.Text = "$0.00";
+                PotentialWinningsTextBlock.Text = "0.00 Ft";
             }
         }
 

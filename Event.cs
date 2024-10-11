@@ -30,7 +30,7 @@ namespace Fogadas
         private float GenerateRandomOdds()
         {
             Random rand = new Random();
-            return (float)Math.Round(1.0 + rand.NextDouble() * 2.0, 2);  // Odds between 1.00 and 3.00
+            return (float)Math.Round(1.0 + rand.NextDouble() * 2.0, 2);  
         }
 
 
@@ -47,7 +47,7 @@ namespace Fogadas
                 {
                     conn.Open();
 
-                    // Include IsClosed in the SELECT statement
+
                     string query = "SELECT EventID, EventName, EventDate, Category, Location, IsClosed FROM Events WHERE EventDate >= CURDATE()";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
@@ -147,16 +147,13 @@ namespace Fogadas
                 command.ExecuteNonQuery();
             }
         }
-
         public void CloseEvent(int eventId, bool wasSuccessful)
-
         {
             using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
 
 
-             
                 using (var betCommand = connection.CreateCommand())
                 {
                     betCommand.CommandText = @"
@@ -167,7 +164,7 @@ namespace Fogadas
                     betCommand.ExecuteNonQuery();
                 }
 
-                // Step 2: Mark the event as closed (IsClosed = 0)
+
                 using (var eventCommand = connection.CreateCommand())
                 {
                     eventCommand.CommandText = @"
@@ -178,10 +175,10 @@ namespace Fogadas
                     eventCommand.ExecuteNonQuery();
                 }
 
-                // Step 3: If the event was successful, calculate payouts
+
                 if (wasSuccessful)
                 {
-                    // Fetch all bets associated with the event
+
                     var bets = new List<Bet>();
                     string query = "SELECT * FROM Bets WHERE EventID = @EventID";
                     using (var betQueryCommand = new MySqlCommand(query, connection))
@@ -204,21 +201,21 @@ namespace Fogadas
                         }
                     }
 
-                    // Step 4: Update each bettor's balance based on their winning bets
+               
                     foreach (var bet in bets)
                     {
-                        // Calculate payout
+                        
                         decimal payout = bet.Amount * bet.Odds;
 
-                        // Get current balance
+                       
                         decimal currentBalance = GetBettorBalance(bet.BettorsID);
 
-                        // Update bettor's balance by adding the payout
+                     
                         UpdateBettorBalance(connection, bet.BettorsID, currentBalance + payout);
                     }
                 }
 
-                // Debug log
+             
                 Console.WriteLine($"CloseEvent executed: EventID = {eventId}, Success = {wasSuccessful}");
             }
         }
@@ -237,17 +234,17 @@ namespace Fogadas
         }
         private void UpdateBettorBalance(MySqlConnection connection, int bettorId, decimal payout)
         {
-            // Get the current balance of the bettor
+          
             string balanceQuery = "SELECT Balance FROM Bettors WHERE BettorsID = @BettorsID";
             using (var balanceCommand = new MySqlCommand(balanceQuery, connection))
             {
                 balanceCommand.Parameters.AddWithValue("@BettorsID", bettorId);
                 decimal currentBalance = Convert.ToDecimal(balanceCommand.ExecuteScalar());
 
-                // Update the balance
+               
                 decimal newBalance = currentBalance + payout;
 
-                // Execute update command
+                
                 string updateQuery = "UPDATE Bettors SET Balance = @Balance WHERE BettorsID = @BettorsID";
                 using (var updateCommand = new MySqlCommand(updateQuery, connection))
                 {
@@ -257,22 +254,43 @@ namespace Fogadas
                 }
             }
         }
+        public List<Bet> GetBetsForEvent(int eventId)
+        {
+            List<Bet> bets = new List<Bet>();
 
-                var command = connection.CreateCommand();
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "SELECT * FROM Bets WHERE EventID = @EventID";
+                using (var command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@EventID", eventId);
 
-              
-                command.CommandText = @"
-            UPDATE Events
-            SET IsClosed = 0
-            WHERE EventID = @EventID";
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Bet bet = new Bet
+                            {
+                                BetsID = reader.GetInt32("BetsID"),
+                                BetDate = reader.GetDateTime("BetDate"),
+                                Amount = reader.GetDecimal("Amount"),
+                                Odds = reader.GetDecimal("Odds"),
+                                Status = reader.GetInt32("Status"),
+                                EventID = reader.GetInt32("EventID"),
+                                BettorsID = reader.GetInt32("BettorsID"),
+                                EventName = "" 
+                            };
 
-                command.Parameters.AddWithValue("@EventID", eventId);
-                int rowsAffected = command.ExecuteNonQuery(); // Execute the command
-
-               
-                Console.WriteLine($"CloseEvent executed: EventID = {eventId}, Rows affected: {rowsAffected}");
+                            bets.Add(bet);
+                        }
+                    }
+                }
             }
+
+            return bets;
         }
+
 
 
 

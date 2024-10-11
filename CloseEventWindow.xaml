@@ -3,16 +3,68 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FogadasMokuskodas"
         mc:Ignorable="d"
-        Title="CloseEventWindow" Height="450" Width="800">
-    <Grid>
-        <StackPanel Margin="20">
-            <TextBlock Text="Was the event successful?" FontSize="16" FontWeight="Bold" Margin="0,0,0,20" />
-            <Button Name="btnSuccess" Content="Yes" Width="100" Margin="0,0,0,10" Click="btnSuccess_Click"/>
-            <Button Name="btnFailure" Content="No" Width="100" Margin="0,0,0,10" Click="btnFailure_Click"/>
-            <Button Name="btnCancel" Content="Cancel" Width="100" Click="btnCancel_Click"/>
-        </StackPanel>
+        Title="CloseEventWindow" 
+        Height="300" 
+        Width="500" 
+        WindowStartupLocation="CenterScreen"
+        Background="Transparent"
+        WindowStyle="None"
+        AllowsTransparency="True">
 
-    </Grid>
+    <Window.Resources>
+        <!-- Reuse the styles from MainWindow -->
+        <Style x:Key="ModernButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#2D3748"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="6" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#4A5568"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Border Background="#0F172A" BorderBrush="#1E293B" BorderThickness="1" CornerRadius="12" Padding="20">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Title Section -->
+            <TextBlock Text="Event Closure" FontSize="24" FontWeight="Bold" Foreground="White" Grid.Row="0" Margin="0,0,0,20" HorizontalAlignment="Center"/>
+
+            <!-- Content Section -->
+            <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                <TextBlock Text="Was the event successful?" FontSize="16" FontWeight="SemiBold" Foreground="#94A3B8" Margin="0,0,0,10" HorizontalAlignment="Center"/>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                    <Button Name="btnSuccess" Content="Yes" Style="{StaticResource ModernButtonStyle}" Width="100" Click="btnSuccess_Click"/>
+                    <Button Name="btnFailure" Content="No" Style="{StaticResource ModernButtonStyle}" Width="100" Click="btnFailure_Click"/>
+                </StackPanel>
+
+                <Button Name="btnCancel" Content="Cancel" Style="{StaticResource ModernButtonStyle}" Width="100" Click="btnCancel_Click" HorizontalAlignment="Center" Margin="0,20,0,0"/>
+            </StackPanel>
+        </Grid>
+    </Border>
 </Window>

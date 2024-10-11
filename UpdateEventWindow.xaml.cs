@@ -50,15 +50,27 @@ namespace Fogadas
         private void DeleteEventButton_Click(object sender, RoutedEventArgs e)
         {
           
-            MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this event?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (result == MessageBoxResult.Yes)
+            var betsForEvent = eventService.GetBetsForEvent(eventToUpdate.EventID);
+
+         
+            if (betsForEvent != null && betsForEvent.Count > 0)
+            {
+                MessageBox.Show("This event cannot be deleted because there are bets placed on it.", "Delete Denied", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else
             {
                
-                eventService.DeleteEvent(eventToUpdate.EventID);
-                MessageBox.Show("Event deleted successfully!");
-                this.Close(); 
+                MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this event?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.Yes)
+                {
+                  
+                    eventService.DeleteEvent(eventToUpdate.EventID);
+                    MessageBox.Show("Event deleted successfully!");
+                    this.Close();
+                }
             }
         }
+
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {

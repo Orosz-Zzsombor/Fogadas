@@ -214,6 +214,7 @@
 
 
                         <Border Grid.Column="1"
+                                Grid.ColumnSpan="2"
                                 Background="#1E293B" 
                                 CornerRadius="8" 
                                 Margin="5,0,0,0" 
