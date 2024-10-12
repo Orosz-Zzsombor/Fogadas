@@ -172,7 +172,6 @@ namespace Fogadas
                 return;
             }
 
-
             if (!IsValidPassword(password))
             {
                 MessageBox.Show("Password must be at least 5 characters long.");
@@ -204,14 +203,31 @@ namespace Fogadas
                 try
                 {
                     conn.Open();
-                    string query = "INSERT INTO Bettors (Username, Password, Balance, Email, JoinDate, IsActive, Role) VALUES (@username, @password, 0, @Email, CURDATE(), 1, 'user')";
+                    string query = "INSERT INTO Bettors (Username, Password, Balance, Email, JoinDate, IsActive, Role) VALUES (@username, @password, 0, @Email, CURDATE(), 1, 'user'); SELECT LAST_INSERT_ID();";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@username", username);
                     cmd.Parameters.AddWithValue("@password", hashedPassword);
                     cmd.Parameters.AddWithValue("@Email", email);
 
-                    cmd.ExecuteNonQuery();
+                    int newBettorId = Convert.ToInt32(cmd.ExecuteScalar());
+
+                    Bettor newBettor = new Bettor
+                    {
+                        BettorsID = newBettorId,
+                        Username = username,
+                        Email = email,
+                        Balance = 0,
+                        Role = "user",
+                        IsActive = true
+                    };
+
+                    SessionData.CurrentBettor = newBettor;
+
                     MessageBox.Show("Registration successful!");
+
+                    MainWindow mainWindow = new MainWindow();
+                    mainWindow.Show();
+                    this.Close();
                 }
                 catch (Exception ex)
                 {
@@ -220,8 +236,18 @@ namespace Fogadas
             }
         }
 
-       
 
+        public void SwitchToRegister()
+        {
+            LoginPanel.Visibility = Visibility.Collapsed;
+            RegisterPanel.Visibility = Visibility.Visible;
+
+            LoginButton.Background = (Brush)FindResource("SidebarInactiveBrush");
+            SignupButton.Background = (Brush)FindResource("MainBackgroundBrush");
+
+            LoginButton.Margin = new Thickness(0, 0, -60, 20);
+            SignupButton.Margin = new Thickness(0, 0, -60, 0);
+        }
         private bool IsUsernameTaken(string username)
         {
             using (MySqlConnection conn = new MySqlConnection(connectionString))

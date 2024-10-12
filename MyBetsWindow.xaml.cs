@@ -47,9 +47,9 @@ namespace Fogadas
                                 BetDate = reader.GetDateTime(1),
                                 Amount = reader.GetDecimal(2),
                                 Odds = reader.GetDecimal(3),
-                                Status = reader.GetInt32(4), // Read the integer status
-                                EventID = reader.GetInt32(5), // Read the EventID
-                                EventName = reader.GetString(6) // Get the EventName from the database
+                                Status = reader.GetInt32(4),
+                                EventID = reader.GetInt32(5), 
+                                EventName = reader.GetString(6) 
                             });
                         }
                     }
