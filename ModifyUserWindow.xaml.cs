@@ -10,9 +10,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-
 using System.Security.Cryptography;
-
 using System.Windows.Shapes;
 
 namespace FogadasMokuskodas
@@ -37,7 +35,6 @@ namespace FogadasMokuskodas
             InitializeComponent();
             DataContext = ModifiedUser;
         }
-
         private string ComputeSha256Hash(string rawData)
         {
             using (SHA256 sha256Hash = SHA256.Create())
@@ -62,12 +59,9 @@ namespace FogadasMokuskodas
                 return;
             }
 
-     
+
             ModifiedUser.Password = ComputeSha256Hash(newPassword);
 
-
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
             DialogResult = true;
             Close();
         }
@@ -82,6 +76,5 @@ namespace FogadasMokuskodas
         {
             this.Close();
         }
-
     }
 }

@@ -119,11 +119,6 @@
                     </Grid>
                 </StackPanel>
             </Grid>
-
-
-
-
-
             <Button Grid.Row="3" 
                     Content="Create Event" 
                     Click="CreateEventButton_Click"

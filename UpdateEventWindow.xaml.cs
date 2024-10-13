@@ -27,10 +27,6 @@ namespace Fogadas
             PreviewEventLocation.Text = $"Location: {eventToUpdate.Location}";
             PreviewEventOdds.Text = $"Odds: {eventToUpdate.Odds.ToString()}"; 
             
-             
-
-           
-  
         }
 
         private void UpdateEventButton_Click(object sender, RoutedEventArgs e)
@@ -79,18 +75,7 @@ namespace Fogadas
                 }
 
             }
-            else
-            {
-               
-                MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this event?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-                if (result == MessageBoxResult.Yes)
-                {
-                  
-                    eventService.DeleteEvent(eventToUpdate.EventID);
-                    MessageBox.Show("Event deleted successfully!");
-                    this.Close();
-                }
-            }
+         
         }
 
 
@@ -98,11 +83,6 @@ namespace Fogadas
         {
             this.Close();
         }
-
-
-        private void btnClose_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
+ 
     }
 }

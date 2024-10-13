@@ -23,7 +23,7 @@ namespace FogadasMokuskodas
             UserInfoTextBlock.Text = $"Betting History for {user.Username}";
 
             var betHistory = new List<BetHistoryItem>();
-            int totalBets = 0; // Initialize the total bets count
+            int totalBets = 0; 
 
             using (var conn = new MySqlConnection(connectionString))
             {
@@ -57,8 +57,6 @@ namespace FogadasMokuskodas
 
            
             BetHistoryDataGrid.ItemsSource = betHistory;
-
-          
             TotalBetsTextBlock.Text = $"Total Bets: {totalBets}";
         }
 

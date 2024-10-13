@@ -268,39 +268,7 @@ namespace FogadasMokuskodas
         }
 
 
-        private void DisplayUsers(List<Bettor> users)
-        {
-            UsersSection.Children.Clear();
-
-            foreach (var user in users)
-            {
-                var userPanel = new StackPanel
-                {
-                    Orientation = Orientation.Horizontal,
-                    Margin = new Thickness(0, 0, 0, 10)
-                };
-
-                var userInfo = new TextBlock
-                {
-                    Text = $"{user.Username} - {user.Email} - Balance: ${user.Balance:N2}",
-                    Foreground = Brushes.White,
-                    VerticalAlignment = VerticalAlignment.Center,
-                    Margin = new Thickness(0, 0, 10, 0)
-                };
-
-                var modifyButton = new Button
-                {
-                    Content = "Modify",
-                    Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#38B2AC")),
-                    Foreground = Brushes.White,
-                    Padding = new Thickness(10, 5, 10, 5),
-                    Margin = new Thickness(0, 0, 10, 0)
-                };
-         
-              
-            }
-        }
-
+      
 
         private void ModifyUser_Click(object sender, RoutedEventArgs e)
         {

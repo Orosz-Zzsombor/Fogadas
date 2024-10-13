@@ -399,8 +399,8 @@
                                                             <TextBlock Text="{Binding Email}" 
                                            Foreground="#94A3B8" 
                                            FontSize="14"/>
-                                                            <TextBlock Text="{Binding Balance, StringFormat='Balance: {0:C}'}" 
-                                           Foreground="#94A3B8" 
+                                                            <TextBlock Text="{Binding Balance, StringFormat='Balance: {0} Ft'}" 
+                                                            Foreground="#94A3B8" 
                                            FontSize="14"/>
                                                         </StackPanel>
 
