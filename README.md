@@ -133,7 +133,8 @@ VALUES
 ('alany4', 'e4af01de22a4fc2cf405fb9fec12dfe84498a4dd67423364485f4c74dcf00bd3', 'alany4@gmail.com', 0, '2022-07-13', 1, 'user');
 ('alany5', 'e4af01de22a4fc2cf405fb9fec12dfe84498a4dd67423364485f4c74dcf00bd3', 'alany5@gmail.com', 0, '2023-09-13', 1, 'user');
 
---A Jelszó megegyezik a felhasználó nevével.
+-- A tesztadatok jelszava megegyezik a felhasználónevükkel,
+a usereknek "alany" a jelszava.
 ```
 
 Használat
