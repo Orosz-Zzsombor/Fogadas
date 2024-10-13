@@ -193,7 +193,7 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn Header="Event Name" Width="300">
-                            <!-- New column for Event Name -->
+                            
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding EventName}" 

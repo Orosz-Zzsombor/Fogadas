@@ -256,37 +256,20 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="489*"/>
                             <ColumnDefinition Width="386*"/>
-                            <ColumnDefinition Width="103*"/>
+                            
                         </Grid.ColumnDefinitions>
 
               
-                        <Border Background="#1E293B" 
+                        <Border Background="#1E293B"   Grid.ColumnSpan="2"
                                 CornerRadius="8" 
                                 Margin="0,0,5,0" 
-                                Padding="50">
+                                Padding="0">
                             <StackPanel>
-                                <TextBlock Text="Advertisement" 
-                                         Foreground="White" 
-                                         FontSize="20" 
-                                         FontWeight="Bold" 
-                                         Margin="0,0,0,15"/>
+                                     <Image Source="Images/Background.jpg" 
+                                    Stretch="Fill" 
+                                    HorizontalAlignment="Stretch" Height="176" />
                             </StackPanel>
-                        </Border>
-
-
-                        <Border Grid.Column="1"
-                                Grid.ColumnSpan="2"
-                                Background="#1E293B" 
-                                CornerRadius="8" 
-                                Margin="5,0,0,0" 
-                                Padding="50">
-                            <StackPanel>
-                                <TextBlock Text="Advertisement" 
-                                         Foreground="White" 
-                                         FontSize="20" 
-                                         FontWeight="Bold" 
-                                         Margin="0,0,0,15"/>
-                            </StackPanel>
+                          
                         </Border>
                     </Grid>
 
@@ -298,11 +281,6 @@
                             Padding="15"
                             >
                         <StackPanel>
-                            <TextBlock Text="Controls" 
-                                     Foreground="White" 
-                                     FontSize="22" 
-                                     FontWeight="Bold" 
-                                     Margin="0,0,0,15"/>
 
                             <Grid>
                                 <Grid.ColumnDefinitions>
