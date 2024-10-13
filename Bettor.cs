@@ -16,6 +16,7 @@ namespace FogadasMokuskodas
         public string Role { get; set; }  
         public int IsActive { get; set; }
         public string Password { get; set; }
+
         public static class SessionData
         {
             public static Bettor CurrentBettor { get; set; }

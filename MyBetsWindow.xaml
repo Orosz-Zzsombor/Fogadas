@@ -42,7 +42,9 @@
             <Setter Property="Height" Value="50"/>
             <Setter Property="Background" Value="#1E293B"/>
             <Setter Property="Margin" Value="0,5"/>
+
             <Setter Property="FontSize" Value="17"/>
+
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListViewItem">
@@ -155,7 +157,7 @@
                                  Margin="0,5,0,0"/>
                     </StackPanel>
 
-         
+
                 </Grid>
             </Border>
 

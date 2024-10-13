@@ -11,6 +11,7 @@ using Fogadas;
 using System.Transactions;
 using static FogadasMokuskodas.Bettor;
 
+
 namespace FogadasMokuskodas
 {
     public partial class AdminPanel : Window
@@ -109,6 +110,7 @@ namespace FogadasMokuskodas
                 }
             }
         }
+
         private void LogOut_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult result = MessageBox.Show(
@@ -127,11 +129,14 @@ namespace FogadasMokuskodas
             }
 
         }
+
         private void UpdateDashboardUI(DashboardStatistics stats)
         {
             txtTotalUsers.Text = stats.TotalUsers.ToString("N0");
             txtActiveEvents.Text = stats.ActiveEvents.ToString();
+
             txtTotalRevenue.Text = $"{stats.TotalRevenue:N0} Ft";
+
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
@@ -199,6 +204,7 @@ namespace FogadasMokuskodas
 
         private void LoadAndDisplayUsers()
         {
+
             users.Clear();
 
             using (var conn = new MySqlConnection(connectionString))
@@ -223,6 +229,7 @@ namespace FogadasMokuskodas
 
             UsersItemsControl.ItemsSource = users; 
         }
+
 
 
         private List<Bettor> GetUsers(string searchTerm = "", string sortBy = "Username")
@@ -260,7 +267,41 @@ namespace FogadasMokuskodas
             }
         }
 
-    
+
+        private void DisplayUsers(List<Bettor> users)
+        {
+            UsersSection.Children.Clear();
+
+            foreach (var user in users)
+            {
+                var userPanel = new StackPanel
+                {
+                    Orientation = Orientation.Horizontal,
+                    Margin = new Thickness(0, 0, 0, 10)
+                };
+
+                var userInfo = new TextBlock
+                {
+                    Text = $"{user.Username} - {user.Email} - Balance: ${user.Balance:N2}",
+                    Foreground = Brushes.White,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Margin = new Thickness(0, 0, 10, 0)
+                };
+
+                var modifyButton = new Button
+                {
+                    Content = "Modify",
+                    Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#38B2AC")),
+                    Foreground = Brushes.White,
+                    Padding = new Thickness(10, 5, 10, 5),
+                    Margin = new Thickness(0, 0, 10, 0)
+                };
+         
+              
+            }
+        }
+
+
         private void ModifyUser_Click(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
@@ -278,12 +319,15 @@ namespace FogadasMokuskodas
             using (var conn = new MySqlConnection(connectionString))
             {
                 conn.Open();
+
                 using (var cmd = new MySqlCommand("UPDATE Bettors SET Username = @username, Email = @email, Balance = @balance, Password = @password WHERE BettorsID = @userId", conn))
+
                 {
                     cmd.Parameters.AddWithValue("@username", user.Username);
                     cmd.Parameters.AddWithValue("@email", user.Email);
                     cmd.Parameters.AddWithValue("@balance", user.Balance);
                     cmd.Parameters.AddWithValue("@password", user.Password); 
+
                     cmd.Parameters.AddWithValue("@userId", user.BettorsID);
                     cmd.ExecuteNonQuery();
                 }
@@ -313,6 +357,7 @@ namespace FogadasMokuskodas
 
                
                     users.Remove(user); 
+
 
                     MessageBox.Show($"User {user.Username} and all related bets have been successfully deleted.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
@@ -375,6 +420,7 @@ namespace FogadasMokuskodas
                 }
             }
         }
+
         private void BanUnbanUser_Click(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
@@ -406,6 +452,7 @@ namespace FogadasMokuskodas
             var historyWindow = new UserHistoryWindow(connectionString, user);
             historyWindow.ShowDialog();
         }
+
 
     }
 

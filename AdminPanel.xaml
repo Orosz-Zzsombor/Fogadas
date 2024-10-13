@@ -30,7 +30,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                              
+
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -84,6 +84,7 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
         <Style x:Key="ScrollBarThumb" TargetType="{x:Type Thumb}">
             <Setter Property="OverridesDefaultStyle" Value="true"/>
             <Setter Property="IsTabStop" Value="false"/>
@@ -147,6 +148,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
     </Window.Resources>
 
     <Border Background="#0F172A" BorderBrush="#1E293B" BorderThickness="1" CornerRadius="12">
@@ -225,6 +227,7 @@
                         <Button Content="⚙️  Settings" Style="{StaticResource MenuButtonStyle}" Margin="0,350,0,0"/>
                         <Button x:Name="LogOut" Content="❌  Log Out" Style="{StaticResource MenuButtonStyle}" 
                                 Foreground="#EF4444" Click="LogOut_Click"/>
+
                     </StackPanel>
                 </Border>
 
@@ -309,7 +312,6 @@
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
 
-                        
                             <Grid x:Name="OverviewSection" Visibility="Visible">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
@@ -331,6 +333,7 @@
                 
                                 </lvc:CartesianChart>
                             </Grid>
+
 
 
                             <Grid x:Name="UsersSection" Grid.Row="1" Visibility="Collapsed">
@@ -470,6 +473,7 @@
 
                                 </ScrollViewer>
                             </Grid>
+
 
                         </Grid>
                     </Border>
