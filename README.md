@@ -76,11 +76,21 @@ Példa adatok beillesztésére
 Az alábbi SQL kóddal például hozzáadhatsz alapértelmezett felhasználókat (adminisztrátor, szervező):
 
 ```sql
+INSERT INTO Events (EventName, EventDate, Category, Location,IsClosed) VALUES
+('Champions League Final', '2025-05-25', 'Football', 'Wembley Stadium, London',1),
+('NBA Finals Game 7', '2025-06-15', 'Basketball', 'Staples Center, Los Angeles',1),
+('Wimbledon Finals', '2025-07-14', 'Tennis', 'All England Club, London',1),
+('Formula 1 Grand Prix', '2025-10-07', 'Motorsport', 'Monza Circuit, Italy',0);
+```
+
+```sql
 INSERT INTO Bettors (Username, Password, Email, Balance, JoinDate, IsActive, Role) 
 VALUES 
 ('organizer', '0bf7ab78559a04941f158a11b00afaf6a8b22f90cff387edbc8e1d7a9b99cca0', 'organizer@gmail.com', 0, '2024-10-13', 1, 'organizer'),
 ('admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'admin@gmail.com', 0, '2024-10-13', 1, 'admin'),
 ('alany', 'e4af01de22a4fc2cf405fb9fec12dfe84498a4dd67423364485f4c74dcf00bd3', 'alany@gmail.com', 0, '2024-10-13', 1, 'user');
+
+--A Jelszó megegyezik a felhasználó nevével.
 ```
 
 Használat
