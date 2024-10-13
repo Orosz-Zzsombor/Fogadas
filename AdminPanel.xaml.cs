@@ -1,23 +1,20 @@
-﻿using FogadasMokuskodas;
-using MySql.Data.MySqlClient;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Collections.ObjectModel;
-using System.Data;
-using Fogadas;
+using MySql.Data.MySqlClient;
 using LiveCharts;
 using LiveCharts.Wpf;
+using Fogadas;
+using System.Transactions;
 
 namespace FogadasMokuskodas
 {
     public partial class AdminPanel : Window
     {
         private readonly string connectionString = "Server=localhost;Database=FogadasDB;Uid=root;Pwd=;";
-        private readonly AdminService adminService;
         private Bettor currentAdmin;
         private ObservableCollection<Bettor> users;
         private ObservableCollection<Event> events;
@@ -28,13 +25,15 @@ namespace FogadasMokuskodas
         public AdminPanel(Bettor admin)
         {
             InitializeComponent();
-            adminService = new AdminService(connectionString);
             currentAdmin = admin;
             InitializeCollections();
             RegistrationSeries = new SeriesCollection();
             MonthLabels = new ObservableCollection<string>();
             DataContext = this;
             LoadDashboardData();
+
+
+            txtTotalUsers.MouseLeftButtonDown += TxtTotalUsers_MouseLeftButtonDown;
         }
 
         private void InitializeCollections()
@@ -43,18 +42,26 @@ namespace FogadasMokuskodas
             events = new ObservableCollection<Event>();
             transactions = new ObservableCollection<Bet>();
         }
+        private void OverviewButton_Click(object sender, RoutedEventArgs e)
+        {
+            OverviewSection.Visibility = Visibility.Visible;
+            UsersSection.Visibility = Visibility.Collapsed;
+        }
 
+        private void UsersButton_Click(object sender, RoutedEventArgs e)
+        {
+            OverviewSection.Visibility = Visibility.Collapsed;
+            UsersSection.Visibility = Visibility.Visible;
+            LoadAndDisplayUsers();
+        }
 
-        private async void LoadDashboardData()
+        private void LoadDashboardData()
         {
             try
             {
-             
-                var stats = await adminService.GetDashboardStatistics();
+                var stats = GetDashboardStatistics();
                 UpdateDashboardUI(stats);
-
-           
-                await LoadRegistrationDataAsync();
+                LoadRegistrationData();
             }
             catch (Exception ex)
             {
@@ -62,12 +69,11 @@ namespace FogadasMokuskodas
             }
         }
 
-
-        private async Task LoadRegistrationDataAsync()
+        private void LoadRegistrationData()
         {
             using (var conn = new MySqlConnection(connectionString))
             {
-                await conn.OpenAsync();
+                conn.Open();
 
                 string query = @"
                     SELECT 
@@ -79,32 +85,31 @@ namespace FogadasMokuskodas
 
                 using (var cmd = new MySqlCommand(query, conn))
                 {
-                    using (var reader = await cmd.ExecuteReaderAsync())
+                    using (var reader = cmd.ExecuteReader())
                     {
                         var values = new ChartValues<int>();
-                        while (await reader.ReadAsync())
+                        while (reader.Read())
                         {
                             string month = reader.GetString("Month");
                             int registrationCount = reader.GetInt32("RegistrationCount");
 
-                            MonthLabels.Add(month); 
-                            values.Add(registrationCount); 
+                            MonthLabels.Add(month);
+                            values.Add(registrationCount);
                         }
 
-     
                         RegistrationSeries.Add(new LineSeries
                         {
                             Title = "Registrations",
                             Values = values
                         });
 
-                      
                         RegistrationsChart.Series = RegistrationSeries;
                     }
                 }
             }
         }
-            private void UpdateDashboardUI(DashboardStatistics stats)
+
+        private void UpdateDashboardUI(DashboardStatistics stats)
         {
             txtTotalUsers.Text = stats.TotalUsers.ToString("N0");
             txtActiveEvents.Text = stats.ActiveEvents.ToString();
@@ -117,23 +122,14 @@ namespace FogadasMokuskodas
             auth.Show();
             this.Close();
         }
-    }
 
-    public class AdminService
-    {
-        private readonly string connectionString;
-
-        public AdminService(string connString)
-        {
-            connectionString = connString;
-        }
-
-        public async Task<DashboardStatistics> GetDashboardStatistics()
+        private DashboardStatistics GetDashboardStatistics()
         {
             using (var conn = new MySqlConnection(connectionString))
             {
-                await conn.OpenAsync();
+                conn.Open();
                 var stats = new DashboardStatistics();
+
                 using (var cmd = new MySqlCommand(@"
                     SELECT 
                         COUNT(*) as TotalUsers,
@@ -141,9 +137,9 @@ namespace FogadasMokuskodas
                     FROM Bettors
                     WHERE Role = 'user' AND IsActive = 1", conn))
                 {
-                    using (var reader = await cmd.ExecuteReaderAsync())
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        if (await reader.ReadAsync())
+                        if (reader.Read())
                         {
                             stats.TotalUsers = reader.GetInt32("TotalUsers");
                         }
@@ -156,9 +152,9 @@ namespace FogadasMokuskodas
                     FROM Events
                     WHERE EventDate >= CURDATE()", conn))
                 {
-                    using (var reader = await cmd.ExecuteReaderAsync())
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        if (await reader.ReadAsync())
+                        if (reader.Read())
                         {
                             stats.ActiveEvents = reader.GetInt32("ActiveEvents");
                         }
@@ -170,7 +166,7 @@ namespace FogadasMokuskodas
                     FROM Bets
                     WHERE BetDate >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)", conn))
                 {
-                    var result = await cmd.ExecuteScalarAsync();
+                    var result = cmd.ExecuteScalar();
                     stats.TotalRevenue = result != DBNull.Value ? Convert.ToDecimal(result) : 0;
                 }
 
@@ -178,15 +174,33 @@ namespace FogadasMokuskodas
             }
         }
 
-        public async Task<List<Bettor>> GetUsers(string searchTerm = "", string sortBy = "Username")
+        private void TxtTotalUsers_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            LoadAndDisplayUsers();
+        }
+
+        private void LoadAndDisplayUsers()
+        {
+            try
+            {
+                users = new ObservableCollection<Bettor>(GetUsers());
+                UsersItemsControl.ItemsSource = users;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading users: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private List<Bettor> GetUsers(string searchTerm = "", string sortBy = "Username")
         {
             using (var conn = new MySqlConnection(connectionString))
             {
-                await conn.OpenAsync();
+                conn.Open();
                 var users = new List<Bettor>();
 
                 var query = @"
-                    SELECT BettorsID, Username, Email, Balance, Role, IsActive
+                    SELECT BettorsID, Username, Email, Balance
                     FROM Bettors
                     WHERE (@searchTerm = '' OR Username LIKE @searchTerm OR Email LIKE @searchTerm)
                     ORDER BY " + sortBy;
@@ -194,18 +208,16 @@ namespace FogadasMokuskodas
                 using (var cmd = new MySqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@searchTerm", $"%{searchTerm}%");
-                    using (var reader = await cmd.ExecuteReaderAsync())
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        while (await reader.ReadAsync())
+                        while (reader.Read())
                         {
                             users.Add(new Bettor
                             {
                                 BettorsID = reader.GetInt32("BettorsID"),
                                 Username = reader.GetString("Username"),
                                 Email = reader.GetString("Email"),
-                                Balance = reader.GetDecimal("Balance"),
-                                Role = reader.GetString("Role"),
-                                IsActive = reader.GetBoolean("IsActive")
+                                Balance = reader.GetDecimal("Balance")
                             });
                         }
                     }
@@ -215,66 +227,150 @@ namespace FogadasMokuskodas
             }
         }
 
-        public async Task<bool> UpdateUserStatus(int userId, bool isActive)
+        private void DisplayUsers(List<Bettor> users)
+        {
+            UsersSection.Children.Clear();
+
+            foreach (var user in users)
+            {
+                var userPanel = new StackPanel
+                {
+                    Orientation = Orientation.Horizontal,
+                    Margin = new Thickness(0, 0, 0, 10)
+                };
+
+                var userInfo = new TextBlock
+                {
+                    Text = $"{user.Username} - {user.Email} - Balance: ${user.Balance:N2}",
+                    Foreground = Brushes.White,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Margin = new Thickness(0, 0, 10, 0)
+                };
+
+                var modifyButton = new Button
+                {
+                    Content = "Modify",
+                    Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#38B2AC")),
+                    Foreground = Brushes.White,
+                    Padding = new Thickness(10, 5, 10, 5),
+                    Margin = new Thickness(0, 0, 10, 0)
+                };
+         
+              
+            }
+        }
+
+        private void ModifyUser_Click(object sender, RoutedEventArgs e)
+        {
+            var button = (Button)sender;
+            var user = (Bettor)button.DataContext;
+
+            var modifyWindow = new ModifyUserWindow(user);
+            if (modifyWindow.ShowDialog() == true)
+            {
+                UpdateUserInDatabase(modifyWindow.ModifiedUser);
+                LoadAndDisplayUsers();
+            }
+        }
+        private void UpdateUserInDatabase(Bettor user)
         {
             using (var conn = new MySqlConnection(connectionString))
             {
-                await conn.OpenAsync();
-                using (var cmd = new MySqlCommand("UPDATE Bettors SET IsActive = @isActive WHERE BettorsID = @userId", conn))
+                conn.Open();
+                using (var cmd = new MySqlCommand("UPDATE Bettors SET Username = @username, Email = @email, Balance = @balance WHERE BettorsID = @userId", conn))
                 {
-                    cmd.Parameters.AddWithValue("@isActive", isActive);
+                    cmd.Parameters.AddWithValue("@username", user.Username);
+                    cmd.Parameters.AddWithValue("@email", user.Email);
+                    cmd.Parameters.AddWithValue("@balance", user.Balance);
+                    cmd.Parameters.AddWithValue("@userId", user.BettorsID);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+        private void DeleteUser_Click(object sender, RoutedEventArgs e)
+        {
+            var button = (Button)sender;
+            var user = (Bettor)button.DataContext;
+            DeleteUser(user);
+        }
+
+        private void DeleteUser(Bettor user)
+        {
+            var result = MessageBox.Show($"Are you sure you want to delete user: {user.Username}? This will also delete all related bets.", "Delete User", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    using (var scope = new TransactionScope())
+                    {
+                        DeleteUserBets(user.BettorsID);
+                        DeleteUserFromDatabase(user.BettorsID);
+                        scope.Complete();
+                    }
+                    users.Remove(user);
+                    MessageBox.Show($"User {user.Username} and all related bets have been successfully deleted.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error deleting user: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+        private void DeleteUserBets(int userId)
+        {
+            using (var conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+                using (var cmd = new MySqlCommand("DELETE FROM Bets WHERE BettorsID = @userId", conn))
+                {
                     cmd.Parameters.AddWithValue("@userId", userId);
-                    return await cmd.ExecuteNonQueryAsync() > 0;
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
 
-        public async Task<List<Bet>> GetTransactions(DateTime? startDate = null, DateTime? endDate = null)
+        private void DeleteUserRelatedData(int userId)
         {
             using (var conn = new MySqlConnection(connectionString))
             {
-                await conn.OpenAsync();
-                var transactions = new List<Bet>();
+                conn.Open();
+                DeleteUserBets(conn, userId);
+                DeleteUserEvents(conn, userId);
+          
+            }
+        }
+        private void DeleteUserBets(MySqlConnection conn, int userId)
+        {
+            using (var cmd = new MySqlCommand("DELETE FROM Bets WHERE BettorsID = @userId", conn))
+            {
+                cmd.Parameters.AddWithValue("@userId", userId);
+                cmd.ExecuteNonQuery();
+            }
+        }
 
-                var query = @"
-                    SELECT b.BetsID, b.BetDate, b.Amount, b.Odds, b.Status, 
-                           b.EventID, e.EventName, b.BettorsID
-                    FROM Bets b
-                    JOIN Events e ON b.EventID = e.EventID
-                    WHERE (@startDate IS NULL OR b.BetDate >= @startDate)
-                    AND (@endDate IS NULL OR b.BetDate <= @endDate)
-                    ORDER BY b.BetDate DESC";
-
-                using (var cmd = new MySqlCommand(query, conn))
+        private void DeleteUserEvents(MySqlConnection conn, int userId)
+        {
+            using (var cmd = new MySqlCommand("DELETE FROM Events WHERE CreatorID = @userId", conn))
+            {
+                cmd.Parameters.AddWithValue("@userId", userId);
+                cmd.ExecuteNonQuery();
+            }
+        }
+        private void DeleteUserFromDatabase(int userId)
+        {
+            using (var conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+                using (var cmd = new MySqlCommand("DELETE FROM Bettors WHERE BettorsID = @userId", conn))
                 {
-                    cmd.Parameters.AddWithValue("@startDate", startDate ?? (object)DBNull.Value);
-                    cmd.Parameters.AddWithValue("@endDate", endDate ?? (object)DBNull.Value);
-
-                    using (var reader = await cmd.ExecuteReaderAsync())
-                    {
-                        while (await reader.ReadAsync())
-                        {
-                            transactions.Add(new Bet
-                            {
-                                BetsID = reader.GetInt32("BetsID"),
-                                BetDate = reader.GetDateTime("BetDate"),
-                                Amount = reader.GetDecimal("Amount"),
-                                Odds = reader.GetDecimal("Odds"),
-                                Status = reader.GetInt32("Status"),
-                                EventID = reader.GetInt32("EventID"),
-                                EventName = reader.GetString("EventName"),
-                                BettorsID = reader.GetInt32("BettorsID")
-                            });
-                        }
-                    }
+                    cmd.Parameters.AddWithValue("@userId", userId);
+                    cmd.ExecuteNonQuery();
                 }
-
-                return transactions;
             }
         }
     }
 
-    public class DashboardStatistics
+public class DashboardStatistics
     {
         public int TotalUsers { get; set; }
         public int ActiveEvents { get; set; }
