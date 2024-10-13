@@ -30,7 +30,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#4A5568"/>
+
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -84,6 +84,71 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+        <Style x:Key="ScrollBarThumb" TargetType="{x:Type Thumb}">
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="IsTabStop" Value="false"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Rectangle Fill="#4A5568" RadiusX="4" RadiusY="4"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ScrollBarLineButton" TargetType="{x:Type RepeatButton}">
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Focusable" Value="false"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RepeatButton}">
+                        <Border Name="Border" Background="Transparent">
+                            <Path HorizontalAlignment="Center" VerticalAlignment="Center" 
+                              Fill="#94A3B8" Data="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ScrollBarPageButton" TargetType="{x:Type RepeatButton}">
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="IsTabStop" Value="false"/>
+            <Setter Property="Focusable" Value="false"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RepeatButton}">
+                        <Rectangle Fill="Transparent" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CustomScrollBarStyle" TargetType="{x:Type ScrollBar}">
+            <Setter Property="Width" Value="10"/>
+            <Setter Property="Background" Value="#2D3748"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ScrollBar}">
+                        <Grid>
+                            <Track Name="PART_Track" IsDirectionReversed="true">
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Style="{StaticResource ScrollBarPageButton}" Command="ScrollBar.PageUpCommand" />
+                                </Track.DecreaseRepeatButton>
+                                <Track.Thumb>
+                                    <Thumb Style="{StaticResource ScrollBarThumb}" />
+                                </Track.Thumb>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Style="{StaticResource ScrollBarPageButton}" Command="ScrollBar.PageDownCommand" />
+                                </Track.IncreaseRepeatButton>
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Window.Resources>
 
     <Border Background="#0F172A" BorderBrush="#1E293B" BorderThickness="1" CornerRadius="12">
@@ -159,12 +224,10 @@
                     <StackPanel Margin="0,20">
                         <Button Content="📊  Overview" Style="{StaticResource MenuButtonStyle}" Click="OverviewButton_Click"/>
                         <Button Content="👥  Users" Style="{StaticResource MenuButtonStyle}" Click="UsersButton_Click"/>
-                        <Button Content="🎮  Events" Style="{StaticResource MenuButtonStyle}"/>
-                        <Button Content="💰  Transactions" Style="{StaticResource MenuButtonStyle}"/>
-                        <Button Content="⚙️  Settings" Style="{StaticResource MenuButtonStyle}" Margin="0,280,0,0"/>
-                        <Button Content="❌  Log Out" 
-                                Style="{StaticResource MenuButtonStyle}" 
-                                Foreground="#EF4444"/>
+                        <Button Content="⚙️  Settings" Style="{StaticResource MenuButtonStyle}" Margin="0,350,0,0"/>
+                        <Button x:Name="LogOut" Content="❌  Log Out" Style="{StaticResource MenuButtonStyle}" 
+                                Foreground="#EF4444" Click="LogOut_Click"/>
+
                     </StackPanel>
                 </Border>
 
@@ -249,7 +312,6 @@
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
 
-                            <!-- Overview Section -->
                             <Grid x:Name="OverviewSection" Visibility="Visible">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
@@ -273,7 +335,8 @@
                             </Grid>
 
 
-                            <Grid x:Name="UsersSection" Visibility="Collapsed">
+
+                            <Grid x:Name="UsersSection" Grid.Row="1" Visibility="Collapsed">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="*"/>
@@ -286,19 +349,48 @@
                Margin="0,0,0,15"/>
 
                                 <ScrollViewer Grid.Row="1" 
-                  VerticalScrollBarVisibility="Auto">
+                  VerticalScrollBarVisibility="Auto" 
+                  HorizontalScrollBarVisibility="Disabled">
+                                    <ScrollViewer.Style>
+                                        <Style TargetType="{x:Type ScrollViewer}">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <ScrollContentPresenter Grid.Column="0"/>
+                                                            <ScrollBar Grid.Column="1" 
+                                           Name="PART_VerticalScrollBar"
+                                           Style="{StaticResource CustomScrollBarStyle}"
+                                           Value="{TemplateBinding VerticalOffset}"
+                                           Maximum="{TemplateBinding ScrollableHeight}"
+                                           ViewportSize="{TemplateBinding ViewportHeight}"
+                                           Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
+                                                        </Grid>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ScrollViewer.Style>
+
                                     <ItemsControl x:Name="UsersItemsControl">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
                                                 <Border Background="#1E293B" 
                             CornerRadius="8" 
                             Margin="0,0,0,10" 
-                            Padding="15">
+                            Padding="15"
+                            BorderBrush="#374151" 
+                            BorderThickness="1">
                                                     <Grid>
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="*"/>
                                                             <ColumnDefinition Width="Auto"/>
                                                         </Grid.ColumnDefinitions>
+
                                                         <StackPanel>
                                                             <TextBlock Text="{Binding Username}" 
                                            Foreground="White" 
@@ -311,24 +403,78 @@
                                            Foreground="#94A3B8" 
                                            FontSize="14"/>
                                                         </StackPanel>
-                                                        <StackPanel Grid.Column="1" 
-                                        Orientation="Horizontal">
+
+                                                        <StackPanel Grid.Column="1" Orientation="Horizontal">
                                                             <Button Content="Modify" 
                                         Style="{StaticResource ModernButtonStyle}" 
                                         Margin="0,0,10,0" 
+                                        Height="70"
+                                        Width="80"
+                                        FontWeight="ExtraBlack"
                                         Click="ModifyUser_Click"/>
-                                                            <Button Content="Delete" 
+                                                     
+                                                            <Button Content="History" 
                                         Style="{StaticResource ModernButtonStyle}" 
-                                        Background="#EF4444" 
-                                        Click="DeleteUser_Click"/>
+                                        Background="#4A5568" 
+                                        Margin="0,0,10,0" 
+                                        Click="HistoryButton_Click"
+                                        Height="70"
+                                        Width="80"
+                                        FontWeight="ExtraBlack"/>
+                     
+                                                            <Button Margin="0,0,10,0" Click="BanUnbanUser_Click"    Height="70"
+                                                                                                                    Width="80"
+                                                                                                                    FontWeight="ExtraBlack">
+                                                                <Button.Style>
+                                                                    <Style TargetType="Button">
+                                                                        <Setter Property="Template">
+                                                                            <Setter.Value>
+                                                                                <ControlTemplate TargetType="Button">
+                                                                                    <Border Background="{TemplateBinding Background}" 
+                                                                                 CornerRadius="6" 
+                                                                                 BorderBrush="{TemplateBinding BorderBrush}" 
+                                                                                 BorderThickness="{TemplateBinding BorderThickness}">
+                                                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                                    </Border>
+                                                                                    <ControlTemplate.Triggers>
+                                                                                        <Trigger Property="IsMouseOver" Value="True">
+
+                                                                                        </Trigger>
+                                                                                    </ControlTemplate.Triggers>
+                                                                                </ControlTemplate>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                        <Setter Property="Content" Value="Ban"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding IsActive}" Value="0">
+                                                                                <Setter Property="Content" Value="Unban"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                        
+                                                                    </Style>
+                                                                    
+                                                                </Button.Style>
+                                                            </Button>
+                                                            <Button Content="Delete" 
+                                                               Style="{StaticResource ModernButtonStyle}" 
+                                                               Background="#EF4444" 
+                                                               Height="70"
+                                                               Width="80"
+                                                               FontWeight="ExtraBlack"                           
+                                                               Margin="0,0,10,0" 
+                                                               Click="DeleteUser_Click"/>
                                                         </StackPanel>
+                                                        
                                                     </Grid>
                                                 </Border>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
+
                                 </ScrollViewer>
                             </Grid>
+
+
                         </Grid>
                     </Border>
                 </Grid>

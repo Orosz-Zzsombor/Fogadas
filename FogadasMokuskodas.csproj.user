@@ -16,6 +16,11 @@
     <Compile Update="ProfileWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+
+    <Compile Update="UserHistoryWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+
     <Compile Update="WalletWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -39,6 +44,11 @@
     <Page Update="ProfileWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+
+    <Page Update="UserHistoryWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+
     <Page Update="WalletWindow.xaml">
       <SubType>Designer</SubType>
     </Page>

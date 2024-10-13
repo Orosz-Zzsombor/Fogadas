@@ -1,0 +1,144 @@
+﻿<Window x:Class="FogadasMokuskodas.UserHistoryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="User Betting History" Height="700" Width="1200"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        Background="Transparent"
+        AllowsTransparency="True">
+
+    <Window.Resources>
+        <Style x:Key="ModernButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#3B82F6"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="6" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#2563EB"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Border Background="#111827" BorderBrush="#1F2937" BorderThickness="1" CornerRadius="12">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <Border Grid.Row="0" Background="#1F2937" CornerRadius="12,12,0,0">
+                <Grid>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="30,0">
+                        <TextBlock Text="User Betting History" 
+                                   Foreground="White" 
+                                   FontSize="28" 
+                                   FontWeight="Bold"/>
+                        <Border Background="#3B82F6" 
+                                CornerRadius="4" 
+                                Padding="8,4" 
+                                Margin="15,0,0,0">
+                            <TextBlock x:Name="TotalBetsTextBlock" 
+                                       Text="Total Bets: 0" 
+                                       Foreground="White" 
+                                       FontSize="16" 
+                                       FontWeight="SemiBold"/>
+                        </Border>
+                    </StackPanel>
+                    <Button Content="✖" 
+                            x:Name="btnClose"
+                            Style="{StaticResource ModernButtonStyle}"
+                            Background="Transparent"
+                            FontSize="20"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Margin="0,0,30,0"
+                            Click="btnClose_Click"/>
+                </Grid>
+            </Border>
+
+            <!-- User Info -->
+            <Border Grid.Row="1" 
+                    Background="#374151" 
+                    Margin="30,20,30,10" 
+                    CornerRadius="8" 
+                    Padding="20,15">
+                <TextBlock x:Name="UserInfoTextBlock" 
+                           FontSize="20" 
+                           FontWeight="SemiBold"
+                           Foreground="White"/>
+            </Border>
+
+            <!-- Betting History DataGrid -->
+            <Border Grid.Row="2" 
+                    Background="#1F2937"
+                    CornerRadius="8" 
+                    Margin="30,10,30,30">
+                <DataGrid x:Name="BetHistoryDataGrid" 
+                          AutoGenerateColumns="False" 
+                          IsReadOnly="True" 
+                          Background="Transparent"
+                          BorderBrush="Transparent"
+                          RowBackground="#374151"
+                          AlternatingRowBackground="#4B5563"
+                          HeadersVisibility="Column"
+                          GridLinesVisibility="None"
+                          RowHeight="50"
+                          CanUserResizeRows="False"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled">
+                    <DataGrid.Resources>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Background" Value="#4B5563"/>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Padding" Value="15,10"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                            <Setter Property="FontSize" Value="16"/>
+                        </Style>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Padding" Value="15,0"/>
+                            <Setter Property="FontSize" Value="16"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="DataGridCell">
+                                        <Border Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}">
+                                            <ContentPresenter VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Event Name" Binding="{Binding EventName}" Width="3*"/>
+                        <DataGridTextColumn Header="Bet Date" Binding="{Binding BetDate, StringFormat=\{0:yyyy-MM-dd HH:mm\}}" Width="2*"/>
+                        <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat=\{0:N0\} Ft}" Width="1.5*"/>
+                        <DataGridTextColumn Header="Odds" Binding="{Binding Odds}" Width="1*"/>
+         
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

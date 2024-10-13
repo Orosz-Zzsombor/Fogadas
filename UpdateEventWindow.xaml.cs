@@ -28,6 +28,7 @@ namespace Fogadas
             PreviewEventOdds.Text = $"Odds: {eventToUpdate.Odds.ToString()}"; 
             
              
+
            
   
         }
@@ -53,6 +54,7 @@ namespace Fogadas
             this.Close();
         }
 
+        
         private void DeleteEventButton_Click(object sender, RoutedEventArgs e)
         {
           
@@ -60,6 +62,7 @@ namespace Fogadas
 
          
             if (betsForEvent != null && betsForEvent.Count > 0)
+
             {
                 MessageBox.Show("This event cannot be deleted because there are bets placed on it.", "Delete Denied", MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -74,7 +77,26 @@ namespace Fogadas
                     MessageBox.Show("Event deleted successfully!");
                     this.Close();
                 }
+
             }
+            else
+            {
+               
+                MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this event?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.Yes)
+                {
+                  
+                    eventService.DeleteEvent(eventToUpdate.EventID);
+                    MessageBox.Show("Event deleted successfully!");
+                    this.Close();
+                }
+            }
+        }
+
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
 
 
