@@ -119,7 +119,12 @@ INSERT INTO Bettors (Username, Password, Email, Balance, JoinDate, IsActive, Rol
 VALUES 
 ('organizer', '0bf7ab78559a04941f158a11b00afaf6a8b22f90cff387edbc8e1d7a9b99cca0', 'organizer@gmail.com', 0, '2024-10-13', 1, 'organizer'),
 ('admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'admin@gmail.com', 0, '2024-10-13', 1, 'admin'),
-('alany', 'e4af01de22a4fc2cf405fb9fec12dfe84498a4dd67423364485f4c74dcf00bd3', 'alany@gmail.com', 0, '2024-10-13', 1, 'user');
+('alany', 'e4af01de22a4fc2cf405fb9fec12dfe84498a4dd67423364485f4c74dcf00bd3', 'alany@gmail.com', 10000, '2024-10-13', 1, 'user');
+('alany1', 'e4af01de22a4fc2cf405fb9fec12dfe84498a4dd67423364485f4c74dcf00bd3', 'alany1@gmail.com', 0, '2024-12-13', 0, 'user');
+('alany2', 'e4af01de22a4fc2cf405fb9fec12dfe84498a4dd67423364485f4c74dcf00bd3', 'alany2@gmail.com', 0, '2023-10-13', 1, 'user');
+('alany3', 'e4af01de22a4fc2cf405fb9fec12dfe84498a4dd67423364485f4c74dcf00bd3', 'alany3@gmail.com', 0, '2022-01-13', 1, 'user');
+('alany4', 'e4af01de22a4fc2cf405fb9fec12dfe84498a4dd67423364485f4c74dcf00bd3', 'alany4@gmail.com', 0, '2022-07-13', 1, 'user');
+('alany5', 'e4af01de22a4fc2cf405fb9fec12dfe84498a4dd67423364485f4c74dcf00bd3', 'alany5@gmail.com', 0, '2023-09-13', 1, 'user');
 
 --A Jelszó megegyezik a felhasználó nevével.
 ```
