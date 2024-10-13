@@ -88,22 +88,31 @@ Szerepkörök és jogosultságok tervezete:
 User:
 
 Regisztrálhat, fogadásokat tehet, egyenlegét kezelheti.
+
 Megtekintheti saját fogadásait és azok státuszát.
+
 Nem fér hozzá adminisztrációs funkciókhoz (pl. új események létrehozása, felhasználók kezelése).
 
 Organizer:
 
 Minden jogot megkap, amit a User szerepkör is, de ezen felül:
+
 Felülvizsgálhatja és módosíthatja a fogadások státuszát.
+
 Új eseményeket hozhat létre vagy törölhet.
+
 Módosíthatja az események adatait (pl. időpont, helyszín).
 
 Admin:
 
 Láthatja más felhasználók fogadásait.
+
 Teljes hozzáférése van az összes felhasználó adatához, beleértve azok egyenlegét, státuszát, és jelszavait (hash-elve).
+
 Új felhasználó, meglévő törlése, jelszó alaphelyzetbe hozása, 
+
 Adminisztrálhatja a felhasználókat (pl. letilthatja őket, vagy aktiválhatja a fiókjukat).
+
 
 ```sql
 INSERT INTO Bettors (Username, Password, Email, Balance, JoinDate, IsActive, Role) 
