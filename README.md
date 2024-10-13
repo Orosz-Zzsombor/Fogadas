@@ -77,11 +77,18 @@ Az alábbi SQL kóddal például hozzáadhatsz alapértelmezett felhasználókat
 
 
 ```sql
-INSERT INTO Events (EventName, EventDate, Category, Location,IsClosed) VALUES
-('Champions League Final', '2025-05-25', 'Football', 'Wembley Stadium, London',1),
-('NBA Finals Game 7', '2025-06-15', 'Basketball', 'Staples Center, Los Angeles',1),
-('Wimbledon Finals', '2025-07-14', 'Tennis', 'All England Club, London',1),
-('Formula 1 Grand Prix', '2025-10-07', 'Motorsport', 'Monza Circuit, Italy',0);
+INSERT INTO Events (EventName, EventDate, Category, Location, IsClosed) VALUES
+('A Manchester United nyerni fog a Chelsea ellen?', '2023-05-25', 'Football', 'Old Trafford, Manchester', 1),
+('A Miami Heat megveri a Golden State Warriors-t?', '2025-06-15', 'Basketball', 'FTX Arena, Miami', 1),
+('A Serena Williams megnyeri a US Open-t?', '2025-08-29', 'Tennis', 'Arthur Ashe Stadium, New York', 0),
+('A Mercedes nyer a Forma-1-es Nagydíjon?', '2025-09-20', 'Motorsport', 'Monaco Grand Prix', 1),
+('A Bayern München nyerni fog a Borussia Dortmund ellen?', '2025-10-15', 'Football', 'Allianz Arena, München', 1),
+('A Toronto Raptors megveri a Philadelphia 76ers-t?', '2025-11-10', 'Basketball', 'Scotiabank Arena, Toronto', 1),
+('A Rafael Nadal megnyeri a Roland Garrost?', '2025-06-04', 'Tennis', 'Stade Roland Garros, Párizs', 1),
+('A Red Bull nyer a Forma-1-es Ausztrál Nagydíjon?', '2025-03-30', 'Motorsport', 'Melbourne Grand Prix Circuit', 0),
+('A Juventus nyerni fog az Inter Milan ellen?', '2025-04-02', 'Football', 'Allianz Stadium, Torino', 1),
+('A LA Dodgers megnyeri a World Series-t?', '2025-10-31', 'Baseball', 'Dodger Stadium, Los Angeles', 1);
+
 ```
 Szerepkörök és jogosultságok tervezete:
 
