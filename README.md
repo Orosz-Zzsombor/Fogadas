@@ -91,7 +91,7 @@ Regisztrálhat, fogadásokat tehet, egyenlegét kezelheti.
 Megtekintheti saját fogadásait és azok státuszát.
 Nem fér hozzá adminisztrációs funkciókhoz (pl. új események létrehozása, felhasználók kezelése).
 
-Organizer
+Organizer:
 
 Minden jogot megkap, amit a User szerepkör is, de ezen felül:
 Felülvizsgálhatja és módosíthatja a fogadások státuszát.
@@ -99,6 +99,7 @@ Felülvizsgálhatja és módosíthatja a fogadások státuszát.
 Módosíthatja az események adatait (pl. időpont, helyszín).
 
 Admin:
+
 Láthatja más felhasználók fogadásait.
 Teljes hozzáférése van az összes felhasználó adatához, beleértve azok egyenlegét, státuszát, és jelszavait (hash-elve).
 Új felhasználó, meglévő törlése, jelszó alaphelyzetbe hozása, 
