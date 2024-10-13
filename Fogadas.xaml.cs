@@ -31,7 +31,7 @@ namespace Fogadas
             EventDateTextBlock.Text = evt.EventDate.ToShortDateString();
             CategoryTextBlock.Text = evt.Category;
             LocationTextBlock.Text = evt.Location;
-            OddsTextBlock.Text = $"Current Odds: {evt.Odds:F2}";
+            OddsTextBlock.Text = $"Current Odds: {evt.Odds}";
             currentOdds = Convert.ToDecimal( evt.Odds);
 
             UpdateEventStatistics();
@@ -48,8 +48,8 @@ namespace Fogadas
         {
      
             TotalBetsTextBlock.Text = $"Total Bets: {GetTotalBetsCount()}";
-            AverageBetTextBlock.Text = $"Average Bet: {GetAverageBetAmount():F2} Ft";
-            HighestBetTextBlock.Text = $"Highest Bet: {GetHighestBetAmount():F2} Ft";
+            AverageBetTextBlock.Text = $"Average Bet: {GetAverageBetAmount()} Ft";
+            HighestBetTextBlock.Text = $"Highest Bet: {GetHighestBetAmount()} Ft";
         }
 
         private int GetTotalBetsCount()
@@ -71,7 +71,10 @@ namespace Fogadas
                 var command = new MySqlCommand("SELECT AVG(Amount) FROM Bets WHERE EventID = @eventId", conn);
                 command.Parameters.AddWithValue("@eventId", selectedEvent.EventID);
                 var result = command.ExecuteScalar();
-                return result != DBNull.Value ? Convert.ToDecimal(result) : 0;
+
+                decimal averageBet = result != DBNull.Value ? Convert.ToDecimal(result) : 0;
+
+                return Math.Round(averageBet);
             }
         }
 
@@ -92,17 +95,16 @@ namespace Fogadas
             if (decimal.TryParse(BetAmountTextBox.Text, out decimal betAmount))
             {
                 decimal potentialWinnings = betAmount * currentOdds;
-                PotentialWinningsTextBlock.Text = $"{potentialWinnings:F2} Ft";
+                PotentialWinningsTextBlock.Text = $"{potentialWinnings} Ft";
             }
             else
             {
-                PotentialWinningsTextBlock.Text = "0.00 Ft";
+                PotentialWinningsTextBlock.Text = "0 Ft";
             }
         }
 
         private void PlaceBet_Click(object sender, RoutedEventArgs e)
         {
-
             if (decimal.TryParse(BetAmountTextBox.Text, out decimal betAmount) && betAmount > 0)
             {
                 if (currentBettor.Balance < betAmount)
@@ -118,18 +120,19 @@ namespace Fogadas
                         conn.Open();
                         using (var transaction = conn.BeginTransaction())
                         {
-
-                         
                             var command = new MySqlCommand("INSERT INTO Bets (BetDate, Odds, Amount, BettorsID, EventID, Status) VALUES (NOW(), @odds, @amount, @bettorsId, @eventId, @status)", conn);
-                            command.Parameters.AddWithValue("@odds", selectedEvent.Odds); 
 
-                            command.Parameters.AddWithValue("@amount", betAmount);
+                            // Ensure odds are stored and processed as decimals.
+                            command.Parameters.AddWithValue("@odds", currentOdds); 
+                            command.Parameters.AddWithValue("@amount", betAmount); 
                             command.Parameters.AddWithValue("@bettorsId", currentBettor.BettorsID);
                             command.Parameters.AddWithValue("@eventId", selectedEvent.EventID);
                             command.Parameters.AddWithValue("@status", true);
                             command.Transaction = transaction;
 
                             command.ExecuteNonQuery();
+
+                            
                             var updateBalanceCommand = new MySqlCommand("UPDATE Bettors SET Balance = Balance - @amount WHERE BettorsID = @bettorsId", conn);
                             updateBalanceCommand.Parameters.AddWithValue("@amount", betAmount);
                             updateBalanceCommand.Parameters.AddWithValue("@bettorsId", currentBettor.BettorsID);
@@ -140,7 +143,7 @@ namespace Fogadas
                             transaction.Commit();
                         }
 
-
+                      
                         currentBettor.Balance -= betAmount;
                         mainWindow.UpdateBalanceDisplay();
                         UpdateEventStatistics();
@@ -159,6 +162,7 @@ namespace Fogadas
                 MessageBox.Show("Please enter a valid bet amount greater than zero.", "Invalid Input", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
+
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {

@@ -253,7 +253,7 @@
                                          Foreground="White" 
                                          Margin="0,0,0,5"/>
                                 <TextBlock x:Name="PotentialWinningsTextBlock"
-                                         Text="0.00 Ft"
+                                         Text="0 Ft"
                                          FontSize="24" 
                                          Foreground="#38B2AC" 
                                          FontWeight="Bold"/>

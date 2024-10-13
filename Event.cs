@@ -153,32 +153,30 @@ namespace Fogadas
             {
                 connection.Open();
 
-
                 using (var betCommand = connection.CreateCommand())
                 {
+                   
                     betCommand.CommandText = @"
-            UPDATE Bets
-            SET Status = 0
-            WHERE EventID = @EventID";
+                UPDATE Bets
+                SET Status = 0
+                WHERE EventID = @EventID";
                     betCommand.Parameters.AddWithValue("@EventID", eventId);
                     betCommand.ExecuteNonQuery();
                 }
 
-
                 using (var eventCommand = connection.CreateCommand())
                 {
+                    
                     eventCommand.CommandText = @"
-            UPDATE Events
-            SET IsClosed = 0
-            WHERE EventID = @EventID";
+                UPDATE Events
+                SET IsClosed = 0
+                WHERE EventID = @EventID";
                     eventCommand.Parameters.AddWithValue("@EventID", eventId);
                     eventCommand.ExecuteNonQuery();
                 }
 
-
                 if (wasSuccessful)
                 {
-
                     var bets = new List<Bet>();
                     string query = "SELECT * FROM Bets WHERE EventID = @EventID";
                     using (var betQueryCommand = new MySqlCommand(query, connection))
@@ -201,24 +199,38 @@ namespace Fogadas
                         }
                     }
 
-               
+                 
+                    var bettorPayouts = new Dictionary<int, decimal>();
+
                     foreach (var bet in bets)
                     {
-                        
                         decimal payout = bet.Amount * bet.Odds;
 
                        
-                        decimal currentBalance = GetBettorBalance(bet.BettorsID);
+                        if (bettorPayouts.ContainsKey(bet.BettorsID))
+                        {
+                            bettorPayouts[bet.BettorsID] += payout;
+                        }
+                        else
+                        {
+                            bettorPayouts[bet.BettorsID] = payout;
+                        }
+                    }
 
-                     
-                        UpdateBettorBalance(connection, bet.BettorsID, currentBalance + payout);
+                    
+                    foreach (var bettorId in bettorPayouts.Keys)
+                    {
+                        decimal currentBalance = GetBettorBalance(bettorId);
+                        decimal totalPayout = bettorPayouts[bettorId];
+
+                        UpdateBettorBalance(connection, bettorId, currentBalance + totalPayout);
                     }
                 }
 
-             
                 Console.WriteLine($"CloseEvent executed: EventID = {eventId}, Success = {wasSuccessful}");
             }
         }
+
         public decimal GetBettorBalance(int bettorId)
         {
             using (var connection = new MySqlConnection(connectionString))
@@ -232,26 +244,16 @@ namespace Fogadas
                 }
             }
         }
-        private void UpdateBettorBalance(MySqlConnection connection, int bettorId, decimal payout)
+
+        private void UpdateBettorBalance(MySqlConnection connection, int bettorId, decimal newBalance)
         {
-          
-            string balanceQuery = "SELECT Balance FROM Bettors WHERE BettorsID = @BettorsID";
-            using (var balanceCommand = new MySqlCommand(balanceQuery, connection))
+            // Update the bettor's balance directly in the database
+            string updateQuery = "UPDATE Bettors SET Balance = @Balance WHERE BettorsID = @BettorsID";
+            using (var updateCommand = new MySqlCommand(updateQuery, connection))
             {
-                balanceCommand.Parameters.AddWithValue("@BettorsID", bettorId);
-                decimal currentBalance = Convert.ToDecimal(balanceCommand.ExecuteScalar());
-
-               
-                decimal newBalance = currentBalance + payout;
-
-                
-                string updateQuery = "UPDATE Bettors SET Balance = @Balance WHERE BettorsID = @BettorsID";
-                using (var updateCommand = new MySqlCommand(updateQuery, connection))
-                {
-                    updateCommand.Parameters.AddWithValue("@Balance", newBalance);
-                    updateCommand.Parameters.AddWithValue("@BettorsID", bettorId);
-                    updateCommand.ExecuteNonQuery();
-                }
+                updateCommand.Parameters.AddWithValue("@Balance", newBalance);
+                updateCommand.Parameters.AddWithValue("@BettorsID", bettorId);
+                updateCommand.ExecuteNonQuery();
             }
         }
         public List<Bet> GetBetsForEvent(int eventId)

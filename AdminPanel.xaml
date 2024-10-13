@@ -325,17 +325,23 @@
                                            Margin="0,0,0,15"/>
 
                                 <lvc:CartesianChart Name="RegistrationsChart" 
-                                                    Grid.Row="1" 
-                                                    Background="Transparent"
-                                                    Foreground="White"
-                                                    DisableAnimations="False"
-                                                    AnimationsSpeed="0:0:0.5" Margin="0,0,0,-355">
-                
+                                        Grid.Row="1" 
+                                        Background="Transparent"
+                                        Foreground="White"
+                                        DisableAnimations="False"
+                                        AnimationsSpeed="0:0:0.5"
+                                        Margin="0,0,0,-355">
+                                    <lvc:CartesianChart.AxisX>
+                                        <lvc:Axis Title="Hónapok" Labels="{Binding MonthLabels}" />
+                                    </lvc:CartesianChart.AxisX>
+                                    <lvc:CartesianChart.AxisY>
+                                        <lvc:Axis Title="Regisztrált felhasználók" />
+                                    </lvc:CartesianChart.AxisY>
+                                    <lvc:CartesianChart.Series>
+                                        <lvc:LineSeries Values="{Binding RegistrationSeries}" Title="Regisztrációk" />
+                                    </lvc:CartesianChart.Series>
                                 </lvc:CartesianChart>
                             </Grid>
-
-
-
                             <Grid x:Name="UsersSection" Grid.Row="1" Visibility="Collapsed">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
