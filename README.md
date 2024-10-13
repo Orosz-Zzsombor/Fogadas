@@ -95,8 +95,6 @@ Fejlesztési környezet
 
 - C# és WPF az asztali alkalmazás megvalósításához
 - MySQL az adatbázis kezeléséhez
-- .NET Framework 4.7.2 vagy újabb
 
-Szerzői jogok
 
-Ez a projekt szabadon felhasználható és módosítható a megfelelő hivatkozás mellett.
+
