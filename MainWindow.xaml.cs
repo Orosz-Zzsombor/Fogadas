@@ -453,7 +453,12 @@ namespace Fogadas
 
         private void btnRegister_Click(object sender, RoutedEventArgs e)
         {
+            AuthenticationWindow auth = new AuthenticationWindow();
+            auth.Show();
+            auth.SwitchToRegister(); 
+            this.Hide();
 
+            auth.Closed += (s, args) => this.Close();
         }
         private void OnUsernameUpdated(string newUsername)
         {
@@ -491,5 +496,6 @@ namespace Fogadas
             MessageBox.Show("Hamarosan");
         }
 
+ 
     }
 }

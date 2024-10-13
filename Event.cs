@@ -258,6 +258,7 @@ namespace Fogadas
         {
             List<Bet> bets = new List<Bet>();
 
+
             using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
@@ -290,6 +291,7 @@ namespace Fogadas
 
             return bets;
         }
+
 
 
 
