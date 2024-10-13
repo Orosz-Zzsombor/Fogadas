@@ -21,7 +21,13 @@ namespace Fogadas
             EventDateTextBox.Text = eventToUpdate.EventDate.ToString("yyyy-MM-dd");
             EventCategoryTextBox.Text = eventToUpdate.Category;
             EventLocationTextBox.Text = eventToUpdate.Location;
-
+            PreviewEventName.Text = $"Name: {eventToUpdate.EventName}";
+            PreviewEventDate.Text = $"Date: {eventToUpdate.EventDate.ToString("yyyy-MM-dd")}";
+            PreviewEventCategory.Text = $"Category: {eventToUpdate.Category}";
+            PreviewEventLocation.Text = $"Location: {eventToUpdate.Location}";
+            PreviewEventOdds.Text = $"Odds: {eventToUpdate.Odds.ToString()}"; 
+            
+             
            
   
         }

@@ -108,7 +108,7 @@ namespace Fogadas
         {
             if (currentBettor != null)
             {
-                BalanceTextBlock.Text = $"{currentBettor.Balance:C}"; 
+                BalanceTextBlock.Text = $"{currentBettor.Balance:N0} Ft"; 
             }
         }
         private void LoadAndDisplayEvents()
