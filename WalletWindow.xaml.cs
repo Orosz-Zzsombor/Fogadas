@@ -26,11 +26,11 @@ namespace FogadasMokuskodas
         {
             if (currentBettor != null)
             {
-                BalanceTextBlock.Text = $"${currentBettor.Balance:N2}";
+                BalanceTextBlock.Text = $"{currentBettor.Balance:N2} Ft";
             }
             else
             {
-                BalanceTextBlock.Text = "$0.00";
+                BalanceTextBlock.Text = "0.00 Ft";
             }
         }
 
