@@ -10,6 +10,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Security.Cryptography;
 using System.Windows.Shapes;
 
 namespace FogadasMokuskodas
@@ -34,8 +35,33 @@ namespace FogadasMokuskodas
             InitializeComponent();
             DataContext = ModifiedUser;
         }
+        private string ComputeSha256Hash(string rawData)
+        {
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(rawData));
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    builder.Append(bytes[i].ToString("x2"));
+                }
+                return builder.ToString();
+            }
+        }
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
+            string newPassword = NewPasswordBox.Password;
+            string confirmPassword = ConfirmPasswordBox.Password;
+
+            if (newPassword != confirmPassword)
+            {
+                MessageBox.Show("Passwords do not match!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+     
+            ModifiedUser.Password = ComputeSha256Hash(newPassword);
+
             DialogResult = true;
             Close();
         }
@@ -44,6 +70,11 @@ namespace FogadasMokuskodas
         {
             DialogResult = false;
             Close();
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

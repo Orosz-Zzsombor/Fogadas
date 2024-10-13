@@ -114,8 +114,15 @@ namespace Fogadas
                             Email = reader.GetString("Email"),
                             Balance = reader.GetInt32("Balance"),
                             Role = reader.GetString("Role"),
-                            IsActive = reader.GetBoolean("IsActive")
+                            IsActive = reader.GetInt32("IsActive")
                         };
+
+                        
+                        if (bettor.IsActive == 0)
+                        {
+                            MessageBox.Show("Tiltott fiók!"); 
+                            return; 
+                        }
 
                         SessionData.CurrentBettor = bettor;
 
@@ -218,7 +225,7 @@ namespace Fogadas
                         Email = email,
                         Balance = 0,
                         Role = "user",
-                        IsActive = true
+                        IsActive = 1
                     };
 
                     SessionData.CurrentBettor = newBettor;

@@ -47,6 +47,7 @@ namespace Fogadas
             this.Close();
         }
 
+        
         private void DeleteEventButton_Click(object sender, RoutedEventArgs e)
         {
           

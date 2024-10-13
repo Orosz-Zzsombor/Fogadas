@@ -14,7 +14,8 @@ namespace FogadasMokuskodas
         public decimal Balance { get; set; }
         public DateTime JoinDate { get; set; }
         public string Role { get; set; }  
-        public bool IsActive { get; set; }
+        public int IsActive { get; set; }
+        public string Password { get; set; }
         public static class SessionData
         {
             public static Bettor CurrentBettor { get; set; }
