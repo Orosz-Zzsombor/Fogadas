@@ -174,9 +174,7 @@
                         <Button Content="👤 Profile" Style="{StaticResource MenuButtonStyle}" Click="btnProfile_Click"/>
                         <Button x:Name="btnWallet" Content="💰 Wallet" Style="{StaticResource MenuButtonStyle}" Click="btnWallet_Click" />
                         <Button Click="btnMyBets_Click" Content="📊 My Bets" Style="{StaticResource MenuButtonStyle}"/>
-                        <Button Content="Users" Style="{StaticResource MenuButtonStyle}" Visibility="Hidden"/>
 
-                        
                         <Button Content="⚙️ Settings" Style="{StaticResource MenuButtonStyle}" Margin="0,330,0,0" Click="Button_Click_1"/>
                         <Button x:Name="btnLogout" Content="❌ Log Out" 
                                 Style="{StaticResource MenuButtonStyle}" 
